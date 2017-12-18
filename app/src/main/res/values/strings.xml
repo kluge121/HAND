@@ -1,4 +1,5 @@
 <resources>
     <string name="kakao_app_key">672a27cc57650726454f648c71d176be</string>
     <string name="app_name">HAND</string>
+    <string name="usermgmg_signup_button">회원가입하기</string>
 </resources>

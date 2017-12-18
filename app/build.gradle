@@ -39,6 +39,13 @@ dependencies {
     // 카카오 로그인 sdk를 사용하기 위해 필요.
     implementation 'com.kakao.sdk:usermgmt:1.7.0'
 
+    // 레트로핏(HTTP 통신)
+    implementation 'com.squareup.retrofit2:retrofit:2.3.0'
+    implementation 'com.squareup.retrofit2:converter-gson'
+
+    // GSON(Google JSON)
+    implementation 'com.google.code.gson:gson:2.8.2'
+
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
