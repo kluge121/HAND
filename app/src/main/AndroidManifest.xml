@@ -18,7 +18,6 @@
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
 
-
         <!-- 카카오 -->
         <meta-data
             android:name="com.kakao.sdk.AppKey"
@@ -43,7 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Login.SignupActivity"></activity>
+        <activity android:name=".Main.MainActivity" />
     </application>
 
 </manifest>

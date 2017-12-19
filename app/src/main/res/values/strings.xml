@@ -3,4 +3,8 @@
     <string name="facebook_app_id">1695537567426597</string>
     <string name="app_name">HAND</string>
     <string name="usermgmg_signup_button">회원가입하기</string>
+    <string name="main_map">지도</string>
+    <string name="main_friend">친구</string>
+    <string name="main_event">이벤트</string>
+    <string name="main_setting">설정</string>
 </resources>
