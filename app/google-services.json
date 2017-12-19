@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "293745806804",
+    "firebase_url": "https://sa-project-168112.firebaseio.com",
+    "project_id": "sa-project-168112",
+    "storage_bucket": "sa-project-168112.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:293745806804:android:c1f6069bcb63b70b",
+        "android_client_info": {
+          "package_name": "com.globe.hand"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "293745806804-psq99d576n725ugnklrbma44q3g7b7i8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDdISA-JCSP3DSSLwXOPBKqYVHBC_Y0Xis"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

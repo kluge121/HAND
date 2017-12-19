@@ -3,6 +3,8 @@ package com.globe.hand;
 import android.app.Application;
 import android.content.Context;
 
+import com.facebook.FacebookSdk;
+import com.google.firebase.FirebaseApp;
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
 import com.kakao.auth.IApplicationConfig;
@@ -19,8 +21,10 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        FirebaseApp.initializeApp(this);
         instance = this;
         KakaoSDK.init(new KaKaoSDKAdapter());
+        FacebookSdk.sdkInitialize(getApplicationContext());
     }
 
     private static class KaKaoSDKAdapter extends KakaoAdapter {
