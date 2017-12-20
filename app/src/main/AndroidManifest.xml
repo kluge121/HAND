@@ -44,6 +44,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Setting.SettingActivity" />
+        <activity android:name=".Setting.ListForSettingActivity"></activity>
     </application>
 
 </manifest>

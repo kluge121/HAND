@@ -1,15 +1,19 @@
 package com.globe.hand.Main;
 
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.globe.hand.R;
+import com.globe.hand.Setting.SettingActivity;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -18,15 +22,19 @@ import com.kakao.usermgmt.response.model.UserProfile;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity
+        implements View.OnClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.signup_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         setSupportActionBar(toolbar);
+
+        Button buttonSetting = findViewById(R.id.button_setting);
+        buttonSetting.setOnClickListener(this);
 
         StringBuilder stringBuilder;
         if(getIntent().getBooleanExtra("facebook", false)) {
@@ -42,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
             stringBuilder.append(String.format("%s %s (%s)\n", key,
                     value.toString(), value.getClass().getName()));
         }
-        TextView textView = findViewById(R.id.user_info);
+        TextView textView = findViewById(R.id.text_user_name);
         textView.setText(stringBuilder.toString());
     }
 
@@ -91,15 +99,24 @@ public class MainActivity extends AppCompatActivity {
 
             @Override
             public void onSuccess(UserProfile result) {
-                ImageView userImage = findViewById(R.id.user_image);
+                ImageView userImage = findViewById(R.id.image_user_profile);
                 Glide.with(MainActivity.this)
                         .load(result.getProfileImagePath())
                         .apply(RequestOptions.circleCropTransform())
                         .into(userImage);
 
-                TextView userInfo = findViewById(R.id.user_info);
+                TextView userInfo = findViewById(R.id.text_user_name);
                 userInfo.setText(result.getNickname());
             }
         });
+    }
+
+    @Override
+    public void onClick(View view) {
+        Intent intent;
+        if(view.getId() == R.id.button_setting) {
+            intent = new Intent(this, SettingActivity.class);
+            startActivity(intent);
+        }
     }
 }

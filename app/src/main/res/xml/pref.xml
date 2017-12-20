@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory android:title="HAND">
+        <Preference
+            android:key="notice"
+            android:title="공지사항" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="사용자">
+        <Preference
+            android:key="question"
+            android:title="문의사항" />
+        <Preference
+            android:key="logout"
+            android:title="로그아웃" />
+        <Preference
+            android:key="sign_out"
+            android:title="탈퇴" />
+        <Preference
+            android:key="problem"
+            android:title="신고" />
+    </PreferenceCategory>
+</PreferenceScreen>
