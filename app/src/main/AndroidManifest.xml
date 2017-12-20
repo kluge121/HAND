@@ -45,7 +45,7 @@
         </activity>
         <activity android:name=".Main.MainActivity" />
         <activity android:name=".Setting.SettingActivity" />
-        <activity android:name=".Setting.ListForSettingActivity"></activity>
+        <activity android:name=".Setting.ListForSettingActivity" />
     </application>
 
 </manifest>

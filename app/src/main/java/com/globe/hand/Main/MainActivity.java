@@ -1,19 +1,14 @@
 package com.globe.hand.Main;
 
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.globe.hand.BaseActivity;
 import com.globe.hand.R;
-import com.globe.hand.Setting.SettingActivity;
+import com.globe.hand.enums.MenuPane;
+import com.globe.hand.Main.fragments.KakaoUserProfileFragment;
+import com.globe.hand.Main.fragments.MainMenuPaneFragment;
+import com.globe.hand.Main.fragments.MapRoomFragment;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -23,7 +18,8 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import java.util.Map;
 
 public class MainActivity extends BaseActivity
-        implements View.OnClickListener {
+        implements MainMenuPaneFragment.OnMenuPaneClickListener,
+                   MapRoomFragment.OnMapRoomInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,25 +28,49 @@ public class MainActivity extends BaseActivity
 
         setToolbar(R.id.main_toolbar, false);
 
-        Button buttonSetting = findViewById(R.id.button_setting);
-        buttonSetting.setOnClickListener(this);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.main_content_container,
+                        MainMenuPaneFragment.newInstance())
+                .commit();
 
-        StringBuilder stringBuilder;
-        if(getIntent().getBooleanExtra("facebook", false)) {
-            stringBuilder = new StringBuilder("-- facebook user info --\n");
-        } else {
+
+//        StringBuilder stringBuilder;
+//                       = new StringBuilder("-- facebook user info --\n");
+        if (!getIntent().getBooleanExtra("facebook", false)) {
             requestMe();
-            return;
-//            stringBuilder = new StringBuilder("-- kakao user info --\n");
         }
-        Bundle userInfoBundle = getIntent().getBundleExtra("user_info");
-        for (String key : userInfoBundle.keySet()) {
-            Object value = userInfoBundle.get(key);
-            stringBuilder.append(String.format("%s %s (%s)\n", key,
-                    value.toString(), value.getClass().getName()));
+//        Bundle userInfoBundle = getIntent().getBundleExtra("user_info");
+//        for (String key : userInfoBundle.keySet()) {
+//            Object value = userInfoBundle.get(key);
+//            stringBuilder.append(String.format("%s %s (%s)\n", key,
+//                    value.toString(), value.getClass().getName()));
+//        }
+//        TextView textView = findViewById(R.id.text_user_name);
+//        textView.setText(stringBuilder.toString());
+    }
+
+    @Override
+    public void OnMenuPaneClick(MenuPane menuPane) {
+        switch (menuPane) {
+            case MAP:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_content_container,
+                                MapRoomFragment.newInstance())
+                        .addToBackStack(null)
+                        .commit();
+                break;
+            case FRIEND:
+                break;
+            case EVENT:
+                break;
+            default:
+                break;
         }
-        TextView textView = findViewById(R.id.text_user_name);
-        textView.setText(stringBuilder.toString());
+    }
+
+    @Override
+    public void onMapRoomInteraction(int roomId) {
+        // TODO : MapRoom 중 하나를 눌렀을 경우
     }
 
     private void requestSignUp(final Map<String, String> properties) {
@@ -98,24 +118,11 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onSuccess(UserProfile result) {
-                ImageView userImage = findViewById(R.id.image_user_profile);
-                Glide.with(MainActivity.this)
-                        .load(result.getProfileImagePath())
-                        .apply(RequestOptions.circleCropTransform())
-                        .into(userImage);
-
-                TextView userInfo = findViewById(R.id.text_user_name);
-                userInfo.setText(result.getNickname());
+                getSupportFragmentManager().beginTransaction()
+                        .add(R.id.main_user_profile_container,
+                                KakaoUserProfileFragment.newInstance(result))
+                        .commit();
             }
         });
-    }
-
-    @Override
-    public void onClick(View view) {
-        Intent intent;
-        if(view.getId() == R.id.button_setting) {
-            intent = new Intent(this, SettingActivity.class);
-            startActivity(intent);
-        }
     }
 }
