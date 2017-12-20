@@ -7,4 +7,15 @@
     <string name="main_friend">친구</string>
     <string name="main_event">이벤트</string>
     <string name="main_setting">설정</string>
+
+
+    <string name="id">아이디</string>
+    <string name="password">패스워드</string>
+    <string name="email">이메일</string>
+    <string name="phone">전화번호</string>
+    <string name="join">회원가입</string>
+    <string name="cancle">취소</string>
+    <string name="login">로그인</string>
+
+
 </resources>

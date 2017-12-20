@@ -10,4 +10,17 @@
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" />
 
+
+    <style name="join_label">
+        <item name="android:textSize">20dp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="join_edit">
+        <item name="android:textSize">20dp</item>
+    </style>
+
+
+
+
 </resources>

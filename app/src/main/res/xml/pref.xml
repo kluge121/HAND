@@ -6,6 +6,7 @@
             android:key="notice"
             android:title="공지사항" />
     </PreferenceCategory>
+
     <PreferenceCategory android:title="사용자">
         <Preference
             android:key="question"

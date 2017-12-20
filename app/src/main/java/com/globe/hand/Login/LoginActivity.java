@@ -3,6 +3,9 @@ package com.globe.hand.Login;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 import android.support.annotation.NonNull;
 
@@ -22,7 +25,7 @@ import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
-public class LoginActivity extends BaseActivity {
+public class LoginActivity extends BaseActivity implements View.OnClickListener {
 
     private TextView textHandLogo;
     private SessionCallback callback;
@@ -31,6 +34,11 @@ public class LoginActivity extends BaseActivity {
     FirebaseAuth mFirebaseAuth;
     FirebaseAuth.AuthStateListener mFirebaseAuthListener;
     CallbackManager mFacebookCallbackManager;
+
+    EditText editId;
+    EditText editPass;
+    Button btnJoin;
+    Button btnLogin;
 
 
     @Override
@@ -50,8 +58,8 @@ public class LoginActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+        setWidget();
 
-        textHandLogo = findViewById(R.id.text_hand_logo);
 
 //        LoginButton kakaoLoginButton = findViewById(R.id.button_kakao_login);
 
@@ -74,23 +82,23 @@ public class LoginActivity extends BaseActivity {
         mSigninFacebookButton.setReadPermissions("email", "public_profile");
         mSigninFacebookButton.registerCallback(
                 mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
-            @Override
-            public void onSuccess(LoginResult loginResult) {
-                AuthCredential credential = FacebookAuthProvider
-                        .getCredential(loginResult.getAccessToken().getToken());
-                mFirebaseAuth.signInWithCredential(credential);
-            }
+                    @Override
+                    public void onSuccess(LoginResult loginResult) {
+                        AuthCredential credential = FacebookAuthProvider
+                                .getCredential(loginResult.getAccessToken().getToken());
+                        mFirebaseAuth.signInWithCredential(credential);
+                    }
 
-            @Override
-            public void onCancel() {
-                Log.d(TAG, "Facebook login canceled.");
-            }
+                    @Override
+                    public void onCancel() {
+                        Log.d(TAG, "Facebook login canceled.");
+                    }
 
-            @Override
-            public void onError(FacebookException error) {
-                Log.d(TAG, "Facebook Login Error", error);
-            }
-        });
+                    @Override
+                    public void onError(FacebookException error) {
+                        Log.d(TAG, "Facebook Login Error", error);
+                    }
+                });
     }
 
     private void initFirebase() {
@@ -140,6 +148,16 @@ public class LoginActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
     }
 
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.login_btn_join:
+                break;
+            case R.id.login_btn_login:
+                break;
+        }
+    }
+
 
     private class SessionCallback implements ISessionCallback {
 
@@ -158,4 +176,16 @@ public class LoginActivity extends BaseActivity {
             }
         }
     }
+
+    void setWidget() {
+        textHandLogo = findViewById(R.id.text_hand_logo);
+        editId = findViewById(R.id.login_edit_id);
+        editPass = findViewById(R.id.login_edit_pass);
+        btnJoin = findViewById(R.id.login_btn_join);
+        btnLogin = findViewById(R.id.login_btn_login);
+
+        btnLogin.setOnClickListener(this);
+        btnJoin.setOnClickListener(this);
+    }
+
 }
