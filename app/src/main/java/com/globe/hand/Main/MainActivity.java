@@ -1,7 +1,6 @@
 package com.globe.hand.Main;
 
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +11,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
+import com.globe.hand.BaseActivity;
 import com.globe.hand.R;
 import com.globe.hand.Setting.SettingActivity;
 import com.kakao.auth.ApiResponseCallback;
@@ -22,7 +22,7 @@ import com.kakao.usermgmt.response.model.UserProfile;
 
 import java.util.Map;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements View.OnClickListener {
 
     @Override
@@ -30,8 +30,7 @@ public class MainActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = findViewById(R.id.main_toolbar);
-        setSupportActionBar(toolbar);
+        setToolbar(R.id.main_toolbar, false);
 
         Button buttonSetting = findViewById(R.id.button_setting);
         buttonSetting.setOnClickListener(this);

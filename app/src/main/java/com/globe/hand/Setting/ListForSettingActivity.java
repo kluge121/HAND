@@ -9,27 +9,17 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.globe.hand.BaseActivity;
 import com.globe.hand.R;
 
-public class ListForSettingActivity extends AppCompatActivity {
+public class ListForSettingActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice);
 
-        Toolbar toolbar = findViewById(R.id.list_setting_toolbar);
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.getNavigationIcon().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
+        setToolbar(R.id.list_setting_toolbar, true);
 
         RecyclerView recyclerView = findViewById(R.id.setting_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

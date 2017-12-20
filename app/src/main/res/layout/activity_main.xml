@@ -44,7 +44,7 @@
         </RelativeLayout>
 
         <ImageView
-            android:id="@+id/image_caffe"
+            android:id="@+id/image_my_event"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
