@@ -1,19 +1,14 @@
 package com.globe.hand.Setting;
 
-import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.Toolbar;
-import android.view.View;
 
 import com.globe.hand.BaseActivity;
 import com.globe.hand.R;
+import com.globe.hand.Setting.fragments.SettingPostFragment;
 import com.globe.hand.Setting.fragments.SettingRecyclerViewFragment;
 
-public class ListForSettingActivity extends BaseActivity {
+public class ListForSettingActivity extends BaseActivity
+        implements OnUpdateListForSettingFragmentListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,5 +25,14 @@ public class ListForSettingActivity extends BaseActivity {
         } else if(getIntent().getStringExtra("what").equals("question")){
             //recyclerView.setAdapter();
         }
+    }
+
+    @Override
+    public void updateFragment(String documentId) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.setting_recycler_view_container,
+                        SettingPostFragment.newInstance(documentId))
+                .addToBackStack(null)
+                .commit();
     }
 }

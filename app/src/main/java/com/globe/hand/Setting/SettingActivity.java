@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.globe.hand.BaseActivity;
 import com.globe.hand.R;
+import com.globe.hand.Setting.fragments.SettingPostFragment;
 
 public class SettingActivity extends BaseActivity {
 
