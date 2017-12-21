@@ -2,43 +2,42 @@ package com.globe.hand.Login;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.TextView;
 import android.support.annotation.NonNull;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.globe.hand.BaseActivity;
+import com.globe.hand.Login.fragments.HandJoinFragment;
+import com.globe.hand.Login.fragments.HandLoginFragment;
 import com.globe.hand.Main.MainActivity;
 import com.globe.hand.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
-public class LoginActivity extends BaseActivity implements View.OnClickListener {
-
-    private TextView textHandLogo;
-    private SessionCallback callback;
+public class LoginActivity extends BaseActivity
+        implements HandLoginFragment.OnCallbackLoginListener,
+        HandJoinFragment.OnCallbackJoinListener {
     static final String TAG = LoginActivity.class.getName();
+
+    private SessionCallback callback;
 
     FirebaseAuth mFirebaseAuth;
     FirebaseAuth.AuthStateListener mFirebaseAuthListener;
-    CallbackManager mFacebookCallbackManager;
-
-    EditText editId;
-    EditText editPass;
-    Button btnJoin;
-    Button btnLogin;
 
 
     @Override
@@ -58,13 +57,12 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-        setWidget();
 
-
-//        LoginButton kakaoLoginButton = findViewById(R.id.button_kakao_login);
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.login_container, HandLoginFragment.newInstance())
+                .commit();
 
         initFirebase();
-        initFacebook();
         initKakaoTalk();
     }
 
@@ -72,33 +70,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
         Session.getCurrentSession().checkAndImplicitOpen();
-    }
-
-    private void initFacebook() {
-        mFacebookCallbackManager = CallbackManager.Factory.create();
-
-        com.facebook.login.widget.LoginButton mSigninFacebookButton
-                = findViewById(R.id.sign_in_facebook_button);
-        mSigninFacebookButton.setReadPermissions("email", "public_profile");
-        mSigninFacebookButton.registerCallback(
-                mFacebookCallbackManager, new FacebookCallback<LoginResult>() {
-                    @Override
-                    public void onSuccess(LoginResult loginResult) {
-                        AuthCredential credential = FacebookAuthProvider
-                                .getCredential(loginResult.getAccessToken().getToken());
-                        mFirebaseAuth.signInWithCredential(credential);
-                    }
-
-                    @Override
-                    public void onCancel() {
-                        Log.d(TAG, "Facebook login canceled.");
-                    }
-
-                    @Override
-                    public void onError(FacebookException error) {
-                        Log.d(TAG, "Facebook Login Error", error);
-                    }
-                });
     }
 
     private void initFirebase() {
@@ -111,13 +82,13 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
                     Log.d(TAG, "sign in");
 
                     Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    intent.putExtra("facebook", true);
-
                     Bundle userInfoBundle = new Bundle();
                     userInfoBundle.putString("UID", user.getUid());
                     userInfoBundle.putString("ProviderId", user.getProviderId());
                     userInfoBundle.putString("DisplayName", user.getDisplayName());
-                    userInfoBundle.putString("PhotoUrl", user.getPhotoUrl().getPath());
+                    if (user.getPhotoUrl() != null) {
+                        userInfoBundle.putString("PhotoUrl", user.getPhotoUrl().getPath());
+                    }
                     userInfoBundle.putString("Email", user.getEmail());
                     userInfoBundle.putString("PhoneNumber", user.getPhoneNumber());
                     intent.putExtra("user_info", userInfoBundle);
@@ -137,10 +108,8 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
         Session.getCurrentSession().removeCallback(callback);
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        mFacebookCallbackManager.onActivityResult(requestCode, resultCode, data);
         if (Session.getCurrentSession()
                 .handleActivityResult(requestCode, resultCode, data)) {
             return;
@@ -149,15 +118,47 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
     }
 
     @Override
-    public void onClick(View v) {
-        switch (v.getId()){
-            case R.id.login_btn_join:
-                break;
-            case R.id.login_btn_login:
-                break;
-        }
+    public void moveToJoinWithEditInfo(final String userEmail) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.login_container, HandJoinFragment.newInstance(userEmail))
+                .addToBackStack(null)
+                .commit();
     }
 
+    @Override
+    public void processLogin(String userEmail, String userPassword) {
+        mFirebaseAuth.signInWithEmailAndPassword(userEmail, userPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(getApplicationContext(),
+                                    "성공!", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getApplicationContext(),
+                                    "실패!", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+
+    @Override
+    public void processJoin(String userEmail, String userPassword, final String userNickname) {
+        mFirebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
+                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
+                            if (user != null) {
+                                user.updateProfile(new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(userNickname).build());
+                            }
+                        }
+                    }
+                });
+    }
 
     private class SessionCallback implements ISessionCallback {
 
@@ -166,7 +167,6 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             redirectSignupActivity();
 //            String accessToken = Session.getCurrentSession()
 //                    .getTokenInfo().getAccessToken();
-            // TODO : 토큰을 서버를 하나 파서 만들어야하네!?
         }
 
         @Override
@@ -176,16 +176,4 @@ public class LoginActivity extends BaseActivity implements View.OnClickListener 
             }
         }
     }
-
-    void setWidget() {
-        textHandLogo = findViewById(R.id.text_hand_logo);
-        editId = findViewById(R.id.login_edit_id);
-        editPass = findViewById(R.id.login_edit_pass);
-        btnJoin = findViewById(R.id.login_btn_join);
-        btnLogin = findViewById(R.id.login_btn_login);
-
-        btnLogin.setOnClickListener(this);
-        btnJoin.setOnClickListener(this);
-    }
-
 }

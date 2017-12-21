@@ -38,3 +38,7 @@
 -keepattributes Signature
 # Retain declared checked exceptions for use by a Proxy instance.
 -keepattributes Exceptions
+
+# 파이어베이스
+-keepattributes Signature
+-keepattributes *Annotation*

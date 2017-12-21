@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.globe.hand.R;
+import com.google.firebase.auth.FirebaseAuth;
 import com.kakao.usermgmt.response.model.UserProfile;
 
 public class KakaoUserProfileFragment extends Fragment {
@@ -50,6 +51,14 @@ public class KakaoUserProfileFragment extends Fragment {
 
         TextView userInfo = view.findViewById(R.id.text_user_name);
         userInfo.setText(userProfile.getNickname());
+
+        ImageView imageView = view.findViewById(R.id.image_my_event);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+            }
+        });
         return view;
     }
 }
