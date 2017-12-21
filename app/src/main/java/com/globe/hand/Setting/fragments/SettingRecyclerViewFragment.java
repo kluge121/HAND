@@ -67,7 +67,6 @@ public class SettingRecyclerViewFragment extends Fragment {
                         }
                     }
                 });
-
         return view;
     }
 }

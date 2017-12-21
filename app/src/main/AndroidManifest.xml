@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <!--구글-->
+        <!-- 구글 -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
@@ -46,18 +46,23 @@
         </activity>
         <!-- 카카오 -->
 
-        <activity android:name=".Login.LoginActivity">
+        <activity android:name=".Login.LoginActivity"></activity>
+        <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Setting.SettingActivity" />
+        <activity android:name=".Setting.ListForSettingActivity" />
+        <activity
+            android:name=".MapRoom.RealMapActivity"
+            android:label="Map" />
+
+        <activity
+            android:name=".MapRoom.MapsActivity"
+            android:label="@string/title_activity_maps">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main.MainActivity" />
-        <activity android:name=".Setting.SettingActivity" />
-        <activity android:name=".Setting.ListForSettingActivity" />
-        <activity android:name=".MapRoom.RealMapActivity"
-            android:label="Map"/>
     </application>
 
 </manifest>
