@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.globe.hand.Main.fragments.MainEventTabFragment;
-import com.globe.hand.Main.fragments.MainFriendTabFragment;
-import com.globe.hand.Main.fragments.MainMapTabFragment;
+import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
+import com.globe.hand.Main.Tab3Friend.MainFriendTabFragment;
+import com.globe.hand.Main.Tab1Map.MainMapTabFragment;
 
 import java.util.ArrayList;
 

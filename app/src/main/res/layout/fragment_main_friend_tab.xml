@@ -1,13 +1,33 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.globe.hand.Main.fragments.MainFriendTabFragment">
+    android:orientation="vertical"
+    tools:context="com.globe.hand.Main.Tab3Friend.MainFriendTabFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <android.support.v7.widget.SearchView
+        android:id="@+id/friend_search_view"
+        android:layout_width="match_parent"
+        android:layout_height="70dp">
+
+    </android.support.v7.widget.SearchView>
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/friend_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_below="@+id/friend_search_view">
 
-</FrameLayout>
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/friend_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="10dp"
+        android:layout_marginRight="10dp" />
+
+
+</RelativeLayout>

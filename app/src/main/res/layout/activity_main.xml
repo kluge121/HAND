@@ -9,6 +9,7 @@
 
 
     <FrameLayout
+        android:background="@drawable/rounded"
         android:id="@+id/main_user_profile_container"
         android:layout_width="match_parent"
         android:layout_height="96dp" />

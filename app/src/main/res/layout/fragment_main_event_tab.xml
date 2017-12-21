@@ -1,13 +1,14 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.globe.hand.Main.fragments.MainEventTabFragment">
+    tools:context="com.globe.hand.Main.Tab2Event.MainEventTabFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <com.google.android.gms.maps.MapView
+        android:id="@+id/event_mapview"
+        android:name="com.google.android.gms.maps.MapFragment"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent" />
 
-</FrameLayout>
+</RelativeLayout>

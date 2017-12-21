@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="250dp"
+    android:background="@drawable/rounded"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/tab1_item_imageview"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:src="@drawable/plus_image" />
+
+    <TextView
+        android:id="@+id/tab1_item_textview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:text="아이템 설명 얍"
+        android:textSize="20sp" />
+
+
+</LinearLayout>
