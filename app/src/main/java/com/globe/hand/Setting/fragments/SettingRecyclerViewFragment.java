@@ -1,5 +1,6 @@
 package com.globe.hand.Setting.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -10,13 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.globe.hand.MapRoom.controllers.adapters.MapRoomRecyclerViewAdapter;
 import com.globe.hand.R;
+import com.globe.hand.Setting.OnUpdateListForSettingFragmentListener;
 import com.globe.hand.Setting.adapters.SettingRecyclerViewAdapter;
-import com.globe.hand.models.MapRoom;
 import com.globe.hand.models.Notice;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -25,6 +24,8 @@ import com.google.firebase.firestore.QuerySnapshot;
 import java.util.ArrayList;
 
 public class SettingRecyclerViewFragment extends Fragment {
+
+    private OnUpdateListForSettingFragmentListener listener;
 
     public SettingRecyclerViewFragment() {
         // Required empty public constructor
@@ -61,7 +62,8 @@ public class SettingRecyclerViewFragment extends Fragment {
                                 ));
                             }
                             settingRecycler.setAdapter(
-                                    new SettingRecyclerViewAdapter(getContext(), noticeArrayList));
+                                    new SettingRecyclerViewAdapter(listener,
+                                            getContext(), noticeArrayList));
                         } else {
                             Log.e("asdf", "e-rror", task.getException());
                         }
@@ -69,4 +71,20 @@ public class SettingRecyclerViewFragment extends Fragment {
                 });
         return view;
     }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if(context instanceof OnUpdateListForSettingFragmentListener) {
+            listener = (OnUpdateListForSettingFragmentListener) context;
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        listener = null;
+    }
+
+
 }
