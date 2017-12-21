@@ -1,6 +1,7 @@
 package com.globe.hand.Main;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -109,11 +110,17 @@ public class MainActivity extends BaseActivity {
             }
 
             @Override
-            public void onSuccess(UserProfile result) {
-                getSupportFragmentManager().beginTransaction()
-                        .add(R.id.main_user_profile_container,
-                                KakaoUserProfileFragment.newInstance(result))
-                        .commit();
+            public void onSuccess(final UserProfile result) {
+                // TODO : 나중에 로딩같은 조치가 필요함
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getSupportFragmentManager().beginTransaction()
+                                .add(R.id.main_user_profile_container,
+                                        KakaoUserProfileFragment.newInstance(result))
+                                .commit();
+                    }
+                }, 500);
             }
         });
     }
