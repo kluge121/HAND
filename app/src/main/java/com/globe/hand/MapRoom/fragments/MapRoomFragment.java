@@ -17,8 +17,6 @@ import java.util.ArrayList;
 
 public class MapRoomFragment extends Fragment {
 
-    private OnMapRoomInteractionListener mListener;
-
     public MapRoomFragment() {
         // Required empty public constructor
     }
@@ -46,24 +44,5 @@ public class MapRoomFragment extends Fragment {
         return view;
     }
 
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnMapRoomInteractionListener) {
-            mListener = (OnMapRoomInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnMapRoomInteractionListener");
-        }
-    }
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnMapRoomInteractionListener {
-        void onMapRoomInteraction(int roomId);
-    }
 }

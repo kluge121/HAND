@@ -1,9 +1,16 @@
 package com.globe.hand.Main;
 
 import android.os.Bundle;
+import android.support.design.widget.TabLayout;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.View;
 
 import com.globe.hand.BaseActivity;
+import com.globe.hand.Main.adapters.MainTabFragmentAdpater;
+import com.globe.hand.Main.fragments.MainEventTabFragment;
+import com.globe.hand.Main.fragments.MainFriendTabFragment;
+import com.globe.hand.Main.fragments.MainMapTabFragment;
 import com.globe.hand.R;
 import com.globe.hand.enums.MenuPane;
 import com.globe.hand.Main.fragments.KakaoUserProfileFragment;
@@ -17,22 +24,34 @@ import com.kakao.usermgmt.response.model.UserProfile;
 
 import java.util.Map;
 
-public class MainActivity extends BaseActivity
-        implements MainMenuPaneFragment.OnMenuPaneClickListener,
-                   MapRoomFragment.OnMapRoomInteractionListener {
+public class MainActivity extends BaseActivity {
+
+    TabLayout tabLayout;
+    ViewPager viewPager;
+    MainTabFragmentAdpater mainTabFragmentAdpater;
+    MainMapTabFragment tabFragment1;
+    MainEventTabFragment tabFragment2;
+    MainFriendTabFragment tabFragment3;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        setToolbar(R.id.main_toolbar, false);
 
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_content_container,
-                        MainMenuPaneFragment.newInstance())
-                .commit();
+        setWidget();
 
+
+        tabLayout.setupWithViewPager(viewPager);
+        setTabViewPager(viewPager);
+
+
+
+//        setToolbar(R.id.main_toolbar, false);
+//        getSupportFragmentManager().beginTransaction()
+//                .add(R.id.main_content_container,
+//                        MainMenuPaneFragment.newInstance())
+//                .commit();
 
 //        StringBuilder stringBuilder;
 //                       = new StringBuilder("-- facebook user info --\n");
@@ -49,29 +68,6 @@ public class MainActivity extends BaseActivity
 //        textView.setText(stringBuilder.toString());
     }
 
-    @Override
-    public void OnMenuPaneClick(MenuPane menuPane) {
-        switch (menuPane) {
-            case MAP:
-                getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.main_content_container,
-                                MapRoomFragment.newInstance())
-                        .addToBackStack(null)
-                        .commit();
-                break;
-            case FRIEND:
-                break;
-            case EVENT:
-                break;
-            default:
-                break;
-        }
-    }
-
-    @Override
-    public void onMapRoomInteraction(int roomId) {
-        // TODO : MapRoom 중 하나를 눌렀을 경우
-    }
 
     private void requestSignUp(final Map<String, String> properties) {
         UserManagement.requestSignup(new ApiResponseCallback<Long>() {
@@ -124,5 +120,25 @@ public class MainActivity extends BaseActivity
                         .commit();
             }
         });
+    }
+
+    void setWidget() {
+        tabLayout = findViewById(R.id.main_tab);
+        viewPager = findViewById(R.id.main_tab_viewpager);
+
+    }
+
+    private void setTabViewPager(ViewPager viewPager) {
+        mainTabFragmentAdpater = new MainTabFragmentAdpater(getSupportFragmentManager());
+        tabFragment1 = MainMapTabFragment.newInstance();
+        tabFragment2 = MainEventTabFragment.newInstance();
+        tabFragment3 = MainFriendTabFragment.newInstance();
+
+        mainTabFragmentAdpater.addFragment(tabFragment1);
+        mainTabFragmentAdpater.addFragment(tabFragment2);
+        mainTabFragmentAdpater.addFragment(tabFragment3);
+
+        viewPager.setAdapter(mainTabFragmentAdpater);
+
     }
 }

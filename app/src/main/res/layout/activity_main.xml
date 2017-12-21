@@ -1,24 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context="com.globe.hand.Main.MainActivity">
 
-    <include layout="@layout/layout_toolbar"
-        android:id="@+id/main_toolbar" />
 
     <FrameLayout
+        android:id="@+id/main_user_profile_container"
         android:layout_width="match_parent"
-        android:layout_height="96dp"
-        android:id="@+id/main_user_profile_container" />
+        android:layout_height="96dp" />
 
-    <FrameLayout
-        android:id="@+id/main_content_container"
+    <android.support.v4.view.ViewPager
+        android:id="@+id/main_tab_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="500dp" />
+
+    <android.support.design.widget.TabLayout
+        android:id="@+id/main_tab"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+    </android.support.design.widget.TabLayout>
 
 </LinearLayout>

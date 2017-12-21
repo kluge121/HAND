@@ -47,7 +47,14 @@
         <!-- 카카오 -->
 
         <activity android:name=".Login.LoginActivity"></activity>
-        <activity android:name=".Main.MainActivity" />
+        <activity android:name=".Main.MainActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />
         <activity
@@ -57,11 +64,7 @@
         <activity
             android:name=".MapRoom.MapsActivity"
             android:label="@string/title_activity_maps">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 
