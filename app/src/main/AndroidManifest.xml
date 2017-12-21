@@ -14,10 +14,6 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <meta-data
-            android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
-
 
         <!-- 구글 -->
         <meta-data
@@ -51,14 +47,13 @@
         <!-- 카카오 -->
 
         <activity android:name=".Login.LoginActivity">
-
-        </activity>
-        <activity android:name=".Main.MainActivity" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".Main.MainActivity" >
         </activity>
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />

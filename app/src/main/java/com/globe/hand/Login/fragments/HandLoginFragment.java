@@ -97,8 +97,7 @@ public class HandLoginFragment extends Fragment
                         editEmail.getText().toString(), editPass.getText().toString());
                 break;
             case R.id.login_btn_join:
-                listener.moveToJoinWithEditInfo(
-                        editEmail.getText().toString());
+                listener.moveToJoinWithEditInfo(editEmail.getText().toString());
                 break;
         }
     }

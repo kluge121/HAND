@@ -57,7 +57,6 @@ public class LoginActivity extends BaseActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.login_container, HandLoginFragment.newInstance())
                 .commit();
@@ -120,7 +119,8 @@ public class LoginActivity extends BaseActivity
     @Override
     public void moveToJoinWithEditInfo(final String userEmail) {
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.login_container, HandJoinFragment.newInstance(userEmail))
+                .replace(R.id.login_container,
+                        HandJoinFragment.newInstance(userEmail))
                 .addToBackStack(null)
                 .commit();
     }
