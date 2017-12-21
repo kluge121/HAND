@@ -21,9 +21,9 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        FirebaseApp.initializeApp(this);
         instance = this;
         KakaoSDK.init(new KaKaoSDKAdapter());
+        FirebaseApp.initializeApp(this);
         FacebookSdk.sdkInitialize(getApplicationContext());
     }
 

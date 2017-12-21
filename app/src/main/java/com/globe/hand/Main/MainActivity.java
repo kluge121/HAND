@@ -8,7 +8,7 @@ import com.globe.hand.R;
 import com.globe.hand.enums.MenuPane;
 import com.globe.hand.Main.fragments.KakaoUserProfileFragment;
 import com.globe.hand.Main.fragments.MainMenuPaneFragment;
-import com.globe.hand.Main.fragments.MapRoomFragment;
+import com.globe.hand.MapRoom.fragments.MapRoomFragment;
 import com.kakao.auth.ApiResponseCallback;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
