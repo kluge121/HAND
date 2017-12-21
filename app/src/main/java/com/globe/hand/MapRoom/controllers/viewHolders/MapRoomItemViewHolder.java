@@ -9,7 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.globe.hand.MapRoom.RealMapActivity;
-import com.globe.hand.MapRoom.controllers.BaseViewHolder;
+import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.R;
 import com.globe.hand.models.MapRoom;
 

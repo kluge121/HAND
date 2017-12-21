@@ -22,9 +22,12 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         instance = this;
+
         KakaoSDK.init(new KaKaoSDKAdapter());
-        FirebaseApp.initializeApp(this);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
+
+        FirebaseApp.initializeApp(this);
     }
 
     private static class KaKaoSDKAdapter extends KakaoAdapter {

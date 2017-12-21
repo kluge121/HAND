@@ -11,8 +11,8 @@
     <include layout="@layout/layout_toolbar"
         android:id="@+id/list_setting_toolbar" />
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/setting_recycler_view"
+    <FrameLayout
+        android:id="@+id/setting_recycler_view_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

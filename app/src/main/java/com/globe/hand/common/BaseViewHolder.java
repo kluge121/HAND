@@ -1,4 +1,4 @@
-package com.globe.hand.MapRoom.controllers;
+package com.globe.hand.common;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;

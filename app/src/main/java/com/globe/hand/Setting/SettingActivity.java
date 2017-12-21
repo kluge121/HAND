@@ -58,7 +58,7 @@ public class SettingActivity extends BaseActivity {
                 case "question":
                     Intent questionIntent =
                             new Intent(getActivity(), ListForSettingActivity.class);
-                    questionIntent.putExtra("what", "questionIntent");
+                    questionIntent.putExtra("what", "question");
                     startActivity(questionIntent);
                     break;
                 case "logout":

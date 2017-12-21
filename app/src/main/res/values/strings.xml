@@ -1,6 +1,7 @@
 <resources>
     <string name="kakao_app_key">672a27cc57650726454f648c71d176be</string>
     <string name="facebook_app_id">1695537567426597</string>
+    <string name="google_maps_app_key">AIzaSyDrVNsa2lZfYMyeQce3272zc3jHq_G1Rr4</string>
     <string name="app_name">HAND</string>
     <string name="usermgmg_signup_button">회원가입하기</string>
     <string name="main_map">지도</string>
@@ -19,6 +20,9 @@
     <string name="open">열음</string>
     <string name="close">닫음</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>
