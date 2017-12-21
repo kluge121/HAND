@@ -12,18 +12,21 @@
         android:background="@drawable/rounded"
         android:id="@+id/main_user_profile_container"
         android:layout_width="match_parent"
-        android:layout_height="96dp" />
+        android:layout_height="0dp"
+        android:layout_weight="1.4"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/main_tab_viewpager"
+    <LinearLayout
+        android:id="@+id/main_tab_container"
         android:layout_width="match_parent"
-        android:layout_height="500dp" />
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:orientation="horizontal" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/main_tab"
+        android:layout_weight="0.9"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="0dp">
 
     </android.support.design.widget.TabLayout>
 

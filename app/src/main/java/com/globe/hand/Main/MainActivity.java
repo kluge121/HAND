@@ -2,11 +2,12 @@ package com.globe.hand.Main;
 
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.globe.hand.BaseActivity;
-import com.globe.hand.Main.adapters.MainTabFragmentAdpater;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
 import com.globe.hand.Main.Tab3Friend.MainFriendTabFragment;
 import com.globe.hand.Main.Tab1Map.MainMapTabFragment;
@@ -23,24 +24,53 @@ import java.util.Map;
 public class MainActivity extends BaseActivity {
 
     TabLayout tabLayout;
-    ViewPager viewPager;
-    MainTabFragmentAdpater mainTabFragmentAdpater;
-    MainMapTabFragment tabFragment1;
-    MainEventTabFragment tabFragment2;
-    MainFriendTabFragment tabFragment3;
+
+
+    final int MAP_TAB = 0;
+    final int EVENT_TAB = 1;
+    final int FRIEND_TAB = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        tabLayout = findViewById(R.id.main_tab);
+        tabLayout.addTab(tabLayout.newTab().setText("지도"));
+        tabLayout.addTab(tabLayout.newTab().setText("이벤트"));
+        tabLayout.addTab(tabLayout.newTab().setText("친"));
+
 
         setWidget();
+        replaceFragment(MainMapTabFragment.newInstance());
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                switch (tab.getPosition()) {
 
+                    case MAP_TAB:
+                        replaceFragment(MainMapTabFragment.newInstance());
+                        break;
+                    case EVENT_TAB:
+                        replaceFragment(MainEventTabFragment.newInstance());
+                        break;
+                    case FRIEND_TAB:
+                        replaceFragment(MainFriendTabFragment.newInstance());
+                        break;
+                }
 
-        tabLayout.setupWithViewPager(viewPager);
-        setTabViewPager(viewPager);
+            }
 
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+
+            }
+        });
 
 
 //        setToolbar(R.id.main_toolbar, false);
@@ -119,22 +149,15 @@ public class MainActivity extends BaseActivity {
     }
 
     void setWidget() {
-        tabLayout = findViewById(R.id.main_tab);
-        viewPager = findViewById(R.id.main_tab_viewpager);
 
     }
 
-    private void setTabViewPager(ViewPager viewPager) {
-        mainTabFragmentAdpater = new MainTabFragmentAdpater(getSupportFragmentManager());
-        tabFragment1 = MainMapTabFragment.newInstance();
-        tabFragment2 = MainEventTabFragment.newInstance();
-        tabFragment3 = MainFriendTabFragment.newInstance();
 
-        mainTabFragmentAdpater.addFragment(tabFragment1);
-        mainTabFragmentAdpater.addFragment(tabFragment2);
-        mainTabFragmentAdpater.addFragment(tabFragment3);
+    private void replaceFragment(Fragment fragment) {
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+        transaction.replace(R.id.main_tab_container, fragment);
 
-        viewPager.setAdapter(mainTabFragmentAdpater);
-
+        transaction.commit();
     }
 }
