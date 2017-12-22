@@ -1,14 +1,18 @@
-package com.globe.hand;
+package com.globe.hand.common;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.globe.hand.Login.LoginActivity;
 import com.globe.hand.Main.MainActivity;
+import com.kakao.network.ErrorResult;
+import com.kakao.util.exception.KakaoException;
 
 /**
  * Created by ssangwoo on 2017-12-18.
@@ -42,14 +46,30 @@ public abstract class BaseActivity extends AppCompatActivity {
 
     protected void redirectLoginActivity() {
         final Intent intent = new Intent(this, LoginActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
 
-    protected void redirectSignupActivity() {
+    protected void redirectLoginActivity(String errorContent) {
+        redirectLoginActivity();
+        new AlertDialog.Builder(getApplicationContext())
+                .setTitle(errorContent)
+                .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.cancel();
+                    }
+                });
+    }
+
+    protected void redirectMainActivity(boolean isFirebase) {
         final Intent intent = new Intent(this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.putExtra("firebase", isFirebase);
         startActivity(intent);
     }
-
 }

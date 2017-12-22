@@ -2,6 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
+    android:gravity="center"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -46,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:inputType="textPassword"
-            android:text="@string/password"
             android:textAppearance="@style/join_edit" />
 
     </LinearLayout>
@@ -70,7 +70,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:inputType="phone"
-            android:text="@string/nickname"
             android:textAppearance="@style/join_edit" />
 
     </LinearLayout>

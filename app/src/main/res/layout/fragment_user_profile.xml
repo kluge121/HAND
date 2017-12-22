@@ -8,9 +8,11 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true">
+        android:layout_marginStart="16dp"
+        android:layout_centerVertical="true">
 
         <ImageView
+            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
             android:id="@+id/image_user_profile"
             android:layout_width="64dp"
             android:layout_height="64dp"
@@ -25,16 +27,25 @@
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/image_user_profile"
             android:singleLine="true"
-            android:text="유저"
+            android:text="환영합니다!"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
     </RelativeLayout>
 
     <ImageView
-        android:id="@+id/image_my_event"
+        android:id="@+id/image_setting"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:layout_alignParentEnd="true"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="16dp"
+        android:src="@drawable/account" />
+
+    <ImageView
+        android:id="@+id/image_my_event"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:layout_toStartOf="@id/image_setting"
         android:layout_centerVertical="true"
         android:layout_marginEnd="16dp"
         android:src="@drawable/talk" />

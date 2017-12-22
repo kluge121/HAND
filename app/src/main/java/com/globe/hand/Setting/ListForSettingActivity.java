@@ -2,7 +2,7 @@ package com.globe.hand.Setting;
 
 import android.os.Bundle;
 
-import com.globe.hand.BaseActivity;
+import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
 import com.globe.hand.Setting.fragments.SettingPostFragment;
 import com.globe.hand.Setting.fragments.SettingRecyclerViewFragment;

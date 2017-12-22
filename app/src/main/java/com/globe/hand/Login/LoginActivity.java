@@ -1,5 +1,6 @@
 package com.globe.hand.Login;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
@@ -7,20 +8,14 @@ import android.util.Log;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.login.LoginResult;
-import com.globe.hand.BaseActivity;
+import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Login.fragments.HandJoinFragment;
 import com.globe.hand.Login.fragments.HandLoginFragment;
 import com.globe.hand.Main.MainActivity;
 import com.globe.hand.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
@@ -78,21 +73,7 @@ public class LoginActivity extends BaseActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    Log.d(TAG, "sign in");
-
-                    Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                    Bundle userInfoBundle = new Bundle();
-                    userInfoBundle.putString("UID", user.getUid());
-                    userInfoBundle.putString("ProviderId", user.getProviderId());
-                    userInfoBundle.putString("DisplayName", user.getDisplayName());
-                    if (user.getPhotoUrl() != null) {
-                        userInfoBundle.putString("PhotoUrl", user.getPhotoUrl().getPath());
-                    }
-                    userInfoBundle.putString("Email", user.getEmail());
-                    userInfoBundle.putString("PhoneNumber", user.getPhoneNumber());
-                    intent.putExtra("user_info", userInfoBundle);
-
-                    startActivity(intent);
+                    redirectMainActivity(true);
                     finish();
                 } else {
                     Log.d(TAG, "sign out");
@@ -164,7 +145,7 @@ public class LoginActivity extends BaseActivity
 
         @Override
         public void onSessionOpened() {
-            redirectSignupActivity();
+            redirectMainActivity(false);
 //            String accessToken = Session.getCurrentSession()
 //                    .getTokenInfo().getAccessToken();
         }
@@ -173,6 +154,15 @@ public class LoginActivity extends BaseActivity
         public void onSessionOpenFailed(KakaoException exception) {
             if (exception != null) {
                 Logger.e(exception);
+                redirectLoginActivity(exception.getErrorType().toString());
+                new AlertDialog.Builder(getApplicationContext())
+                        .setTitle(exception.getErrorType().name())
+                        .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dialogInterface.cancel();
+                            }
+                        });
             }
         }
     }

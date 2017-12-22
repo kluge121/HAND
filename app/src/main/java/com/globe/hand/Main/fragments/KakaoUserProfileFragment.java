@@ -1,5 +1,6 @@
 package com.globe.hand.Main.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -11,6 +12,7 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 import com.globe.hand.R;
+import com.globe.hand.Setting.SettingActivity;
 import com.google.firebase.auth.FirebaseAuth;
 import com.kakao.usermgmt.response.model.UserProfile;
 
@@ -43,6 +45,7 @@ public class KakaoUserProfileFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(
                 R.layout.fragment_user_profile, container, false);
+
         ImageView userImage = view.findViewById(R.id.image_user_profile);
         Glide.with(this)
                 .load(userProfile.getProfileImagePath())
@@ -52,11 +55,19 @@ public class KakaoUserProfileFragment extends Fragment {
         TextView userInfo = view.findViewById(R.id.text_user_name);
         userInfo.setText(userProfile.getNickname());
 
-        ImageView imageView = view.findViewById(R.id.image_my_event);
-        imageView.setOnClickListener(new View.OnClickListener() {
+//        ImageView myEventImage = view.findViewById(R.id.image_my_event);
+//        myEventImage.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//
+//            }
+//        });
+
+        ImageView settingImage = view.findViewById(R.id.image_setting);
+        settingImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
+                startActivity(new Intent(getContext(), SettingActivity.class));
             }
         });
         return view;

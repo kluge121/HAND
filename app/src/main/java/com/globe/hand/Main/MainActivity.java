@@ -4,11 +4,10 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.util.Log;
 
-import com.globe.hand.BaseActivity;
+import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
+import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
 import com.globe.hand.Main.Tab3Friend.MainFriendTabFragment;
 import com.globe.hand.Main.Tab1Map.MainMapTabFragment;
@@ -24,12 +23,11 @@ import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
+    private static final int MAP_TAB = 0;
+    private static final int EVENT_TAB = 1;
+    private static final int FRIEND_TAB = 2;
+
     TabLayout tabLayout;
-
-
-    final int MAP_TAB = 0;
-    final int EVENT_TAB = 1;
-    final int FRIEND_TAB = 2;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,22 +39,19 @@ public class MainActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab().setText("이벤트"));
         tabLayout.addTab(tabLayout.newTab().setText("친"));
 
-
-        setWidget();
-        replaceFragment(MainMapTabFragment.newInstance());
+        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 switch (tab.getPosition()) {
-
                     case MAP_TAB:
-                        replaceFragment(MainMapTabFragment.newInstance());
+                        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
                         break;
                     case EVENT_TAB:
-                        replaceFragment(MainEventTabFragment.newInstance());
+                        replaceTabLayoutFragment(MainEventTabFragment.newInstance());
                         break;
                     case FRIEND_TAB:
-                        replaceFragment(MainFriendTabFragment.newInstance());
+                        replaceTabLayoutFragment(MainFriendTabFragment.newInstance());
                         break;
                 }
 
@@ -73,52 +68,12 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-
-//        setToolbar(R.id.main_toolbar, false);
-//        getSupportFragmentManager().beginTransaction()
-//                .add(R.id.main_content_container,
-//                        MainMenuPaneFragment.newInstance())
-//                .commit();
-
-//        StringBuilder stringBuilder;
-//                       = new StringBuilder("-- facebook user info --\n");
-        if (!getIntent().getBooleanExtra("facebook", false)) {
+        if (getIntent().getBooleanExtra("firebase", false)) {
+            replaceUserProfileFragment(
+                    FirebaseUserProfileFragment.newInstance());
+        } else {
             requestMe();
         }
-//        Bundle userInfoBundle = getIntent().getBundleExtra("user_info");
-//        for (String key : userInfoBundle.keySet()) {
-//            Object value = userInfoBundle.get(key);
-//            stringBuilder.append(String.format("%s %s (%s)\n", key,
-//                    value.toString(), value.getClass().getName()));
-//        }
-//        TextView textView = findViewById(R.id.text_user_name);
-//        textView.setText(stringBuilder.toString());
-    }
-
-
-    private void requestSignUp(final Map<String, String> properties) {
-        UserManagement.requestSignup(new ApiResponseCallback<Long>() {
-            @Override
-            public void onNotSignedUp() {
-            }
-
-            @Override
-            public void onSuccess(Long result) {
-                requestMe();
-            }
-
-            @Override
-            public void onFailure(ErrorResult errorResult) {
-                final String message = "User management ResponseCallback - failure : " + errorResult;
-                com.kakao.util.helper.log.Logger.w(message);
-//                KakaoToast.makeToast(getApplicationContext(), message, Toast.LENGTH_LONG).show();
-                finish();
-            }
-
-            @Override
-            public void onSessionClosed(ErrorResult errorResult) {
-            }
-        }, properties);
     }
 
     private void requestMe() {
@@ -131,12 +86,14 @@ public class MainActivity extends BaseActivity {
 
             @Override
             public void onSessionClosed(ErrorResult errorResult) {
-                // nothing
+                redirectLoginActivity(errorResult.toString());
             }
 
             @Override
             public void onNotSignedUp() {
-                // nothing
+                // 우린 자동가입에 체크를 했으므로 onNotSignedUp 메소드가 불러질 일이
+                // 없다고 생각하면 됨
+                // redirectMainActivity();
             }
 
             @Override
@@ -145,26 +102,24 @@ public class MainActivity extends BaseActivity {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        getSupportFragmentManager().beginTransaction()
-                                .add(R.id.main_user_profile_container,
-                                        KakaoUserProfileFragment.newInstance(result))
-                                .commit();
+                        replaceUserProfileFragment(
+                                KakaoUserProfileFragment.newInstance(result));
                     }
                 }, 500);
             }
         });
     }
 
-    void setWidget() {
-
+    private void replaceUserProfileFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_user_profile_container,
+                        fragment)
+                .commit();
     }
 
-
-    private void replaceFragment(Fragment fragment) {
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
-        transaction.replace(R.id.main_tab_container, fragment);
-
-        transaction.commit();
+    private void replaceTabLayoutFragment(Fragment fragment) {
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.main_tab_container, fragment)
+                .commit();
     }
 }
