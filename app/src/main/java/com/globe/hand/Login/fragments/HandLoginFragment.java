@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -89,12 +90,32 @@ public class HandLoginFragment extends Fragment
                 });
     }
 
+    public boolean isVailedForm() {
+        // 임시
+        String email = editEmail.getText().toString();
+        String pass = editPass.getText().toString();
+
+        if(email.trim().isEmpty()) {
+            Toast.makeText(getContext(), "이메일을 적어주세욧", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(pass.trim().isEmpty()) {
+            Toast.makeText(getContext(), "비번을 적어주세욧", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()){
             case R.id.login_btn_login:
-                listener.processLogin(
-                        editEmail.getText().toString(), editPass.getText().toString());
+                if(isVailedForm()) {
+                    listener.processLogin(
+                            editEmail.getText().toString(), editPass.getText().toString());
+                }
                 break;
             case R.id.login_btn_join:
                 listener.moveToJoinWithEditInfo(editEmail.getText().toString());

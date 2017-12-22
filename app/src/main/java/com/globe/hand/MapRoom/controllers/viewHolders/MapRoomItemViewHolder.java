@@ -24,7 +24,7 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
     TextView textMapRoomTitle;
 
     public MapRoomItemViewHolder(ViewGroup parent) {
-        super(parent, R.layout.layout_map_room_item);
+        super(parent, R.layout.recycler_item_map_room);
         mapRoomItemContainer = itemView.findViewById(R.id.map_room_item_container);
         imageMapRoom = itemView.findViewById(R.id.image_map_room);
         textMapRoomTitle = itemView.findViewById(R.id.text_map_room_title);

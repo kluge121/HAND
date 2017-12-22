@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.globe.hand.R;
 
@@ -19,6 +20,7 @@ import com.globe.hand.R;
 public class HandJoinFragment extends Fragment
             implements View.OnClickListener {
     private static final String USER_EMAIL = "user_email";
+    private static final String USER_NICKNAME = "user_nickname";
 
     private OnCallbackJoinListener listener;
 
@@ -27,14 +29,16 @@ public class HandJoinFragment extends Fragment
     private EditText editNickname;
 
     private String userEmail;
+    private String userNickname;
 
     public HandJoinFragment() { }
 
-    public static HandJoinFragment newInstance(String userEmail) {
+    public static HandJoinFragment newInstance(String userEmail, String userNickname) {
         HandJoinFragment fragment = new HandJoinFragment();
 
         Bundle args = new Bundle();
         args.putString(USER_EMAIL, userEmail);
+        args.putString(USER_NICKNAME, userNickname);
 
         fragment.setArguments(args);
         return fragment;
@@ -51,6 +55,7 @@ public class HandJoinFragment extends Fragment
         editNickname = view.findViewById(R.id.join_edit_nickname);
 
         editEmail.setText(userEmail);
+        editNickname.setText(userNickname);
 
         Button btnJoin = view.findViewById(R.id.join_btn_join);
         Button btnCancel = view.findViewById(R.id.join_btn_cancel);
@@ -66,6 +71,7 @@ public class HandJoinFragment extends Fragment
         super.onCreate(savedInstanceState);
         if(getArguments() != null) {
             userEmail = getArguments().getString(USER_EMAIL);
+            userNickname = getArguments().getString(USER_NICKNAME);
         }
     }
 
@@ -73,9 +79,11 @@ public class HandJoinFragment extends Fragment
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.join_btn_join:
-                listener.processJoin(
-                        editEmail.getText().toString(), editPass.getText().toString(),
-                        editNickname.getText().toString());
+                if(isVailedForm()) {
+                    listener.processJoin(
+                            editEmail.getText().toString(), editPass.getText().toString(),
+                            editNickname.getText().toString());
+                }
                 break;
             case R.id.join_btn_cancel:
                 getActivity().onBackPressed();
@@ -95,6 +103,24 @@ public class HandJoinFragment extends Fragment
     public void onDetach() {
         super.onDetach();
         listener = null;
+    }
+
+    public boolean isVailedForm() {
+        // 임시
+        String email = editEmail.getText().toString();
+        String pass = editPass.getText().toString();
+
+        if(email.trim().isEmpty()) {
+            Toast.makeText(getContext(), "이메일을 적어주세욧", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(pass.trim().isEmpty()) {
+            Toast.makeText(getContext(), "비번을 적어주세욧", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        return true;
     }
 
     public interface OnCallbackJoinListener {

@@ -20,7 +20,7 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
     TextView textView;
 
     public MapRoomPlusItemViewHolder(ViewGroup parent) {
-        super(parent, R.layout.layout_map_room_item);
+        super(parent, R.layout.recycler_item_map_room);
         mapRoomItemContainer = itemView.findViewById(R.id.map_room_item_container);
         imageView = itemView.findViewById(R.id.image_map_room);
         textView = itemView.findViewById(R.id.text_map_room_title);
