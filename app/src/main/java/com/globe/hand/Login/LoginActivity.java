@@ -1,10 +1,9 @@
 package com.globe.hand.Login;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
@@ -14,8 +13,11 @@ import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Login.fragments.HandJoinFragment;
 import com.globe.hand.Login.fragments.HandLoginFragment;
 import com.globe.hand.R;
+import com.globe.hand.models.FirebaseAuthToken;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
@@ -23,10 +25,27 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
+import com.kakao.network.ErrorResult;
+import com.kakao.usermgmt.UserManagement;
+import com.kakao.usermgmt.callback.MeResponseCallback;
+import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
+
+import java.io.IOException;
+import java.util.HashMap;
+
+import okhttp3.OkHttpClient;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class LoginActivity extends BaseActivity
         implements HandLoginFragment.OnCallbackLoginListener,
@@ -73,7 +92,6 @@ public class LoginActivity extends BaseActivity
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.login_container, fragment)
                 .commit();
-
     }
 
     @Override
@@ -182,9 +200,49 @@ public class LoginActivity extends BaseActivity
 
         @Override
         public void onSessionOpened() {
-            redirectMainActivity(false);
-//            String accessToken = Session.getCurrentSession()
-//                    .getTokenInfo().getAccessToken();
+            UserManagement.requestMe(new MeResponseCallback() {
+                @Override
+                public void onFailure(ErrorResult errorResult) {
+                    String message = "유저 정보 받기 실패 == " + errorResult;
+                    Log.d("MainActivity", "onFailure: " + message);
+                }
+
+                @Override
+                public void onSessionClosed(ErrorResult errorResult) {
+                    redirectLoginActivity(errorResult.toString());
+                }
+
+                @Override
+                public void onNotSignedUp() {
+                    // 우린 자동가입에 체크를 했으므로 onNotSignedUp 메소드가 불러질 일이
+                    // 없다고 생각하면 됨
+                    // redirectMainActivity();
+                }
+
+                @Override
+                public void onSuccess(final UserProfile result) {
+                    replaceFragment(LoadingFragment.newInstance());
+                    UserProfile kakaoUserProfile = result;
+                    getFirebaseJWT(kakaoUserProfile)
+                            .continueWithTask(new Continuation<String, Task<AuthResult>>() {
+                        @Override
+                        public Task<AuthResult> then(@NonNull Task<String> task) throws Exception {
+                            String firebaseToken = task.getResult();
+                            FirebaseAuth auth = FirebaseAuth.getInstance();
+                            return auth.signInWithCustomToken(firebaseToken);
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(!task.isSuccessful()) {
+                                Toast.makeText(getApplicationContext(),
+                                        "파이어 베이스 문제 : 로그인 실패", Toast.LENGTH_SHORT)
+                                        .show();
+                            }
+                        }
+                    });
+                }
+            });
         }
 
         @Override
@@ -194,5 +252,47 @@ public class LoginActivity extends BaseActivity
                 redirectLoginActivity(exception.getErrorType().toString());
             }
         }
+    }
+
+
+    private Task<String> getFirebaseJWT(UserProfile kakaoUserProfile) {
+        final TaskCompletionSource<String> source = new TaskCompletionSource<>();
+        HashMap<String, String> validationObject = new HashMap<>();
+        validationObject.put("user_id", String.valueOf(kakaoUserProfile.getId()));
+        validationObject.put("email", kakaoUserProfile.getEmail());
+        validationObject.put("nickname", kakaoUserProfile.getNickname());
+        validationObject.put("profile_image", kakaoUserProfile.getProfileImagePath());
+        String jsonData = new GsonBuilder()
+                .setLenient()
+                .create().toJson(validationObject);
+
+        Retrofit retrofit = new Retrofit.Builder()
+                .baseUrl(KakaoAuthInterface.baseURL)
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .addConverterFactory(GsonConverterFactory.create())
+                .build();
+
+        KakaoAuthInterface kakaoAuthInterface
+                = retrofit.create(KakaoAuthInterface.class);
+        Call<FirebaseAuthToken> call = kakaoAuthInterface.getFirebaseToken(jsonData);
+        call.enqueue(new Callback<FirebaseAuthToken>() {
+            @Override
+            public void onResponse(Call<FirebaseAuthToken> call,
+                                   Response<FirebaseAuthToken> response) {
+                if(response.isSuccessful()) {
+                    FirebaseAuthToken firebaseAuthToken = response.body();
+                    source.setResult(firebaseAuthToken.getFirebaseToken());
+                } else {
+                    Log.e("LoginActivity11", "error - " + response.raw().toString());
+                }
+            }
+
+            @Override
+            public void onFailure(Call<FirebaseAuthToken> call, Throwable throwable) {
+                Log.e("LoginActivity", throwable.getMessage());
+            }
+        });
+
+        return source.getTask();
     }
 }

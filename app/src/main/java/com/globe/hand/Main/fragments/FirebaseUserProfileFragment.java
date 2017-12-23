@@ -44,10 +44,10 @@ public class FirebaseUserProfileFragment extends Fragment {
         }
 
         if(user.getDisplayName() != null) {
-            userInfo.setText(getString(R.string.user_profile_name_empty));
-        } else {
             userInfo.setText(String.format(
                     getString(R.string.user_profile_name_format), user.getDisplayName()));
+        } else {
+            userInfo.setText(getString(R.string.user_profile_name_empty));
         }
 
 //        ImageView imageView = view.findViewById(R.id.image_my_event);

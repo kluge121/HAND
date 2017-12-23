@@ -6,6 +6,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 
+import com.globe.hand.Login.fragments.LoadingFragment;
 import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
@@ -39,7 +40,7 @@ public class MainActivity extends BaseActivity {
         tabLayout.addTab(tabLayout.newTab().setText("이벤트"));
         tabLayout.addTab(tabLayout.newTab().setText("친"));
 
-        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
+        replaceTabLayoutFragment(LoadingFragment.newInstance());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -68,46 +69,8 @@ public class MainActivity extends BaseActivity {
             }
         });
 
-        if (getIntent().getBooleanExtra("firebase", false)) {
-            replaceUserProfileFragment(
-                    FirebaseUserProfileFragment.newInstance());
-        } else {
-            requestMe();
-        }
-    }
-
-    private void requestMe() {
-        UserManagement.requestMe(new MeResponseCallback() {
-            @Override
-            public void onFailure(ErrorResult errorResult) {
-                String message = "유저 정보 받기 실패 == " + errorResult;
-                Log.d("MainActivity", "onFailure: " + message);
-            }
-
-            @Override
-            public void onSessionClosed(ErrorResult errorResult) {
-                redirectLoginActivity(errorResult.toString());
-            }
-
-            @Override
-            public void onNotSignedUp() {
-                // 우린 자동가입에 체크를 했으므로 onNotSignedUp 메소드가 불러질 일이
-                // 없다고 생각하면 됨
-                // redirectMainActivity();
-            }
-
-            @Override
-            public void onSuccess(final UserProfile result) {
-                // TODO : 나중에 로딩같은 조치가 필요함
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        replaceUserProfileFragment(
-                                KakaoUserProfileFragment.newInstance(result));
-                    }
-                }, 500);
-            }
-        });
+        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
+        replaceUserProfileFragment(FirebaseUserProfileFragment.newInstance());
     }
 
     private void replaceUserProfileFragment(Fragment fragment) {
