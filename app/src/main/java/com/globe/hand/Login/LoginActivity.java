@@ -71,7 +71,6 @@ public class LoginActivity extends BaseActivity
     private void initKakaoTalk() {
         callback = new SessionCallback();
         Session.getCurrentSession().addCallback(callback);
-        Session.getCurrentSession().checkAndImplicitOpen();
     }
 
     private void initFirebase() {
@@ -209,7 +208,7 @@ public class LoginActivity extends BaseActivity
 
                 @Override
                 public void onSessionClosed(ErrorResult errorResult) {
-                    redirectLoginActivity(errorResult.toString());
+                    redirectLoginActivity(LoginActivity.this, errorResult.toString());
                 }
 
                 @Override
@@ -222,9 +221,7 @@ public class LoginActivity extends BaseActivity
                 @Override
                 public void onSuccess(final UserProfile result) {
                     replaceFragment(LoadingFragment.newInstance());
-                    UserProfile kakaoUserProfile = result;
-                    getFirebaseJWT(kakaoUserProfile)
-                            .continueWithTask(new Continuation<String, Task<AuthResult>>() {
+                    getFirebaseJWT(result).continueWithTask(new Continuation<String, Task<AuthResult>>() {
                         @Override
                         public Task<AuthResult> then(@NonNull Task<String> task) throws Exception {
                             String firebaseToken = task.getResult();
@@ -249,7 +246,8 @@ public class LoginActivity extends BaseActivity
         public void onSessionOpenFailed(KakaoException exception) {
             if (exception != null) {
                 Logger.e(exception);
-                redirectLoginActivity(exception.getErrorType().toString());
+                redirectLoginActivity(LoginActivity.this,
+                        exception.getErrorType().toString());
             }
         }
     }

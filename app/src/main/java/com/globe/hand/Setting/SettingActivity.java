@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.LogoutResponseCallback;
@@ -77,14 +78,15 @@ public class SettingActivity extends BaseActivity {
                 case "logout":
                     if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                         FirebaseAuth.getInstance().signOut();
+                        if (Session.getCurrentSession().checkAndImplicitOpen()) {
+                            UserManagement.requestLogout(new LogoutResponseCallback() {
+                                @Override
+                                public void onCompleteLogout() {
+                                    ((SettingActivity) getActivity()).redirectLoginActivity();
+                                }
+                            });
+                        }
                         ((SettingActivity) getActivity()).redirectLoginActivity();
-                    } else {
-                        UserManagement.requestLogout(new LogoutResponseCallback() {
-                            @Override
-                            public void onCompleteLogout() {
-                                ((SettingActivity) getActivity()).redirectLoginActivity();
-                            }
-                        });
                     }
                     break;
                 case "sign_out":
@@ -98,62 +100,49 @@ public class SettingActivity extends BaseActivity {
                                             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                                                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                                                // Get auth credentials from the user for re-authentication. The example below shows
-                                                // email and password credentials but there are multiple possible providers,
-                                                // such as GoogleAuthProvider or FacebookAuthProvider.
-                                                AuthCredential credential = EmailAuthProvider
-                                                        .getCredential("user@example.com", "password1234");
+                                                user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            if (Session.getCurrentSession().checkAndImplicitOpen()) {
+                                                                UserManagement.requestUnlink(new UnLinkResponseCallback() {
+                                                                    @Override
+                                                                    public void onFailure(ErrorResult errorResult) {
+                                                                        Logger.e(errorResult.toString());
+                                                                    }
 
-                                                // Prompt the user to re-provide their sign-in credentials
-                                                user.reauthenticate(credential)
-                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                            @Override
-                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                user.delete()
-                                                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                                            @Override
-                                                                            public void onComplete(@NonNull Task<Void> task) {
-                                                                                if (task.isSuccessful()) {
-                                                                                    ((SettingActivity) getActivity()).redirectLoginActivity();
-                                                                                }
-                                                                            }
-                                                                        });
+                                                                    @Override
+                                                                    public void onSessionClosed(ErrorResult errorResult) {
+                                                                        ((SettingActivity) getActivity())
+                                                                                .redirectLoginActivity(getActivity(),
+                                                                                        errorResult.toString());
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onNotSignedUp() {
+                                                                        // ((SettingActivity) getActivity()).redirectMainActivity();
+                                                                    }
+
+                                                                    @Override
+                                                                    public void onSuccess(Long userId) {
+                                                                        ((SettingActivity) getActivity()).redirectLoginActivity();
+                                                                    }
+                                                                });
+                                                            } else {
+                                                                ((SettingActivity) getActivity()).redirectLoginActivity();
                                                             }
-                                                        });
-                                            } else {
-                                                UserManagement.requestUnlink(new UnLinkResponseCallback() {
-                                                    @Override
-                                                    public void onFailure(ErrorResult errorResult) {
-                                                        Logger.e(errorResult.toString());
-                                                    }
-
-                                                    @Override
-                                                    public void onSessionClosed(ErrorResult errorResult) {
-                                                        ((SettingActivity) getActivity())
-                                                                .redirectLoginActivity(errorResult.toString());
-                                                    }
-
-                                                    @Override
-                                                    public void onNotSignedUp() {
-                                                        // ((SettingActivity) getActivity()).redirectMainActivity();
-                                                    }
-
-                                                    @Override
-                                                    public void onSuccess(Long userId) {
-                                                        ((SettingActivity) getActivity()).redirectLoginActivity();
+                                                        }
                                                     }
                                                 });
                                             }
-                                            dialog.dismiss();
                                         }
-                                    })
-                            .setNegativeButton(getString(R.string.com_kakao_cancel_button),
-                                    new DialogInterface.OnClickListener() {
-                                        @Override
-                                        public void onClick(DialogInterface dialog, int which) {
-                                            dialog.dismiss();
-                                        }
-                                    }).show();
+                                    }).setNegativeButton(getString(R.string.com_kakao_cancel_button),
+                            new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            }).show();
                     break;
                 case "problem":
                     break;

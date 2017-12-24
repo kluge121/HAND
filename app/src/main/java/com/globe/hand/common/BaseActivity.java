@@ -1,5 +1,6 @@
 package com.globe.hand.common;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +12,7 @@ import android.view.View;
 
 import com.globe.hand.Login.LoginActivity;
 import com.globe.hand.Main.MainActivity;
+import com.globe.hand.R;
 import com.kakao.network.ErrorResult;
 import com.kakao.util.exception.KakaoException;
 
@@ -52,10 +54,10 @@ public abstract class BaseActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    protected void redirectLoginActivity(String errorContent) {
+    protected void redirectLoginActivity(Context context, String errorContent) {
         redirectLoginActivity();
-        new AlertDialog.Builder(getApplicationContext())
-                .setTitle(errorContent)
+        new AlertDialog.Builder(context, R.style.dialog)
+                .setMessage(errorContent)
                 .setPositiveButton("닫기", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
