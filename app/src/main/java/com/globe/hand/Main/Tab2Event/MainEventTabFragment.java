@@ -11,6 +11,7 @@ import com.globe.hand.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -30,32 +31,29 @@ public class MainEventTabFragment extends Fragment implements OnMapReadyCallback
         View v = inflater.inflate(R.layout.fragment_main_event_tab, container, false);
         mapView = v.findViewById(R.id.event_mapview);
         mapView.onCreate(savedInstanceState);
-        mapView.getMapAsync(this);
 
         return v;
     }
 
 
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng SEOUL = new LatLng(37.56, 126.97);
+        LatLng seoul = new LatLng(37.56, 126.97);
 
         MarkerOptions markerOptions = new MarkerOptions();
 
-        markerOptions.position(SEOUL);
+        markerOptions.position(seoul);
 
         markerOptions.title("서울");
 
         markerOptions.snippet("수도");
 
         googleMap.addMarker(markerOptions);
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(SEOUL));
-
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(13));
-
-
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(seoul, 13));
     }
+
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -79,6 +77,7 @@ public class MainEventTabFragment extends Fragment implements OnMapReadyCallback
     public void onResume() {
         super.onResume();
         mapView.onResume();
+
     }
 
     @Override
@@ -102,8 +101,10 @@ public class MainEventTabFragment extends Fragment implements OnMapReadyCallback
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        MapsInitializer.initialize(getContext());
         if (mapView != null) {
             mapView.onCreate(savedInstanceState);
+            mapView.getMapAsync(this);
         }
     }
 }
