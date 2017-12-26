@@ -15,7 +15,10 @@ import com.globe.hand.Login.fragments.HandLoginFragment;
 import com.globe.hand.R;
 import com.globe.hand.models.FirebaseAuthToken;
 import com.google.android.gms.tasks.Continuation;
+import com.globe.hand.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
@@ -27,6 +30,11 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
@@ -54,8 +62,10 @@ public class LoginActivity extends BaseActivity
 
     private SessionCallback callback;
 
-    FirebaseAuth mFirebaseAuth;
-    FirebaseAuth.AuthStateListener mFirebaseAuthListener;
+    private FirebaseAuth mFirebaseAuth;
+    private FirebaseAuth.AuthStateListener mFirebaseAuthListener;
+    private FirebaseFirestore db;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,6 +73,7 @@ public class LoginActivity extends BaseActivity
         setContentView(R.layout.activity_login);
 
         replaceFragment(HandLoginFragment.newInstance());
+
 
         initFirebase();
         initKakaoTalk();
@@ -74,12 +85,14 @@ public class LoginActivity extends BaseActivity
     }
 
     private void initFirebase() {
+
         mFirebaseAuth = FirebaseAuth.getInstance();
         mFirebaseAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
+                    redirectMainActivity(true);
                     redirectMainActivity(true);
                     finish();
                 }
@@ -110,14 +123,14 @@ public class LoginActivity extends BaseActivity
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (!task.isSuccessful()) {
-                            try{
+                            try {
                                 throw task.getException();
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
                                 Toast.makeText(getApplicationContext(),
                                         "잘못된 정보를 입력하셨습니다.", Toast.LENGTH_SHORT).show();
 //                                mTxtEmail.setError(getString(R.string.error_invalid_email));
 //                                mTxtEmail.requestFocus();
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 Log.e(TAG, e.getMessage());
                             }
                             replaceFragment(HandLoginFragment.newInstance());
@@ -133,31 +146,59 @@ public class LoginActivity extends BaseActivity
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
+
                         if (task.isSuccessful()) {
-                            FirebaseUser user = mFirebaseAuth.getCurrentUser();
-                            if (user != null) {
-                                user.updateProfile(new UserProfileChangeRequest.Builder()
+                            final FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+                            if (firebaseUser != null) {
+                                firebaseUser.updateProfile(new UserProfileChangeRequest.Builder()
                                         .setDisplayName(userNickname).build());
+
+                                UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
+                                        .setDisplayName(userNickname)
+                                        .build();
+
+                                firebaseUser.updateProfile(profileRequest)
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Log.e("닉네임 적용", firebaseUser.getDisplayName() + "헤헤");
+                                                } else {
+                                                    Log.e("닉네임 적용", "실패");
+                                                }
+                                                User user = new User();
+                                                user.setEmail(firebaseUser.getEmail());
+                                                user.setUid(firebaseUser.getUid());
+                                                user.setName(firebaseUser.getDisplayName());
+                                                if (firebaseUser.getPhotoUrl() != null)
+                                                    user.setProfile_url(firebaseUser.getPhotoUrl());
+
+                                                Log.e("닉네임체크", userNickname);
+
+                                                db = FirebaseFirestore.getInstance();
+                                                db.collection("user").document(user.getUid()).set(user);
+                                            }
+                                        });
                             }
                         } else {
                             try {
                                 throw task.getException();
-                            } catch(FirebaseAuthWeakPasswordException e) {
+                            } catch (FirebaseAuthWeakPasswordException e) {
                                 Toast.makeText(getApplicationContext(),
                                         "비밀번호는 최소 6자리 이상", Toast.LENGTH_SHORT).show();
 //                                mTxtPassword.setError(getString(R.string.error_weak_password));
 //                                mTxtPassword.requestFocus();
-                            } catch(FirebaseAuthInvalidCredentialsException e) {
+                            } catch (FirebaseAuthInvalidCredentialsException e) {
                                 Toast.makeText(getApplicationContext(),
                                         "유효하지 않은 이메일입니다.", Toast.LENGTH_SHORT).show();
 //                                mTxtEmail.setError(getString(R.string.error_invalid_email));
 //                                mTxtEmail.requestFocus();
-                            } catch(FirebaseAuthUserCollisionException e) {
-                                    Toast.makeText(getApplicationContext(),
-                                            "이미 존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
+                            } catch (FirebaseAuthUserCollisionException e) {
+                                Toast.makeText(getApplicationContext(),
+                                        "이미 존재하는 이메일입니다", Toast.LENGTH_SHORT).show();
 //                                mTxtEmail.setError(getString(R.string.error_user_exists));
 //                                mTxtEmail.requestFocus();
-                            } catch(Exception e) {
+                            } catch (Exception e) {
                                 Log.e(TAG, e.getMessage());
                             }
                             replaceFragment(HandJoinFragment.newInstance(userEmail, userNickname));

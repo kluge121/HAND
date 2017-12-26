@@ -36,27 +36,24 @@ public class FirebaseUserProfileFragment extends Fragment {
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-        if(user.getPhotoUrl() != null) {
+        assert user != null;
+        if (user.getPhotoUrl() != null) {
+
             Glide.with(this)
                     .load(user.getPhotoUrl())
                     .apply(RequestOptions.circleCropTransform())
                     .into(userImage);
         }
 
-        if(user.getDisplayName() != null) {
+
+        if (user.getDisplayName() != null) {
             userInfo.setText(String.format(
                     getString(R.string.user_profile_name_format), user.getDisplayName()));
         } else {
             userInfo.setText(getString(R.string.user_profile_name_empty));
+
         }
 
-//        ImageView imageView = view.findViewById(R.id.image_my_event);
-//        imageView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//
-//            }
-//        });
         ImageView imageView = view.findViewById(R.id.image_setting);
         imageView.setOnClickListener(new View.OnClickListener() {
             @Override

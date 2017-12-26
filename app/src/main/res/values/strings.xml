@@ -1,4 +1,5 @@
 <resources>
+
     <string name="kakao_app_key">672a27cc57650726454f648c71d176be</string>
     <string name="facebook_app_id">1695537567426597</string>
     <string name="app_name">HAND</string>
@@ -20,5 +21,16 @@
     <string name="hello_blank_fragment">빈-프레그먼트</string>
     <string name="user_profile_name_format">%s님</string>
     <string name="user_profile_name_empty">환영합니다!</string>
+    <string name="friend_add">친구요청</string>
+    <string name="friend_cancel">요청취소</string>
+    <string name="follow">팔로우</string>
+    <string name="unfollow">팔로우취소</string>
+
+
+
+    <string name="friend_search_fail">존재하지 않는 친구입니다.</string>
+    <string name="friend_search_me">자기 자신은 영원한 친구입니다.</string>
+    <string name="friend_search_friend">이미 등록된 친구입니다</string>
+
 
 </resources>

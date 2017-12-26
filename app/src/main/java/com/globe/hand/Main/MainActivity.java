@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.util.Log;
 
 import com.globe.hand.Login.fragments.LoadingFragment;
+import com.globe.hand.Main.Tab4Alarm.MainAlarmTabFragment;
 import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
@@ -14,19 +15,17 @@ import com.globe.hand.Main.Tab3Friend.MainFriendTabFragment;
 import com.globe.hand.Main.Tab1Map.MainMapTabFragment;
 import com.globe.hand.R;
 import com.globe.hand.Main.fragments.KakaoUserProfileFragment;
-import com.kakao.auth.ApiResponseCallback;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
 import com.kakao.usermgmt.callback.MeResponseCallback;
 import com.kakao.usermgmt.response.model.UserProfile;
-
-import java.util.Map;
 
 public class MainActivity extends BaseActivity {
 
     private static final int MAP_TAB = 0;
     private static final int EVENT_TAB = 1;
     private static final int FRIEND_TAB = 2;
+    private static final int ALARM_TAB = 3;
 
     TabLayout tabLayout;
 
@@ -38,7 +37,8 @@ public class MainActivity extends BaseActivity {
         tabLayout = findViewById(R.id.main_tab);
         tabLayout.addTab(tabLayout.newTab().setText("지도"));
         tabLayout.addTab(tabLayout.newTab().setText("이벤트"));
-        tabLayout.addTab(tabLayout.newTab().setText("친"));
+        tabLayout.addTab(tabLayout.newTab().setText("친구"));
+        tabLayout.addTab(tabLayout.newTab().setText("알람"));
 
         replaceTabLayoutFragment(LoadingFragment.newInstance());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -54,10 +54,11 @@ public class MainActivity extends BaseActivity {
                     case FRIEND_TAB:
                         replaceTabLayoutFragment(MainFriendTabFragment.newInstance());
                         break;
+                    case ALARM_TAB:
+                        replaceTabLayoutFragment(MainAlarmTabFragment.newInstance());
+                        break;
                 }
-
             }
-
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
 
