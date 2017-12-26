@@ -2,8 +2,14 @@ package com.globe.hand;
 
 import android.app.Application;
 import android.content.Context;
+import android.os.Bundle;
+import android.support.annotation.Nullable;
 
 import com.facebook.FacebookSdk;
+import com.globe.hand.common.GoogleApiHelper;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.location.places.Places;
 import com.google.firebase.FirebaseApp;
 import com.kakao.auth.ApprovalType;
 import com.kakao.auth.AuthType;
@@ -18,6 +24,8 @@ import com.kakao.auth.KakaoSDK;
 
 public class App extends Application {
 
+    private GoogleApiHelper googleApiHelper;
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -28,6 +36,8 @@ public class App extends Application {
         FacebookSdk.sdkInitialize(getApplicationContext());
 
         FirebaseApp.initializeApp(this);
+
+        googleApiHelper = new GoogleApiHelper(this);
     }
 
     private static class KaKaoSDKAdapter extends KakaoAdapter {
@@ -70,6 +80,10 @@ public class App extends Application {
                 }
             };
         }
+    }
+
+    public static GoogleApiHelper getGoogleApiHelper() {
+        return getAppContext().googleApiHelper;
     }
 
     // 싱글턴

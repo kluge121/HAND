@@ -7,8 +7,10 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.globe.hand.R;
@@ -27,6 +29,7 @@ public class HandJoinFragment extends Fragment
     private EditText editEmail;
     private EditText editPass;
     private EditText editNickname;
+    private Spinner spinnerGender;
 
     private String userEmail;
     private String userNickname;
@@ -53,9 +56,14 @@ public class HandJoinFragment extends Fragment
         editEmail = view.findViewById(R.id.join_edit_email);
         editPass = view.findViewById(R.id.join_edit_pass);
         editNickname = view.findViewById(R.id.join_edit_nickname);
+        spinnerGender = view.findViewById(R.id.join_spinner_gender);
 
         editEmail.setText(userEmail);
         editNickname.setText(userNickname);
+
+        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(
+                getContext(), R.array.gender_array, android.R.layout.simple_spinner_dropdown_item);
+        spinnerGender.setAdapter(genderAdapter);
 
         Button btnJoin = view.findViewById(R.id.join_btn_join);
         Button btnCancel = view.findViewById(R.id.join_btn_cancel);
@@ -82,7 +90,8 @@ public class HandJoinFragment extends Fragment
                 if(isVailedForm()) {
                     listener.processJoin(
                             editEmail.getText().toString(), editPass.getText().toString(),
-                            editNickname.getText().toString());
+                            editNickname.getText().toString(),
+                            spinnerGender.getSelectedItem().toString());
                 }
                 break;
             case R.id.join_btn_cancel:
@@ -109,14 +118,20 @@ public class HandJoinFragment extends Fragment
         // 임시
         String email = editEmail.getText().toString();
         String pass = editPass.getText().toString();
+        String gender = spinnerGender.getSelectedItem().toString();
 
         if(email.trim().isEmpty()) {
-            Toast.makeText(getContext(), "이메일을 적어주세욧", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "이메일을 적어주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 
         if(pass.trim().isEmpty()) {
-            Toast.makeText(getContext(), "비번을 적어주세욧", Toast.LENGTH_SHORT).show();
+            Toast.makeText(getContext(), "비밀번호를 적어주세요", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+
+        if(gender.isEmpty() || gender.equals("선택")) {
+            Toast.makeText(getContext(), "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 
@@ -124,6 +139,7 @@ public class HandJoinFragment extends Fragment
     }
 
     public interface OnCallbackJoinListener {
-        void processJoin(String userEmail, String userPassword, String userNickname);
+        void processJoin(String userEmail, String userPassword,
+                         String userNickname, String gender);
     }
 }

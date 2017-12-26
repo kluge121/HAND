@@ -6,23 +6,25 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.globe.hand.Main.Tab1Map.model.MapEntity;
 import com.globe.hand.R;
+import com.globe.hand.common.BaseViewHolder;
 
 import java.util.ArrayList;
 
 /**
  * Created by baeminsu on 2017. 12. 21..
+ * Modified by SsangWoo on 2017. 12. 24..
  */
 
-
-public class MapAdapter extends RecyclerView.Adapter<MapViewHolder> {
+public class MapAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context mContext;
-    private ArrayList arrayList = new ArrayList();
+    private ArrayList<MapEntity> mapEntityList = new ArrayList<>();
 
-    public MapAdapter(Context mContext, ArrayList arrayList) {
+    public MapAdapter(Context mContext, ArrayList<MapEntity> mapEntityList) {
         this.mContext = mContext;
-        this.arrayList = arrayList;
+        this.mapEntityList = mapEntityList;
     }
 
     public MapAdapter(Context mContext) {
@@ -30,15 +32,15 @@ public class MapAdapter extends RecyclerView.Adapter<MapViewHolder> {
     }
 
     @Override
-    public MapViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-
-        View v = LayoutInflater.from(mContext).inflate(R.layout.recycler_item_map, parent, false);
-        return new MapViewHolder(v);
+    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new MapViewHolder(parent);
     }
 
     @Override
-    public void onBindViewHolder(MapViewHolder holder, int position) {
-
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        ((MapViewHolder)holder).bindView(mContext,
+                null/*mapEntityList.get(position)*/,
+                position);
     }
 
     @Override

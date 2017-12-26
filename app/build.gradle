@@ -30,24 +30,18 @@ configurations.all {
     }
 }
 
-
 dependencies {
-    implementation fileTree(include: ['*.jar'], dir: 'libs')
-
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.android.support:design:26.1.0'
     implementation 'com.android.support:recyclerview-v7:26.1.0'
     // 구글 플레이 Auth
-
-    compile 'com.google.android.gms:play-services-auth:11.8.0'
-
+    implementation 'com.google.android.gms:play-services-auth:11.8.0'
     // 카카오 로그인 sdk
     implementation 'com.kakao.sdk:usermgmt:1.7.0'
     // 페이스북
     implementation 'com.facebook.android:facebook-android-sdk:4.18.0'
-
     // 파이어베이스
     implementation 'com.google.firebase:firebase-core:11.8.0'
     implementation 'com.google.firebase:firebase-auth:11.8.0'
@@ -65,17 +59,17 @@ dependencies {
     // Glide
     implementation 'com.github.bumptech.glide:glide:4.4.0'
     implementation 'com.android.support:support-v4:26.1.0'
+
     implementation 'com.google.android.gms:play-services-maps:11.8.0'
     implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.google.android.gms:play-services-location:11.8.0'
+    implementation 'com.google.android.gms:play-services-places:11.8.0'
 
     annotationProcessor 'com.github.bumptech.glide:compiler:4.4.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
+
 }
-
-
-
-
 
 apply plugin: 'com.google.gms.google-services'

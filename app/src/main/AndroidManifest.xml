@@ -15,11 +15,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
+        <!-- meta-data 모음 -->
+
         <!-- 구글 -->
         <meta-data
             android:name="com.google.android.gms.version"
             android:value="@integer/google_play_services_version" />
-
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
@@ -33,7 +34,18 @@
         <meta-data
             android:name="com.kakao.sdk.AppKey"
             android:value="@string/kakao_app_key" />
+        <!-- 카카오 -->
 
+        <!-- meta-data 모음 -->
+
+        <activity android:name=".Login.LoginActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".Main.MainActivity"></activity>
         <activity
             android:name="com.kakao.auth.authorization.authcode.KakaoWebViewActivity"
             android:launchMode="singleTop"
@@ -44,31 +56,12 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-        <!-- 카카오 -->
 
-        <activity android:name=".Login.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+        <activity android:name=".MapRoom.RealMapActivity" />
+        <activity android:name=".MapRoom.WriteActivity"></activity>
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
-        <activity android:name=".Main.MainActivity"></activity>
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />
-        <activity
-            android:name=".MapRoom.RealMapActivity"
-            android:label="Map" />
-
-        <activity
-            android:name=".MapRoom.MapsActivity"
-            android:label="@string/title_activity_maps">
-            <!--<intent-filter>-->
-            <!--<action android:name="android.intent.action.MAIN" />-->
-
-            <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        </activity>
 
         <activity android:name=".FriendSearch.FriendSearchActivity" />
     </application>

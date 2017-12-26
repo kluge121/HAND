@@ -6,6 +6,8 @@ import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
+
+import com.globe.hand.MapRoom.controllers.MapRoomController;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -17,10 +19,11 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 public class RealMapActivity extends BaseActivity implements OnMapReadyCallback {
 
-    private GoogleMap mMap;
+    MapRoomController mapRoomController;
 
     DrawerLayout drawerLayout;
     ActionBarDrawerToggle toggle;
+    SupportMapFragment mapFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,7 +41,7 @@ public class RealMapActivity extends BaseActivity implements OnMapReadyCallback 
 
         drawerLayout.addDrawerListener(toggle);
 
-        SupportMapFragment mapFragment = SupportMapFragment.newInstance();
+        mapFragment = SupportMapFragment.newInstance();
         getSupportFragmentManager().beginTransaction()
                 .add(R.id.map_container, mapFragment)
                 .commit();
@@ -47,12 +50,10 @@ public class RealMapActivity extends BaseActivity implements OnMapReadyCallback 
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
+        mapRoomController = new MapRoomController(mapFragment, googleMap);
 
-        // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(-34, 151);
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        // 대전시청
+        mapRoomController.initialize(new LatLng(36.35049163104827, 127.38484181463717));
     }
 
     @Override

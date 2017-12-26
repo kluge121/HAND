@@ -10,7 +10,7 @@
 
     <style name="NoActionBar" parent="Theme.AppCompat.Light.NoActionBar" />
 
-    <style name="dialog" parent="Theme.AppCompat" />
+    <style name="dialog" parent="Theme.AppCompat.Light" />
 
     <style name="join_label">
         <item name="android:textSize">20dp</item>

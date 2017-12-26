@@ -10,6 +10,7 @@ public class User {
 
     private String name;
     private String email;
+    private String gender;
     private Uri profile_url;
     private String uid;
 
@@ -45,5 +46,13 @@ public class User {
 
     public String getUid() {
         return uid;
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 }

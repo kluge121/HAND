@@ -29,16 +29,12 @@ public class MainMapTabFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main_map_tab, container, false);
 
         recyclerView = v.findViewById(R.id.map_recyclerview);
-        recyclerView.addItemDecoration(new RecyclerViewDecoration(10,10));
+        recyclerView.addItemDecoration(new RecyclerViewDecoration(10, 10));
         adapter = new MapAdapter(getContext());
 
-        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(),2);
+        RecyclerView.LayoutManager layoutManager = new GridLayoutManager(getContext(), 2);
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(adapter);
         return v;
     }
-
-
-
-
 }
