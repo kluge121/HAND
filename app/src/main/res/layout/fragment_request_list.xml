@@ -2,15 +2,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.globe.hand.Main.Tab3Friend.MainFriendTabFragment">
+    tools:context="com.globe.hand.Main.Tab3Friend.fragment.RequestList">
 
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/alarm_tab_recyclerview"
+        android:id="@+id/firend_request_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="8" />
+        android:layout_height="match_parent">
+    </android.support.v7.widget.RecyclerView>
+
 
 
 </LinearLayout>
