@@ -1,14 +1,12 @@
 package com.globe.hand.Login;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.support.annotation.NonNull;
 import android.widget.Toast;
 
-import com.facebook.login.LoginFragment;
 import com.globe.hand.Login.fragments.LoadingFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Login.fragments.HandJoinFragment;
@@ -19,8 +17,6 @@ import com.globe.hand.models.FirebaseAuthToken;
 import com.google.android.gms.tasks.Continuation;
 import com.globe.hand.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
@@ -31,10 +27,6 @@ import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.gson.GsonBuilder;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.ISessionCallback;
 import com.kakao.auth.Session;
@@ -88,8 +80,7 @@ public class LoginActivity extends BaseActivity
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if (user != null) {
-                    redirectMainActivity(true);
-                    redirectMainActivity(true);
+                    redirectMainActivity();
                     finish();
                 }
             }

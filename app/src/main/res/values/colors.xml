@@ -6,4 +6,5 @@
     <color name="light_gray">#EEEEEE</color>
     <color name="gray">#AAAAAA</color>
     <color name="little_gray">#DDDDDD</color>
+    <color name="splash_background_color">#343434</color>
 </resources>
