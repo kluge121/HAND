@@ -163,7 +163,7 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         meUser.setName(loginUser.getDisplayName());
         meUser.setGender(null);
         if (loginUser.getPhotoUrl() != null)
-            meUser.setProfile_url(loginUser.getPhotoUrl());
+            meUser.setProfile_url(loginUser.getPhotoUrl().toString());
 
         return meUser;
     }

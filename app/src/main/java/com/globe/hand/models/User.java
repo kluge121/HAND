@@ -15,7 +15,7 @@ public class User {
     private String name;
     private String email;
     private String gender;
-    private Uri profile_url;
+    private String profile_url;
     private String uid;
 
 
@@ -27,9 +27,6 @@ public class User {
         this.email = email;
     }
 
-    public void setProfile_url(Uri profile_url) {
-        this.profile_url = profile_url;
-    }
 
     public void setUid(String uid) {
         this.uid = uid;
@@ -38,14 +35,6 @@ public class User {
     public String getName() {
 
         return name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public Uri getProfile_url() {
-        return profile_url;
     }
 
     public String getUid() {
@@ -58,5 +47,19 @@ public class User {
 
     public void setGender(String gender) {
         this.gender = gender;
+    }
+
+    public void setProfile_url(String profile_url) {
+        this.profile_url = profile_url;
+    }
+
+    public String getEmail() {
+
+        return email;
+    }
+
+    public String getProfile_url() {
+        return profile_url;
+
     }
 }

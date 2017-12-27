@@ -4,10 +4,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 
 import com.globe.hand.Login.fragments.LoadingFragment;
 import com.globe.hand.Main.Tab4Alarm.MainAlarmTabFragment;
+import com.globe.hand.Main.controllers.MainTabPagerAdapter;
 import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
@@ -22,12 +24,11 @@ import com.kakao.usermgmt.response.model.UserProfile;
 
 public class MainActivity extends BaseActivity {
 
-    private static final int MAP_TAB = 0;
-    private static final int EVENT_TAB = 1;
-    private static final int FRIEND_TAB = 2;
-    private static final int ALARM_TAB = 3;
+
 
     TabLayout tabLayout;
+    ViewPager viewPager;
+    MainTabPagerAdapter mainTabPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,42 +36,13 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
 
         tabLayout = findViewById(R.id.main_tab);
-        tabLayout.addTab(tabLayout.newTab().setText("지도"));
-        tabLayout.addTab(tabLayout.newTab().setText("이벤트"));
-        tabLayout.addTab(tabLayout.newTab().setText("친구"));
-        tabLayout.addTab(tabLayout.newTab().setText("알람"));
 
-        replaceTabLayoutFragment(LoadingFragment.newInstance());
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                switch (tab.getPosition()) {
-                    case MAP_TAB:
-                        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
-                        break;
-                    case EVENT_TAB:
-                        replaceTabLayoutFragment(MainEventTabFragment.newInstance());
-                        break;
-                    case FRIEND_TAB:
-                        replaceTabLayoutFragment(MainFriendTabFragment.newInstance());
-                        break;
-                    case ALARM_TAB:
-                        replaceTabLayoutFragment(MainAlarmTabFragment.newInstance());
-                        break;
-                }
-            }
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
 
-            }
+        viewPager = findViewById(R.id.main_tab_container);
+        setTabViewPager(viewPager);
+        tabLayout.setupWithViewPager(viewPager);
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
 
-            }
-        });
-
-        replaceTabLayoutFragment(MainMapTabFragment.newInstance());
         replaceUserProfileFragment(FirebaseUserProfileFragment.newInstance());
     }
 
@@ -86,4 +58,17 @@ public class MainActivity extends BaseActivity {
                 .replace(R.id.main_tab_container, fragment)
                 .commit();
     }
+
+
+    private void setTabViewPager(ViewPager viewPager) {
+        mainTabPagerAdapter = new MainTabPagerAdapter(getSupportFragmentManager());
+
+        mainTabPagerAdapter.addFragment(MainMapTabFragment.newInstance());
+        mainTabPagerAdapter.addFragment(MainEventTabFragment.newInstance());
+        mainTabPagerAdapter.addFragment(MainFriendTabFragment.newInstance());
+        mainTabPagerAdapter.addFragment(MainAlarmTabFragment.newInstance());
+        viewPager.setAdapter(mainTabPagerAdapter);
+
+    }
+
 }

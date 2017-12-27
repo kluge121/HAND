@@ -48,12 +48,14 @@ public class FriendSearchActivity extends BaseActivity implements View.OnClickLi
 
     FirebaseUser loginUser = FirebaseAuth.getInstance().getCurrentUser();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_friend_search);
         setToolbar(R.id.friend_search_toolbar, true);
         init();
+
 
     }
 
@@ -306,7 +308,7 @@ public class FriendSearchActivity extends BaseActivity implements View.OnClickLi
         meUser.setName(loginUser.getDisplayName());
         meUser.setGender(null);
         if (loginUser.getPhotoUrl() != null)
-            meUser.setProfile_url(loginUser.getPhotoUrl());
+            meUser.setProfile_url(loginUser.getPhotoUrl().toString());
 
         return meUser;
     }

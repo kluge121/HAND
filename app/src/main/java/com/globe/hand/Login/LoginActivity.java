@@ -1,6 +1,7 @@
 package com.globe.hand.Login;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.util.Log;
@@ -17,6 +18,7 @@ import com.globe.hand.models.FirebaseAuthToken;
 import com.google.android.gms.tasks.Continuation;
 import com.globe.hand.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.TaskCompletionSource;
 import com.google.firebase.auth.AuthResult;
@@ -26,6 +28,9 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.GsonBuilder;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.ISessionCallback;
@@ -37,6 +42,7 @@ import com.kakao.usermgmt.response.model.UserProfile;
 import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
+import java.io.File;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -53,6 +59,9 @@ public class LoginActivity extends BaseActivity
     private FirebaseAuth mFirebaseAuth;
     private FirebaseAuth.AuthStateListener mFirebaseAuthListener;
     private FirebaseFirestore db;
+
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference storageRef = storage.getReference();
 
 
     @Override
@@ -127,20 +136,100 @@ public class LoginActivity extends BaseActivity
                 });
     }
 
+
     @Override
-    public void processJoin(final String userEmail, String userPassword,
-                            final String userNickname, final String gender) {
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (Session.getCurrentSession()
+                .handleActivityResult(requestCode, resultCode, data)) {
+            return;
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mFirebaseAuth.addAuthStateListener(mFirebaseAuthListener);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mFirebaseAuthListener != null) {
+            mFirebaseAuth.removeAuthStateListener(mFirebaseAuthListener);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        Session.getCurrentSession().removeCallback(callback);
+    }
+
+    @Override
+    public void processJoin(final String userEmail, String userPassword, final String userNickname, final String gender, final String profile_path) {
         replaceFragment(LoadingFragment.newInstance());
+
+
+        final String[] uri_string = new String[1];
+        User user;
+        int flag = 0;
+
         mFirebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
-
                         if (task.isSuccessful()) {
+
                             final FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
-                            if (firebaseUser != null) {
-                                firebaseUser.updateProfile(new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(userNickname).build());
+
+                            if (profile_path != null) {
+                                Uri file = Uri.fromFile(new File(profile_path));
+                                StorageReference profileImgRef = storageRef.child("profile_image/" + firebaseUser.getUid());
+                                UploadTask uploadTask = profileImgRef.putFile(file);
+                                uploadTask.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        Uri profile_URI = taskSnapshot.getDownloadUrl();
+
+                                        firebaseUser.updateProfile(new UserProfileChangeRequest.Builder()
+                                                .setPhotoUri(profile_URI).build());
+                                        uri_string[0] = profile_URI.toString();
+
+                                        UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
+                                                .setDisplayName(userNickname)
+                                                .build();
+//
+                                        firebaseUser.updateProfile(profileRequest)
+                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                    @Override
+                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                        if (task.isSuccessful()) {
+                                                            Log.e("닉네임 적용", firebaseUser.getDisplayName() + "헤헤");
+                                                        } else {
+                                                            Log.e("닉네임 적용", "실패");
+                                                        }
+
+                                                        User user = new User();
+                                                        user.setEmail(firebaseUser.getEmail());
+                                                        user.setUid(firebaseUser.getUid());
+                                                        user.setName(firebaseUser.getDisplayName());
+                                                        user.setGender(gender);
+
+
+                                                        Log.e("췤췤", uri_string[0] + "췜");
+                                                        user.setProfile_url(uri_string[0]);
+
+                                                        Log.e("닉네임체크", userNickname);
+
+                                                        db.collection("user").document(user.getUid()).set(user);
+                                                    }
+                                                });
+
+                                    }
+                                });
+                            } else {
+
 
                                 UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(userNickname)
@@ -162,10 +251,6 @@ public class LoginActivity extends BaseActivity
                                                 user.setName(firebaseUser.getDisplayName());
                                                 user.setGender(gender);
 
-                                                if (firebaseUser.getPhotoUrl() != null)
-                                                    user.setProfile_url(firebaseUser.getPhotoUrl());
-
-                                                Log.e("닉네임체크", userNickname);
 
                                                 db.collection("user").document(user.getUid()).set(user);
                                             }
@@ -196,35 +281,6 @@ public class LoginActivity extends BaseActivity
                         }
                     }
                 });
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (Session.getCurrentSession()
-                .handleActivityResult(requestCode, resultCode, data)) {
-            return;
-        }
-        super.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAuth.addAuthStateListener(mFirebaseAuthListener);
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mFirebaseAuthListener != null) {
-            mFirebaseAuth.removeAuthStateListener(mFirebaseAuthListener);
-        }
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        Session.getCurrentSession().removeCallback(callback);
     }
 
     private class SessionCallback implements ISessionCallback {
