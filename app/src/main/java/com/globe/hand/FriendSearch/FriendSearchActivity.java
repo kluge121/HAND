@@ -298,12 +298,13 @@ public class FriendSearchActivity extends BaseActivity implements View.OnClickLi
         }
     }
 
-
     User makeLoginUserInstance() {
+
         User meUser = new User();
         meUser.setUid(loginUser.getUid());
         meUser.setEmail(loginUser.getEmail());
         meUser.setName(loginUser.getDisplayName());
+        meUser.setGender(null);
         if (loginUser.getPhotoUrl() != null)
             meUser.setProfile_url(loginUser.getPhotoUrl());
 

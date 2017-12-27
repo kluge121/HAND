@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
+import com.globe.hand.models.User;
 
 import java.util.ArrayList;
 
@@ -15,32 +16,33 @@ import java.util.ArrayList;
  * Created by baeminsu on 2017. 12. 21..
  */
 
-public class FriendAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
 
-    Context context;
-    ArrayList arrayList;
+    private Context context;
+    private ArrayList<User> arrayList = new ArrayList<>();
+
+    public void setArrayList(ArrayList<User> arrayList) {
+        this.arrayList = arrayList;
+    }
 
     public FriendAdapter(Context context) {
         this.context = context;
     }
 
-    public void setArrayList(ArrayList arrayList) {
-        this.arrayList = arrayList;
-    }
-
 
     @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new FriendViewHolder(parent, R.layout.recycler_item_friend);
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public void onBindViewHolder(FriendViewHolder holder, int position) {
+        holder.bindView(context, arrayList.get(position), position);
 
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return arrayList.size();
     }
 }

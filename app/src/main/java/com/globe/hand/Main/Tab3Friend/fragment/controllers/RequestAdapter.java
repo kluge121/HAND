@@ -1,31 +1,53 @@
 package com.globe.hand.Main.Tab3Friend.fragment.controllers;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
+import com.globe.hand.Main.Tab3Friend.model.RequestEntity;
+import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
+import com.globe.hand.models.User;
+
+import java.util.ArrayList;
 
 /**
  * Created by baeminsu on 2017. 12. 26..
  */
 
-public class RequestAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
+    private Context context;
+    private ArrayList<User> arrayList = new ArrayList<>();
 
-    @Override
-    public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public void setArrayList(ArrayList<User> arrayList) {
+        this.arrayList = arrayList;
+    }
 
-        return null;
+    public RequestAdapter(Context context) {
+        this.context = context;
     }
 
     @Override
-    public void onBindViewHolder(BaseViewHolder holder, int position) {
+    public RequestViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new RequestViewHolder(parent, R.layout.recycler_item_friend_request, this);
+    }
 
+    @Override
+    public void onBindViewHolder(RequestViewHolder holder, int position) {
+        holder.bindView(context, arrayList.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return arrayList.size();
     }
+
+    public void removeItem(int position) {
+        arrayList.remove(position);
+        notifyDataSetChanged();
+    }
+
+
 }

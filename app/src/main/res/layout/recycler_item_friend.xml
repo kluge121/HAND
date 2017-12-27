@@ -23,15 +23,6 @@
         android:text="댕댕이"
         android:textSize="20sp" />
 
-    <TextView
-        android:id="@+id/tab3_item_marker_count"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerVertical="true"
-        android:layout_marginLeft="30dp"
-        android:layout_toRightOf="@+id/tab3_item_name"
-        android:text="마커 : 5개"
-        android:textSize="20sp" />
 
 
 </RelativeLayout>

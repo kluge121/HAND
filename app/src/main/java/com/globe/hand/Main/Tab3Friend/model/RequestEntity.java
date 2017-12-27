@@ -8,7 +8,20 @@ public class RequestEntity  {
 
     private String imagePath;
     private String name;
-    private String btnText;
 
+    public String getImagePath() {
+        return imagePath;
+    }
 
+    public String getName() {
+        return name;
+    }
+
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:gravity="center"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/linearLayout6"
@@ -68,7 +68,7 @@
             android:layout_width="160dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:inputType="phone"
+            android:inputType="text"
             android:textAppearance="@style/join_edit" />
     </LinearLayout>
 
@@ -85,11 +85,12 @@
             android:layout_height="wrap_content"
             android:text="@string/gender"
             android:textAppearance="@style/join_label" />
+
         <Spinner
             android:id="@+id/join_spinner_gender"
-            android:textAppearance="@style/join_edit"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:textAppearance="@style/join_edit" />
     </LinearLayout>
 
     <Button

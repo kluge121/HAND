@@ -8,6 +8,10 @@ import android.net.Uri;
 
 public class User {
 
+
+    public User() {
+    }
+
     private String name;
     private String email;
     private String gender;

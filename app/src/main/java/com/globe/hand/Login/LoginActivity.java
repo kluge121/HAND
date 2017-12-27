@@ -105,6 +105,7 @@ public class LoginActivity extends BaseActivity
     @Override
     public void processLogin(String userEmail, String userPassword) {
         replaceFragment(LoadingFragment.newInstance());
+
         mFirebaseAuth.signInWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
@@ -144,7 +145,7 @@ public class LoginActivity extends BaseActivity
                                 UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
                                         .setDisplayName(userNickname)
                                         .build();
-
+//
                                 firebaseUser.updateProfile(profileRequest)
                                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                                             @Override
