@@ -11,8 +11,8 @@
         android:id="@+id/setting_toolbar"
         layout="@layout/layout_toolbar" />
 
-    <view
-        android:background="@color/light_gray"
+    <View
+        android:background="@color/little_gray"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
@@ -21,8 +21,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 
-    <view
-        android:background="@color/light_gray"
+    <View
+        android:background="@color/little_gray"
         android:layout_width="match_parent"
         android:layout_height="1dp" />
 
