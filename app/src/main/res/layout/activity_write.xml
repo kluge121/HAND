@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.globe.hand.MapRoom.WriteActivity">
+    tools:context="com.globe.hand.Main.Tab1Map.activities.WriteActivity">
 
     <include layout="@layout/layout_toolbar"
         android:id="@+id/write_toolbar" />

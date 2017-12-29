@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/map_room_item_container"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="256dp"
+    android:layout_gravity="center"
+    android:background="@drawable/map_room_plus_item_background"
+    android:layout_margin="4dp">
+
+    <ImageView
+        android:id="@+id/image_map_room_plus"
+        android:src="@drawable/plus_image"
+        android:scaleType="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+</RelativeLayout>

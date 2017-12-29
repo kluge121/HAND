@@ -14,7 +14,10 @@ import com.globe.hand.Login.fragments.HandJoinFragment;
 import com.globe.hand.Login.fragments.HandLoginFragment;
 import com.globe.hand.R;
 import com.globe.hand.common.RetrofitHelper;
+import com.globe.hand.enums.MapRoomPermission;
 import com.globe.hand.models.FirebaseAuthToken;
+import com.globe.hand.models.MapRoom;
+import com.globe.hand.models.MapRoomMember;
 import com.google.android.gms.tasks.Continuation;
 import com.globe.hand.models.User;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -28,6 +31,8 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -43,6 +48,8 @@ import com.kakao.util.exception.KakaoException;
 import com.kakao.util.helper.log.Logger;
 
 import java.io.File;
+import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -167,13 +174,10 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void processJoin(final String userEmail, String userPassword, final String userNickname, final String gender, final String profile_path) {
+    public void processJoin(final String userEmail, String userPassword,
+                            final String userNickname, final String gender,
+                            final String profile_path) {
         replaceFragment(LoadingFragment.newInstance());
-
-
-        final String[] uri_string = new String[1];
-        User user;
-        int flag = 0;
 
         mFirebaseAuth.createUserWithEmailAndPassword(userEmail, userPassword)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
@@ -194,68 +198,24 @@ public class LoginActivity extends BaseActivity
 
                                         firebaseUser.updateProfile(new UserProfileChangeRequest.Builder()
                                                 .setPhotoUri(profile_URI).build());
-                                        uri_string[0] = profile_URI.toString();
 
-                                        UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
-                                                .setDisplayName(userNickname)
-                                                .build();
-//
-                                        firebaseUser.updateProfile(profileRequest)
-                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<Void> task) {
-                                                        if (task.isSuccessful()) {
-                                                            Log.e("닉네임 적용", firebaseUser.getDisplayName() + "헤헤");
-                                                        } else {
-                                                            Log.e("닉네임 적용", "실패");
-                                                        }
-
-                                                        User user = new User();
-                                                        user.setEmail(firebaseUser.getEmail());
-                                                        user.setUid(firebaseUser.getUid());
-                                                        user.setName(firebaseUser.getDisplayName());
-                                                        user.setGender(gender);
-
-
-                                                        Log.e("췤췤", uri_string[0] + "췜");
-                                                        user.setProfile_url(uri_string[0]);
-
-                                                        Log.e("닉네임체크", userNickname);
-
-                                                        db.collection("user").document(user.getUid()).set(user);
-                                                    }
-                                                });
-
+                                        db.collection("user").document(firebaseUser.getUid())
+                                                .update("profile_url", profile_URI.toString());
                                     }
                                 });
-                            } else {
-
-
-                                UserProfileChangeRequest profileRequest = new UserProfileChangeRequest.Builder()
-                                        .setDisplayName(userNickname)
-                                        .build();
-//
-                                firebaseUser.updateProfile(profileRequest)
-                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                                            @Override
-                                            public void onComplete(@NonNull Task<Void> task) {
-                                                if (task.isSuccessful()) {
-                                                    Log.e("닉네임 적용", firebaseUser.getDisplayName() + "헤헤");
-                                                } else {
-                                                    Log.e("닉네임 적용", "실패");
-                                                }
-
-                                                User user = new User();
-                                                user.setEmail(firebaseUser.getEmail());
-                                                user.setUid(firebaseUser.getUid());
-                                                user.setName(firebaseUser.getDisplayName());
-                                                user.setGender(gender);
-
-
-                                                db.collection("user").document(user.getUid()).set(user);
-                                            }
-                                        });
                             }
+
+                            UserProfileChangeRequest profileRequest
+                                    = new UserProfileChangeRequest.Builder()
+                                    .setDisplayName(userNickname)
+                                    .build();
+                            firebaseUser.updateProfile(profileRequest)
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            createUserAndMyMapRoom(gender, null);
+                                        }
+                                    });
                         } else {
                             try {
                                 throw task.getException();
@@ -278,6 +238,42 @@ public class LoginActivity extends BaseActivity
                                 Log.e(TAG, e.getMessage());
                             }
                             replaceFragment(HandJoinFragment.newInstance(userEmail, userNickname));
+                        }
+                    }
+                });
+    }
+
+    private void createUserAndMyMapRoom(String gender, String profile_url) {
+        final FirebaseUser firebaseUser = mFirebaseAuth.getCurrentUser();
+
+        User user = new User();
+        user.setName(firebaseUser.getDisplayName());
+        user.setEmail(firebaseUser.getEmail());
+        if(gender != null) {
+            user.setGender(gender);
+        }
+        if(profile_url != null) {
+            user.setProfile_url(profile_url);
+        }
+        user.setUid(firebaseUser.getUid());
+
+        db.collection("user").document(firebaseUser.getUid()).set(user)
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            // 자신의 맵룸 추가
+                            MapRoom mapRoom = new MapRoom("My hand", "나의 글",
+                                    firebaseUser.getUid());
+                            DocumentReference myMapRoomRef =
+                                    db.collection("map_room").document(firebaseUser.getUid());
+
+                            myMapRoomRef.set(mapRoom);
+
+                            // 참여한 맵룸 목록 추가
+                            db.collection("map_room").document(firebaseUser.getUid())
+                                    .collection("joined_map_rooms").document(firebaseUser.getUid())
+                                    .set(Collections.singletonMap("mapRoomReference", myMapRoomRef));
                         }
                     }
                 });
@@ -318,18 +314,7 @@ public class LoginActivity extends BaseActivity
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                             if (task.isSuccessful()) {
-                                User user = new User();
-                                user.setEmail(result.getEmail());
-                                user.setUid("kakao:" + result.getId());
-                                user.setName(result.getNickname());
-
-                                // TODO: Uri.parse 무한루프빠지는 문제
-//                                if (result.getThumbnailImagePath() != null) {
-//                                    Uri uri = Uri.parse(result.getThumbnailImagePath());
-//                                    user.setProfile_url(uri);
-//                                }
-
-                                db.collection("user").document(user.getUid()).set(user);
+                                createUserAndMyMapRoom(null, result.getProfileImagePath());
                             } else {
                                 Toast.makeText(getApplicationContext(),
                                         "파이어 베이스 문제 : 로그인 실패", Toast.LENGTH_SHORT)

@@ -78,7 +78,6 @@ public class FriendList extends Fragment {
                     db.collection("user").document(loginUser.getUid()).
                             collection("friend");
 
-
             friendRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
@@ -91,17 +90,11 @@ public class FriendList extends Fragment {
                         Log.e("친구리스트", "성공");
                     } else {
                         Log.e("친구리스트", "실패");
-
                     }
-
                 }
             });
 
-
             return null;
         }
-
-
     }
-
 }

@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/hand_info_window_loading"
+        android:visibility="gone"
+        layout="@layout/fragment_loading" />
+
+    <RelativeLayout
+        android:id="@+id/hand_info_window_container"
+        android:layout_width="196dp"
+        android:layout_height="96dp">
+
+        <RelativeLayout
+            android:id="@+id/hand_info_window_place_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/hand_info_window_photo"
+                android:src="@drawable/splash"
+                android:scaleType="centerCrop"
+                android:layout_width="196dp"
+                android:layout_height="48dp" />
+            <TextView
+                android:id="@+id/hand_info_window_name"
+                android:layout_width="match_parent"
+                android:layout_height="48dp"
+                android:maxLines="1"
+                android:background="@color/little_transparent_gray"
+                android:text="adfasasdff"
+                android:textColor="@android:color/white"
+                android:textSize="24sp" />
+        </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/light_gray" />
+
+        <RelativeLayout
+            android:layout_below="@id/hand_info_window_place_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:id="@+id/hand_info_window_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:maxLines="1"
+                android:text="타이틀"
+                android:textColor="@color/gray"
+                android:textSize="14sp" />
+
+            <TextView
+                android:id="@+id/hand_info_window_desc"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/hand_info_window_title"
+                android:maxLines="1"
+                android:text="설명설명설명설명설명"
+                android:textColor="@color/little_gray"
+                android:textSize="12sp" />
+
+            <ImageView
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentEnd="true"
+                android:layout_margin="4dp"
+                android:src="@drawable/talk" />
+
+        </RelativeLayout>
+    </RelativeLayout>
+</LinearLayout>

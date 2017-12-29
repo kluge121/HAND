@@ -4,7 +4,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.globe.hand.Main.Tab1Map.MainMapTabFragment;
+import com.globe.hand.Main.Tab1Map.MainMapRoomFragment;
 import com.globe.hand.Main.Tab2Event.MainEventTabFragment;
 import com.globe.hand.Main.Tab3Friend.MainFriendTabFragment;
 import com.globe.hand.Main.Tab4Alarm.MainAlarmTabFragment;
@@ -41,7 +41,7 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
         return mainListFragments.size();
     }
 
-    public void addFragment(MainMapTabFragment fragment1) {
+    public void addFragment(MainMapRoomFragment fragment1) {
         mainListFragments.add(fragment1);
     }
 

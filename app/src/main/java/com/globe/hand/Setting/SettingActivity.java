@@ -18,6 +18,7 @@ import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.kakao.auth.Session;
 import com.kakao.network.ErrorResult;
 import com.kakao.usermgmt.UserManagement;
@@ -99,10 +100,15 @@ public class SettingActivity extends BaseActivity {
                                         public void onClick(DialogInterface dialog, int which) {
                                             if (FirebaseAuth.getInstance().getCurrentUser() != null) {
                                                 final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                                                final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                                                 user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                     @Override
                                                     public void onComplete(@NonNull Task<Void> task) {
+                                                        db.collection("map_room").document(user.getUid())
+                                                                .delete();
+                                                        db.collection("user").document(user.getUid())
+                                                                .delete();
                                                         if (task.isSuccessful()) {
                                                             if (Session.getCurrentSession().checkAndImplicitOpen()) {
                                                                 UserManagement.requestUnlink(new UnLinkResponseCallback() {

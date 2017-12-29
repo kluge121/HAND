@@ -1,12 +1,12 @@
-package com.globe.hand.MapRoom.controllers.adapters;
+package com.globe.hand.Main.Tab1Map.controllers.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
 import com.globe.hand.common.BaseViewHolder;
-import com.globe.hand.MapRoom.controllers.viewHolders.MapRoomItemViewHolder;
-import com.globe.hand.MapRoom.controllers.viewHolders.MapRoomPlusItemViewHolder;
+import com.globe.hand.Main.Tab1Map.controllers.viewHolders.MapRoomItemViewHolder;
+import com.globe.hand.Main.Tab1Map.controllers.viewHolders.MapRoomPlusItemViewHolder;
 import com.globe.hand.models.MapRoom;
 
 import java.util.List;

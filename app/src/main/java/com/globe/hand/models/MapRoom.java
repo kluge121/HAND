@@ -1,33 +1,51 @@
 package com.globe.hand.models;
 
+import java.util.List;
+
 /**
  * Created by ssangwoo on 2017-12-20.
  */
 
 public class MapRoom {
-    private int id;
-    private int PicturePath;
+    private String uid;
+    private String PicturePath;
     private String title;
+    private String desc;
 
-    public MapRoom(int id, int picturePath, String title) {
-        this.id = id;
-        PicturePath = picturePath;
+    public MapRoom() {}
+
+    public MapRoom(String title, String desc) {
         this.title = title;
+        this.desc = desc;
     }
 
-    public int getId() {
-        return id;
+    public MapRoom(String title, String desc, String uid) {
+        this.title = title;
+        this.desc = desc;
+        this.uid = uid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public MapRoom(String uid, String picturePath,
+                   String title, String desc) {
+        this.uid = uid;
+        this.PicturePath = picturePath;
+        this.title = title;
+        this.desc = desc;
     }
 
-    public int getPicturePath() {
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
+
+    public String getPicturePath() {
         return PicturePath;
     }
 
-    public void setPicturePath(int picturePath) {
+    public void setPicturePath(String picturePath) {
         PicturePath = picturePath;
     }
 
@@ -37,5 +55,13 @@ public class MapRoom {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDesc() {
+        return desc;
+    }
+
+    public void setDesc(String desc) {
+        this.desc = desc;
     }
 }

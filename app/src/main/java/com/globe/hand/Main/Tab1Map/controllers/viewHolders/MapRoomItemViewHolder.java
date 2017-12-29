@@ -1,4 +1,4 @@
-package com.globe.hand.MapRoom.controllers.viewHolders;
+package com.globe.hand.Main.Tab1Map.controllers.viewHolders;
 
 import android.content.Context;
 import android.content.Intent;
@@ -6,9 +6,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.globe.hand.MapRoom.RealMapActivity;
+import com.bumptech.glide.Glide;
+import com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.R;
 import com.globe.hand.models.MapRoom;
@@ -19,15 +21,17 @@ import com.globe.hand.models.MapRoom;
 
 public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
 
-    LinearLayout mapRoomItemContainer;
+    RelativeLayout mapRoomItemContainer;
     ImageView imageMapRoom;
     TextView textMapRoomTitle;
+    TextView textMapRoomDesc;
 
     public MapRoomItemViewHolder(ViewGroup parent) {
         super(parent, R.layout.recycler_item_map_room);
         mapRoomItemContainer = itemView.findViewById(R.id.map_room_item_container);
         imageMapRoom = itemView.findViewById(R.id.image_map_room);
         textMapRoomTitle = itemView.findViewById(R.id.text_map_room_title);
+        textMapRoomDesc = itemView.findViewById(R.id.text_map_room_desc);
     }
 
     @Override
@@ -35,12 +39,18 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
         mapRoomItemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, RealMapActivity.class);
-                intent.putExtra("map_room_id", model.getId());
+                Intent intent = new Intent(context, InMapRoomActivity.class);
+                intent.putExtra("map_room_id", model.getUid());
                 context.startActivity(intent);
             }
         });
-        imageMapRoom.setImageResource(model.getPicturePath());
+
+        if(model.getPicturePath() != null) {
+            Glide.with(imageMapRoom)
+                    .load(model.getPicturePath())
+                    .submit();
+        }
         textMapRoomTitle.setText(model.getTitle());
+        textMapRoomDesc.setText(model.getDesc());
     }
 }

@@ -32,5 +32,4 @@ public class MainEventTabFragment extends Fragment {
         return v;
     }
 
-
 }

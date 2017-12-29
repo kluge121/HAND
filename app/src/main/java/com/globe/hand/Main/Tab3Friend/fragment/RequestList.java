@@ -81,7 +81,6 @@ public class RequestList extends Fragment {
             friendRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<QuerySnapshot> task) {
-
                     if (task.isSuccessful()) {
                         ArrayList<User> arrayList;
                         arrayList = (ArrayList<User>) task.getResult().toObjects(User.class);
@@ -90,18 +89,12 @@ public class RequestList extends Fragment {
                         Log.e("요청리스트", "성공");
                     } else {
                         Log.e("요청리스트", "실패");
-
                     }
 
                 }
             });
 
-
             return null;
         }
-
-
     }
-
-
 }

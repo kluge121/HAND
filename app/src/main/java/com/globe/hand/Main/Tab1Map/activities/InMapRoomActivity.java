@@ -1,4 +1,4 @@
-package com.globe.hand.MapRoom;
+package com.globe.hand.Main.Tab1Map.activities;
 
 import android.content.res.Configuration;
 import android.support.annotation.Nullable;
@@ -7,17 +7,15 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.view.MenuItem;
 
-import com.globe.hand.MapRoom.controllers.MapRoomController;
+import com.globe.hand.Main.Tab1Map.activities.controllers.MapRoomController;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
-public class RealMapActivity extends BaseActivity implements OnMapReadyCallback {
+public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallback {
 
     MapRoomController mapRoomController;
 

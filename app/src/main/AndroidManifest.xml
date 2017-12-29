@@ -65,8 +65,8 @@
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Main.MainActivity" />
 
-        <activity android:name=".MapRoom.RealMapActivity" />
-        <activity android:name=".MapRoom.WriteActivity" />
+        <activity android:name=".Main.Tab1Map.activities.InMapRoomActivity" />
+        <activity android:name=".Main.Tab1Map.activities.WriteActivity" />
 
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />

@@ -1,30 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/map_room_item_container"
     android:orientation="vertical"
-    android:layout_width="144dp"
-    android:layout_height="196dp"
+    android:layout_width="match_parent"
+    android:layout_height="256dp"
     android:layout_gravity="center"
-    android:layout_margin="8dp"
-    android:background="@color/light_gray">
+    android:background="@drawable/map_room_item_background"
+    android:layout_margin="4dp">
 
     <ImageView
         android:id="@+id/image_map_room"
-        android:src="@drawable/talk"
-        android:scaleType="fitCenter"
+        android:src="@drawable/splash"
+        android:scaleType="centerCrop"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="144dp" />
+        android:layout_height="match_parent" />
 
     <View
-        android:background="@color/colorPrimary"
+        android:background="@color/little_transparent_gray"
+        android:layout_margin="4dp"
         android:layout_width="match_parent"
-        android:layout_height="1dp" />
-    <TextView
-        android:id="@+id/text_map_room_title"
-        android:gravity="center"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"
-        android:layout_width="match_parent"
-        android:layout_height="51dp" />
+        android:layout_height="match_parent" />
 
-</LinearLayout>
+    <TextView
+        android:text="타이틀"
+        android:textColor="@android:color/white"
+        android:textSize="40sp"
+        android:textAlignment="textStart"
+        android:id="@+id/text_map_room_title"
+        android:maxLines="3"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginTop="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:id="@+id/text_map_room_desc"
+        android:gravity="center"
+        android:text="설명12345"
+        android:textAlignment="textStart"
+        android:textColor="@color/little_gray"
+        android:textSize="20sp"
+        android:maxLines="3"
+        android:layout_alignParentBottom="true"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="12dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+
+</RelativeLayout>

@@ -46,6 +46,7 @@
     <string name="friend_search_me">자기 자신은 영원한 친구입니다.</string>
     <string name="friend_search_friend">이미 등록된 친구입니다</string>
     <string name="change_photo">바꾸기</string>
+    <string name="dialog_make">만들기</string>
 
 
 </resources>

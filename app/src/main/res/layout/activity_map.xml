@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.globe.hand.MapRoom.RealMapActivity">
+    tools:context="com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
