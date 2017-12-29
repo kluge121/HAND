@@ -97,5 +97,6 @@ public class App extends Application {
     public void onTerminate() {
         super.onTerminate();
         instance = null;
+        googleApiHelper.disconnect();
     }
 }

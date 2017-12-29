@@ -22,7 +22,7 @@
 
             <ImageView
                 android:id="@+id/hand_info_window_photo"
-                android:src="@drawable/splash"
+                android:src="@drawable/hand_splash"
                 android:scaleType="centerCrop"
                 android:layout_width="196dp"
                 android:layout_height="48dp" />

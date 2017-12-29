@@ -8,8 +8,8 @@
     <string name="main_event">이벤트</string>
     <string name="main_setting">설정</string>
 
-    <string name="password">패스워드</string>
-    <string name="email">이메일</string>
+    <string name="email">이메일 입력</string>
+    <string name="password">비밀번호 입력</string>
     <string name="nickname">닉네임</string>
     <string name="join">회원가입</string>
     <string name="back">돌아가기</string>
@@ -47,6 +47,7 @@
     <string name="friend_search_friend">이미 등록된 친구입니다</string>
     <string name="change_photo">바꾸기</string>
     <string name="dialog_make">만들기</string>
+    <string name="Globe">Globe</string>
 
 
 </resources>

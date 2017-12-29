@@ -25,7 +25,6 @@ import com.google.firebase.auth.FirebaseAuth;
 public class HandLoginFragment extends Fragment
         implements View.OnClickListener{
 
-    private TextView textHandLogo;
     private EditText editEmail;
     private EditText editPass;
     private Button btnJoin;
@@ -49,7 +48,6 @@ public class HandLoginFragment extends Fragment
         View view = inflater.inflate(
                 R.layout.fragment_hand_login, container, false);
 
-        textHandLogo = view.findViewById(R.id.text_hand_logo);
         editEmail = view.findViewById(R.id.login_edit_email);
         editPass = view.findViewById(R.id.login_edit_pass);
         btnJoin = view.findViewById(R.id.login_btn_join);

@@ -76,8 +76,9 @@ public class LoginActivity extends BaseActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
+        setToolbar(R.id.login_toolbar, false);
+        setToolbarTitle("login");
         replaceFragment(HandLoginFragment.newInstance());
-
 
         initFirebase();
         initKakaoTalk();

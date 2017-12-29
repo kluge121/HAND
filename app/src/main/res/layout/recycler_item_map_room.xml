@@ -10,7 +10,7 @@
 
     <ImageView
         android:id="@+id/image_map_room"
-        android:src="@drawable/splash"
+        android:src="@drawable/hand_splash"
         android:scaleType="centerCrop"
         android:layout_margin="4dp"
         android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.TextView;
 
 import com.globe.hand.Login.LoginActivity;
 import com.globe.hand.Main.MainActivity;
@@ -27,9 +28,18 @@ public abstract class BaseActivity extends AppCompatActivity {
         toolbar = findViewById(resId);
         setSupportActionBar(toolbar);
 
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayShowTitleEnabled(false);
+        }
+
         if(isSetIndicator) {
             setHomeAsUpIndicator();
         }
+    }
+
+    protected void setToolbarTitle(String toolbarTitle) {
+        TextView textTitle = toolbar.findViewById(R.id.text_toolbar_title);
+        textTitle.setText(toolbarTitle);
     }
 
     private void setHomeAsUpIndicator() {
