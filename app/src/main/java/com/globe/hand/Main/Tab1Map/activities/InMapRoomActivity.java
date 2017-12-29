@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.globe.hand.Main.Tab1Map.activities.controllers.MapRoomController;
@@ -29,7 +30,8 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         setContentView(R.layout.activity_map);
 
         setToolbar(R.id.map_toolbar, false);
-        if(getSupportActionBar() != null) {
+        setToolbarTitle("");
+        if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -54,6 +56,13 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         mapRoomController.initialize(new LatLng(36.35049163104827, 127.38484181463717));
     }
 
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_close, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
     @Override
     protected void onPostCreate(@Nullable Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -68,7 +77,10 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(toggle.onOptionsItemSelected(item)) {
+        if (toggle.onOptionsItemSelected(item)) {
+            return true;
+        } else if (item.getItemId() == R.id.action_close) {
+            onBackPressed();
             return true;
         } else {
             return super.onOptionsItemSelected(item);

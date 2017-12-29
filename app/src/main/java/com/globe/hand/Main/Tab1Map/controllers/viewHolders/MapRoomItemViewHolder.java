@@ -10,6 +10,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.CenterCrop;
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
+import com.bumptech.glide.request.RequestOptions;
 import com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.R;
@@ -45,10 +48,19 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
             }
         });
 
+        RequestOptions requestOptions
+                = new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(25));
+
         if(model.getPicturePath() != null) {
-            Glide.with(imageMapRoom)
+            Glide.with(context)
                     .load(model.getPicturePath())
-                    .submit();
+                    .apply(requestOptions)
+                    .into(imageMapRoom);
+        } else {
+            Glide.with(context)
+                    .load(R.drawable.hand_splash)
+                    .apply(requestOptions)
+                    .into(imageMapRoom);
         }
         textMapRoomTitle.setText(model.getTitle());
         textMapRoomDesc.setText(model.getDesc());

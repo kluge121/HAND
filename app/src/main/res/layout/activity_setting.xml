@@ -11,6 +11,21 @@
         android:id="@+id/setting_toolbar"
         layout="@layout/layout_toolbar" />
 
+    <view
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
+    <FrameLayout
+        android:id="@+id/setting_profile_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <view
+        android:background="@color/light_gray"
+        android:layout_width="match_parent"
+        android:layout_height="1dp" />
+
     <FrameLayout
         android:id="@+id/setting_container"
         android:layout_width="match_parent"

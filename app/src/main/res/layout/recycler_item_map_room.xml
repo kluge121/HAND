@@ -5,20 +5,17 @@
     android:layout_width="match_parent"
     android:layout_height="256dp"
     android:layout_gravity="center"
-    android:background="@drawable/map_room_item_background"
     android:layout_margin="4dp">
 
     <ImageView
         android:id="@+id/image_map_room"
         android:src="@drawable/hand_splash"
         android:scaleType="centerCrop"
-        android:layout_margin="4dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
     <View
-        android:background="@color/little_transparent_gray"
-        android:layout_margin="4dp"
+        android:background="@drawable/map_room_item_overlay"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

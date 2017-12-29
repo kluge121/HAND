@@ -141,13 +141,13 @@ public class FirebaseUserProfileFragment extends Fragment {
             }
         });
 
-        ImageView imageView = view.findViewById(R.id.image_setting);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                startActivity(new Intent(getContext(), SettingActivity.class));
-            }
-        });
+//        ImageView imageView = view.findViewById(R.id.image_setting);
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                startActivity(new Intent(getContext(), SettingActivity.class));
+//            }
+//        });
         return view;
     }
 }

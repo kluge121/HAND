@@ -112,6 +112,7 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void moveToJoinWithEditInfo(final String userEmail) {
+        setToolbarTitle("Sign in");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.login_container,
                         HandJoinFragment.newInstance(userEmail, null))
@@ -242,6 +243,12 @@ public class LoginActivity extends BaseActivity
                         }
                     }
                 });
+    }
+
+    @Override
+    public void backToLogin() {
+        setToolbarTitle("login");
+        onBackPressed();
     }
 
     private void createUserAndMyMapRoom(String gender, String profile_url) {

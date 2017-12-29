@@ -26,6 +26,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.globe.hand.R;
+import com.globe.hand.common.BaseActivity;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -121,7 +122,7 @@ public class HandJoinFragment extends Fragment
         switch (view.getId()) {
 
             case R.id.join_profile_image:
-                //TODO 이미지가져와서 뿌려줘버리기
+                //TODO : 이미지가져와서 뿌려줘버리기
                 doTakeAlbumAction();
                 break;
 
@@ -135,7 +136,7 @@ public class HandJoinFragment extends Fragment
                 }
                 break;
             case R.id.join_btn_cancel:
-                getActivity().onBackPressed();
+                listener.backToLogin();
                 break;
         }
     }
@@ -180,6 +181,7 @@ public class HandJoinFragment extends Fragment
 
     public interface OnCallbackJoinListener {
         void processJoin(String userEmail, String userPassword, String userNickname, String gender, String profile_path);
+        void backToLogin();
     }
     private void doTakeAlbumAction() {
         Intent intent = new Intent(Intent.ACTION_PICK);

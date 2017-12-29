@@ -8,14 +8,12 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
-import android.util.Log;
 
+import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthCredential;
-import com.google.firebase.auth.EmailAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -35,6 +33,11 @@ public class SettingActivity extends BaseActivity {
 
         setToolbar(R.id.setting_toolbar, true);
         setToolbarTitle("설정");
+
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.setting_profile_container, FirebaseUserProfileFragment.newInstance())
+                .commit();
 
         getFragmentManager().beginTransaction()
                 .add(R.id.setting_container, SettingFragment.newInstance())
