@@ -10,4 +10,5 @@
     <color name="little_transparent_gray">#99000000</color>
     <color name="login_gray">#CCCCCC</color>
     <color name="login_button_color">#747474</color>
+    <color name="trans">#00ff0000</color>
 </resources>
