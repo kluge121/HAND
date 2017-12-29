@@ -45,7 +45,7 @@ public class MainMapRoomFragment extends Fragment {
                              @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_main_map_tab, container, false);
 
-        replaceUserProfileFragment(FirebaseUserProfileFragment.newInstance());
+//        replaceUserProfileFragment(FirebaseUserProfileFragment.newInstance());
 
         recyclerView = v.findViewById(R.id.map_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
@@ -88,10 +88,10 @@ public class MainMapRoomFragment extends Fragment {
                 getContext(), mapRoomArrayList));
     }
 
-    private void replaceUserProfileFragment(Fragment fragment) {
-        getFragmentManager().beginTransaction()
-                .replace(R.id.user_profile_container,
-                        fragment)
-                .commit();
-    }
+//    private void replaceUserProfileFragment(Fragment fragment) {
+//        getFragmentManager().beginTransaction()
+//                .replace(R.id.user_profile_container,
+//                        fragment)
+//                .commit();
+//    }
 }

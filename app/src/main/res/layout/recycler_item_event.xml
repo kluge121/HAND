@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/map_view_holder_container"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:layout_gravity="center_horizontal"
+    android:background="@drawable/border"
+    android:orientation="horizontal">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="3">
+
+        <TextView
+            android:id="@+id/event_item_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Concert"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.05"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.096" />
+
+        <TextView
+            android:id="@+id/event_item_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="트와이스 노래 너무 좋은데"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_item_category"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <ImageView
+            android:id="@+id/event_item_image"
+            android:layout_width="90dp"
+            android:layout_height="90dp"
+            android:src="@drawable/dangdange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/event_item_name"
+            app:layout_constraintVertical_bias="0.209" />
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="도달까지"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.109"
+            app:layout_constraintStart_toEndOf="@+id/event_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/event_item_name"
+            app:layout_constraintVertical_bias="0.090" />
+
+        <TextView
+            android:id="@+id/event_item_need_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="3명"
+            android:textSize="19sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.091"
+            app:layout_constraintStart_toEndOf="@+id/event_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/event_item_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="(27/30)"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toEndOf="@+id/event_item_need_count"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            app:layout_constraintVertical_bias="0.1" />
+
+
+        <LinearLayout
+            android:id="@+id/event_item_layout"
+            android:layout_width="80dp"
+            android:layout_height="11dp"
+            android:background="@drawable/rounded"
+            android:orientation="horizontal"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.130"
+            app:layout_constraintStart_toEndOf="@+id/event_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/event_item_need_count"
+            app:layout_constraintVertical_bias="0.08">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:background="#b67b6a"
+                android:gravity="center"
+                android:text="1점"
+                android:textColor="#ffffff"
+                android:textSize="8sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="5"
+                android:background="#404042"
+                android:gravity="center"
+                android:text="4000원"
+                android:textColor="#ffffff"
+                android:textSize="8sp" />
+
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/event_item_content"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="김태표님 콘서트"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.161"
+            app:layout_constraintStart_toEndOf="@+id/event_item_image"
+            app:layout_constraintTop_toBottomOf="@+id/event_item_layout"
+            app:layout_constraintVertical_bias="0.133" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+
+        android:background="@drawable/border">
+
+    </LinearLayout>
+
+
+</LinearLayout>

@@ -37,13 +37,15 @@ public class FirebaseUserProfileFragment extends Fragment {
     }
 
     private TextView userInfoText;
+    private ImageView userImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(
                 R.layout.fragment_user_profile, container, false);
-        ImageView userImage = view.findViewById(R.id.image_user_profile);
+
+        userImage = view.findViewById(R.id.image_user_profile);
         userInfoText = view.findViewById(R.id.text_user_name);
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();

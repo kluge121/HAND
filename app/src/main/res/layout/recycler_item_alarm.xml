@@ -2,10 +2,11 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:background="@drawable/rounded">
 
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/alarm_item_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
@@ -29,7 +30,9 @@
         android:layout_height="80dp"
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
-        android:layout_toRightOf="@+id/alarm_item_profile" />
+        android:layout_toRightOf="@+id/alarm_item_profile"
+        android:gravity="center"
+        android:text="알람내용이 띠용하고 와버리는 곳" />
 
 
 </RelativeLayout>

@@ -4,17 +4,20 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.globe.hand.Main.Tab4Alarm.controllers.AlarmAdapter;
 import com.globe.hand.R;
 
 
 public class MainAlarmTabFragment extends Fragment {
 
     RecyclerView recyclerView;
+    AlarmAdapter adapter;
 
     public static MainAlarmTabFragment newInstance() {
         return new MainAlarmTabFragment();
@@ -26,6 +29,11 @@ public class MainAlarmTabFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_main_alarm_tab,container,false);
 
         recyclerView = v.findViewById(R.id.alarm_tab_recyclerview);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        adapter = new AlarmAdapter(getContext());
+        recyclerView.setAdapter(adapter);
+
+
 
 
         return v;

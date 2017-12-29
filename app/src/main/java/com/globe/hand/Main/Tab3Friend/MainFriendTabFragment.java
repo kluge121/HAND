@@ -37,13 +37,13 @@ public class MainFriendTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-        View v = inflater.inflate(R.layout.fragment_main_friend_tab, container, false);
-        btnFriendList = v.findViewById(R.id.friend_fragment_friend_btn);
-        btnRequestList = v.findViewById(R.id.friend_fragment_request_btn);
-        fab = v.findViewById(R.id.friend_fragment_fab);
+            View v = inflater.inflate(R.layout.fragment_main_friend_tab, container, false);
+            btnFriendList = v.findViewById(R.id.friend_fragment_friend_btn);
+            btnRequestList = v.findViewById(R.id.friend_fragment_request_btn);
+            fab = v.findViewById(R.id.friend_fragment_fab);
 
 
-        btnFriendList.setOnClickListener(new View.OnClickListener() {
+            btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeFriendFragment();

@@ -18,6 +18,8 @@ public class MainActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         ViewPager viewPager = findViewById(R.id.main_tab_container);
         setTabViewPager(viewPager);
 
