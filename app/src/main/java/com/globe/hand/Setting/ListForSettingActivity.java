@@ -18,11 +18,13 @@ public class ListForSettingActivity extends BaseActivity
         setToolbar(R.id.list_setting_toolbar, true);
 
         if(getIntent().getStringExtra("what").equals("notice")) {
+            setToolbarTitle("공지사항");
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.setting_recycler_view_container,
                             SettingRecyclerViewFragment.newInstance())
                     .commit();
         } else if(getIntent().getStringExtra("what").equals("question")){
+            setToolbarTitle("문의사항");
             //recyclerView.setAdapter();
         }
     }

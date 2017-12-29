@@ -34,6 +34,7 @@ public class SettingActivity extends BaseActivity {
         setContentView(R.layout.activity_setting);
 
         setToolbar(R.id.setting_toolbar, true);
+        setToolbarTitle("설정");
 
         getFragmentManager().beginTransaction()
                 .add(R.id.setting_container, SettingFragment.newInstance())

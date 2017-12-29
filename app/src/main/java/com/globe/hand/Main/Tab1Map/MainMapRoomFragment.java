@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import com.globe.hand.Main.Tab1Map.controllers.adapters.MapRoomRecyclerViewAdapter;
 import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.R;
+import com.globe.hand.common.RecyclerViewEmptySupport;
 import com.globe.hand.models.MapRoom;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -37,7 +38,7 @@ public class MainMapRoomFragment extends Fragment {
         return new MainMapRoomFragment();
     }
 
-    private RecyclerView recyclerView;
+    private RecyclerViewEmptySupport recyclerView;
 
     @Nullable
     @Override
@@ -49,6 +50,7 @@ public class MainMapRoomFragment extends Fragment {
 
         recyclerView = v.findViewById(R.id.map_recyclerview);
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        recyclerView.setEmptyView(v.findViewById(R.id.map_empty_view));
 
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
@@ -64,14 +66,18 @@ public class MainMapRoomFragment extends Fragment {
 
                 // TODO: 일단 임시로 이렇게 해놨으나 백퍼 수정이 필요함
                 final ArrayList<MapRoom> mapRoomArrayList = new ArrayList<>();
-                for(DocumentSnapshot documentSnapshot: documentSnapshots.getDocuments()) {
-                    DocumentReference mapRoomReference =
+                for(final DocumentSnapshot documentSnapshot: documentSnapshots.getDocuments()) {
+                    final DocumentReference mapRoomReference =
                             (DocumentReference) documentSnapshot.get("mapRoomReference");
                     mapRoomReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                             if(task.isSuccessful()) {
-                                mapRoomArrayList.add(task.getResult().toObject(MapRoom.class));
+                                if(task.getResult().get("uid").equals(user.getUid())) {
+                                    mapRoomArrayList.add(0, task.getResult().toObject(MapRoom.class));
+                                } else {
+                                    mapRoomArrayList.add(task.getResult().toObject(MapRoom.class));
+                                }
                                 updateRecyclerAdapter(mapRoomArrayList);
                             }
                         }

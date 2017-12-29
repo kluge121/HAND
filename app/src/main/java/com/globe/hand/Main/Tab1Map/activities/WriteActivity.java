@@ -10,7 +10,6 @@ import android.widget.TextView;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseActivity;
-import com.google.android.gms.location.places.Place;
 
 public class WriteActivity extends BaseActivity {
 
@@ -38,7 +37,7 @@ public class WriteActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_wirte_done) {
+        if (item.getItemId() == R.id.action_write_done) {
             setResult(RESULT_OK);
             startActivity(new Intent(this, InMapRoomActivity.class));
         }
