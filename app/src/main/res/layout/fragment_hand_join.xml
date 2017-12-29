@@ -1,117 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
-    android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools">
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/join_profile_image"
         android:src="@drawable/dangdange"
-        android:layout_width="100dp"
-        android:layout_height="100dp" />
-
-
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="48dp"
+        android:layout_marginBottom="48dp"
+        android:layout_width="72dp"
+        android:layout_height="72dp" />
 
     <LinearLayout
-        android:id="@+id/linearLayout6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="84dp"
-            android:layout_height="wrap_content"
-            android:text="@string/email"
-            android:textAppearance="@style/join_label" />
+        android:id="@+id/join_input_container"
+        android:orientation="vertical"
+        android:layout_below="@id/join_profile_image"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
         <EditText
             android:id="@+id/join_edit_email"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="30dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:textAppearance="@style/join_edit" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/password"
-            android:textAppearance="@style/join_label" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/login_gray" />
 
         <EditText
             android:id="@+id/join_edit_pass"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/password"
             android:inputType="textPassword"
             android:textAppearance="@style/join_edit" />
 
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/nickname"
-            android:textAppearance="@style/join_label" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/login_gray" />
 
         <EditText
             android:id="@+id/join_edit_nickname"
-            android:layout_width="160dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@android:color/transparent"
+            android:hint="@string/nickname"
             android:inputType="text"
             android:textAppearance="@style/join_edit" />
-    </LinearLayout>
 
-
-    <LinearLayout
-        android:id="@+id/gender_container"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="80dp"
-            android:layout_height="wrap_content"
-            android:text="@string/gender"
-            android:textAppearance="@style/join_label" />
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
+            android:background="@color/login_gray" />
 
         <Spinner
             android:id="@+id/join_spinner_gender"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:textAppearance="@style/join_edit" />
+            android:layout_height="22dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:background="@android:color/transparent"
+            android:textAppearance="@style/join_edit"
+            style="?android:attr/spinnerDropDownItemStyle"
+            tools:context="R.array.gender_array"/>
     </LinearLayout>
 
     <Button
         android:id="@+id/join_btn_join"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/join" />
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="36dp"
+        android:layout_below="@id/join_input_container"
+        android:background="@drawable/login_button_background"
+        android:text="@string/join"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/join_btn_cancel"
-        android:layout_width="89dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="@string/back" />
-</LinearLayout>
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="48dp"
+        android:layout_marginTop="16dp"
+        android:layout_below="@id/join_btn_join"
+        android:background="@drawable/login_button_background"
+        android:text="@string/back"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold" />
+
+    <TextView
+        android:text="@string/Globe"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</RelativeLayout>

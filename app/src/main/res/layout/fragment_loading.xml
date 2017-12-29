@@ -18,4 +18,14 @@
         android:gravity="center"
         android:textSize="20sp"
         android:text="잠시만 기다려주세요..." />
+
+    <TextView
+        android:text="@string/Globe"
+        android:textSize="12sp"
+        android:textColor="@color/gray"
+        android:textAlignment="center"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 </RelativeLayout>

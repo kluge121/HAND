@@ -8,8 +8,8 @@
     <string name="main_event">이벤트</string>
     <string name="main_setting">설정</string>
 
-    <string name="email">이메일 입력</string>
-    <string name="password">비밀번호 입력</string>
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
     <string name="nickname">닉네임</string>
     <string name="join">회원가입</string>
     <string name="back">돌아가기</string>
@@ -28,10 +28,9 @@
     <string name="action_write_done">작성완료</string>
     <string name="dialog_back">돌아가기</string>
     <string name="dialog_cancel">취소</string>
-    <string name="gender">성별</string>
 
     <string-array name="gender_array">
-        <item>선택</item>
+        <item>성별</item>
         <item>남자</item>
         <item>여자</item>
     </string-array>
