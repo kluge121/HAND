@@ -22,10 +22,10 @@
 
     <string name="user_profile_name_format">%s님</string>
     <string name="user_profile_name_empty">환영합니다!</string>
-    <string name="write_title">제목</string>
-    <string name="write_content">내용을 입력해주세요...</string>
-    <string name="write_picture">사진 추가..</string>
-    <string name="action_write_done">작성완료</string>
+    <string name="map_post_title">제목</string>
+    <string name="map_post_content">내용을 입력해주세요...</string>
+    <string name="map_post_picture">사진 추가..</string>
+    <string name="action_post_done">작성완료</string>
     <string name="dialog_back">돌아가기</string>
     <string name="dialog_cancel">취소</string>
 
@@ -49,6 +49,7 @@
     <string name="Globe">Globe</string>
     <string name="action_search">찾기</string>
     <string name="action_close">닫기</string>
+    <string name="map_post_here">여기에 글쓰기</string>
 
 
 </resources>

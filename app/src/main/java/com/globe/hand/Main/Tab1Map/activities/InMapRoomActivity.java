@@ -1,20 +1,35 @@
 package com.globe.hand.Main.Tab1Map.activities;
 
+import android.content.Intent;
 import android.content.res.Configuration;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
 import com.globe.hand.Main.Tab1Map.activities.controllers.MapRoomController;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
+import com.globe.hand.models.MapPost;
+import com.globe.hand.models.MapRoom;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallback {
 
@@ -24,13 +39,14 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
     ActionBarDrawerToggle toggle;
     SupportMapFragment mapFragment;
 
+    MapRoom mapRoom;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
         setToolbar(R.id.map_toolbar, false);
-        setToolbarTitle("");
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
@@ -52,10 +68,50 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
     public void onMapReady(GoogleMap googleMap) {
         mapRoomController = new MapRoomController(mapFragment, googleMap);
 
+        // 마커 불러오는 부분
+        final FirebaseFirestore db = FirebaseFirestore.getInstance();
+        String mapRoomUid = getIntent().getStringExtra("map_room_uid");
+
+        DocumentReference currentMapRoom =
+                db.collection("map_room").document(mapRoomUid);
+        currentMapRoom.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isSuccessful()) {
+                    mapRoom = task.getResult().toObject(MapRoom.class);
+                    mapRoomController.setMapRoom(mapRoom.getUid());
+
+                    setToolbarTitle(mapRoom.getTitle());
+
+                    //TODO: 10개까지 받아오기
+                    db.collection("map_room").document(mapRoom.getUid())
+                            .collection("map_post").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            List<MapPost> postList = documentSnapshots.toObjects(MapPost.class);
+                            mapRoomController.initMapPostMarkers(postList);
+                        }
+                    });
+                }
+            }
+        });
+
         // 대전시청
+        //TODO: 마커들의 위치를 고려한 처음 카메라 위치 선정
         mapRoomController.initialize(new LatLng(36.35049163104827, 127.38484181463717));
     }
 
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if(requestCode == getResources().getInteger(R.integer.map_post_request_code)) {
+            if(resultCode == RESULT_OK) {
+//                LatLng latLng = getIntent().getParcelableExtra("latlng");
+//                mapRoomController.addMapPostMarker(latLng);
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

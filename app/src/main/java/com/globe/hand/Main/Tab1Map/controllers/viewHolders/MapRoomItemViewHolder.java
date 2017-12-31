@@ -43,7 +43,7 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, InMapRoomActivity.class);
-                intent.putExtra("map_room_id", model.getUid());
+                intent.putExtra("map_room_uid", model.getUid());
                 context.startActivity(intent);
             }
         });

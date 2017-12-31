@@ -1,33 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical">
 
-    <include
-        android:id="@+id/hand_info_window_loading"
-        android:visibility="gone"
-        layout="@layout/fragment_loading" />
+    <RelativeLayout
+        android:id="@+id/hand_info_window_any_select_container"
+        android:layout_width="196dp"
+        android:layout_height="wrap_content">
+        <TextView
+            android:text="@string/map_post_here"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </RelativeLayout>
 
     <RelativeLayout
-        android:id="@+id/hand_info_window_container"
+        android:id="@+id/hand_info_window_map_post_container"
+        android:visibility="gone"
         android:layout_width="196dp"
-        android:layout_height="96dp">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
             android:id="@+id/hand_info_window_place_container"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
             <ImageView
-                android:id="@+id/hand_info_window_photo"
+                android:id="@+id/hand_info_window_place_photo"
                 android:src="@drawable/hand_splash"
                 android:scaleType="centerCrop"
                 android:layout_width="196dp"
                 android:layout_height="48dp" />
             <TextView
-                android:id="@+id/hand_info_window_name"
+                android:id="@+id/hand_info_window_place_name"
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:maxLines="1"
@@ -35,12 +44,13 @@
                 android:text="adfasasdff"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
-        </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1dp"
-            android:background="@color/light_gray" />
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_alignParentBottom="true"
+                android:background="@color/light_gray" />
+        </RelativeLayout>
 
         <RelativeLayout
             android:layout_below="@id/hand_info_window_place_container"
@@ -53,17 +63,16 @@
                 android:layout_height="wrap_content"
                 android:maxLines="1"
                 android:text="타이틀"
-                android:textColor="@color/gray"
+                android:textColor="@android:color/black"
                 android:textSize="14sp" />
 
             <TextView
-                android:id="@+id/hand_info_window_desc"
+                android:id="@+id/hand_info_window_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/hand_info_window_title"
                 android:maxLines="1"
-                android:text="설명설명설명설명설명"
-                android:textColor="@color/little_gray"
+                android:textColor="@color/gray"
                 android:textSize="12sp" />
 
             <ImageView
@@ -75,4 +84,4 @@
 
         </RelativeLayout>
     </RelativeLayout>
-</LinearLayout>
+</FrameLayout>

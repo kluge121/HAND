@@ -55,6 +55,7 @@ public class MainMapRoomFragment extends Fragment {
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+        //TODO: 10개까지 받아오기
         db.collection("map_room").document(user.getUid())
             .collection("joined_map_rooms").addSnapshotListener(new EventListener<QuerySnapshot>() {
             @Override

@@ -51,6 +51,7 @@
         </activity>
         <!-- 카카오 -->
 
+
         <!-- meta-data 모음 -->
 
         <activity
@@ -64,14 +65,12 @@
         </activity>
         <activity android:name=".Login.LoginActivity" />
         <activity android:name=".Main.MainActivity" />
-
         <activity android:name=".Main.Tab1Map.activities.InMapRoomActivity" />
-        <activity android:name=".Main.Tab1Map.activities.WriteActivity" />
-
+        <activity android:name=".Main.Tab1Map.activities.MapPostActivity" />
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />
-
         <activity android:name=".FriendSearch.FriendSearchActivity" />
+        <activity android:name=".Main.Tab1Map.activities.ShowMapPostActivity"></activity>
     </application>
 
 </manifest>

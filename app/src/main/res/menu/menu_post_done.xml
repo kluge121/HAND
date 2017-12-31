@@ -2,8 +2,8 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
-        android:id="@+id/action_write_done"
-        android:title="@string/action_write_done"
+        android:id="@+id/action_post_done"
+        android:title="@string/action_post_done"
         android:icon="@drawable/plus_image"
         app:showAsAction="always" />
 
