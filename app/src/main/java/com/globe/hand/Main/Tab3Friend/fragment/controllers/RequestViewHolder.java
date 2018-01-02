@@ -11,9 +11,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.globe.hand.Main.Tab3Friend.fragment.FriendList;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.models.User;
+import com.globe.hand.temp.AdapterTempStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -48,6 +50,7 @@ public class RequestViewHolder extends BaseViewHolder<User> {
     private DocumentReference addFriendRes;
     private DocumentReference addFriendReq;
 
+
     Handler handler;
 
 
@@ -64,11 +67,12 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         loginUser = FirebaseAuth.getInstance().getCurrentUser();
         handler = new Handler(Looper.getMainLooper());
 
-
     }
 
+
     @Override
-    protected void bindView(final Context context, User model, final int position) {
+    public void bindView(final Context context, User model, final int position) {
+
 
         friendRefSetting(model);
         requestUser = model;
@@ -77,9 +81,11 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         btnAccept.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 new Thread(new AcceptRunnable()).start();
             }
         });
+
 
         btnReject.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,6 +146,7 @@ public class RequestViewHolder extends BaseViewHolder<User> {
     private void acceptRequest() {
         WriteBatch batch = db.batch();
 
+
         batch.set(addFriendRes, makeLoginUserInstance());
         batch.set(addFriendReq, requestUser);
 
@@ -150,6 +157,8 @@ public class RequestViewHolder extends BaseViewHolder<User> {
             @Override
             public void onSuccess(Void aVoid) {
                 handler.post(new ListUpdateAction());
+                addFriend(AdapterTempStorage.getAdapter(), requestUser);
+
             }
         });
 
@@ -168,6 +177,11 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         return meUser;
     }
 
+    public void addFriend(FriendAdapter adapter, User model) {
+        adapter.getArrayList().add(model);
+        adapter.notifyDataSetChanged();
+
+    }
 
     class AcceptRunnable implements Runnable {
         @Override

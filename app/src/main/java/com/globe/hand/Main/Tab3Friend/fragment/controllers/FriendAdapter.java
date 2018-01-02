@@ -20,6 +20,16 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
 
     private Context context;
     private ArrayList<User> arrayList = new ArrayList<>();
+    OnAddFriendListCallback onAddFriendListCallback;
+
+
+    public ArrayList<User> getArrayList() {
+        return arrayList;
+    }
+
+    public FriendAdapter(OnAddFriendListCallback onAddFriendListCallback) {
+        this.onAddFriendListCallback = onAddFriendListCallback;
+    }
 
     public void setArrayList(ArrayList<User> arrayList) {
         this.arrayList = arrayList;
@@ -29,10 +39,15 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
         this.context = context;
     }
 
+    public Context getContext() {
+        return context;
+    }
 
     @Override
     public FriendViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new FriendViewHolder(parent, R.layout.recycler_item_friend);
+
+
+        return new FriendViewHolder(parent, R.layout.recycler_item_friend, this);
     }
 
     @Override
@@ -43,6 +58,18 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
 
     @Override
     public int getItemCount() {
+//        return 10;
         return arrayList.size();
     }
+
+    public void remove(int position) {
+        arrayList.remove(position);
+        notifyDataSetChanged();
+    }
+
+    public interface OnAddFriendListCallback {
+        void addFriend(User model);
+    }
+
+
 }

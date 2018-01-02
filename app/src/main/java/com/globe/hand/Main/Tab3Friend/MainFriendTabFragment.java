@@ -2,6 +2,7 @@ package com.globe.hand.Main.Tab3Friend;
 
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.FloatingActionButton;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.globe.hand.FriendSearch.FriendSearchActivity;
 import com.globe.hand.Main.Tab3Friend.fragment.FriendList;
@@ -19,9 +21,8 @@ import com.globe.hand.R;
 
 public class MainFriendTabFragment extends Fragment {
 
-    Button btnFriendList;
-    Button btnRequestList;
-    FloatingActionButton fab;
+    ImageButton btnFriendList;
+    ImageButton btnRequestList;
     int fragmentFlage;
     final int FRIEND_FRAGMENT = 0;
     final int REQUEST_FRAGMENT = 1;
@@ -37,13 +38,13 @@ public class MainFriendTabFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
 
-            View v = inflater.inflate(R.layout.fragment_main_friend_tab, container, false);
-            btnFriendList = v.findViewById(R.id.friend_fragment_friend_btn);
-            btnRequestList = v.findViewById(R.id.friend_fragment_request_btn);
-            fab = v.findViewById(R.id.friend_fragment_fab);
+        View v = inflater.inflate(R.layout.fragment_main_friend_tab, container, false);
+        btnFriendList = v.findViewById(R.id.friend_fragment_friend_btn);
+        btnRequestList = v.findViewById(R.id.friend_fragment_request_btn);
 
 
-            btnFriendList.setOnClickListener(new View.OnClickListener() {
+
+        btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 changeFriendFragment();
@@ -54,14 +55,6 @@ public class MainFriendTabFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 changeRequestFragment();
-            }
-        });
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getContext(), FriendSearchActivity.class);
-                getContext().startActivity(intent);
             }
         });
 

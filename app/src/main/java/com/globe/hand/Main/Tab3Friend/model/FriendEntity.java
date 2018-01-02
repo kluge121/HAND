@@ -8,26 +8,19 @@ public class FriendEntity {
 
 
     private String imagePath;
-    private String count;
-    private String text;
-
-
-    public FriendEntity(String imagePath, String count, String text) {
-        this.imagePath = imagePath;
-        this.count = count;
-        this.text = text;
-    }
+    private String email;
+    private String name;
 
     public void setImagePath(String imagePath) {
         this.imagePath = imagePath;
     }
 
-    public void setCount(String count) {
-        this.count = count;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public void setText(String text) {
-        this.text = text;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getImagePath() {
@@ -35,11 +28,11 @@ public class FriendEntity {
         return imagePath;
     }
 
-    public String getCount() {
-        return count;
+    public String getEmail() {
+        return email;
     }
 
-    public String getText() {
-        return text;
+    public String getName() {
+        return name;
     }
 }

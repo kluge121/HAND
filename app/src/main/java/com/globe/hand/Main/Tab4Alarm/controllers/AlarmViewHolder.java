@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.globe.hand.Main.Tab4Alarm.models.AlarmEntity;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
@@ -32,7 +33,13 @@ public class AlarmViewHolder extends BaseViewHolder<AlarmEntity>{
     }
 
     @Override
-    protected void bindView(Context context, AlarmEntity model, int position) {
+    public void bindView(Context context, AlarmEntity model, int position) {
+
+        if (model.getProfile_url()!=null)
+            Glide.with(context).load(model.getProfile_url()).into(profile);
+
+        name.setText(model.getName());
+        content.setText(model.getCotent());
 
 
     }

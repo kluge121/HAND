@@ -23,6 +23,38 @@
     </style>
 
 
+    <style name="myActionButtonStyle" parent="Widget.AppCompat.ActionButton">
+        <item name="android:minWidth">24dp</item>
+        <item name="android:maxWidth">40dp</item>
+        <item name="android:width">40dp</item>
+    </style>
+
+
+    <style name="Theme.MyTheme" parent="Theme.AppCompat">
+
+        <item name="searchViewStyle">@style/MysearchViewStyle</item>
+    </style>
+
+    <style name="MysearchViewStyle" parent="Widget.AppCompat.SearchView">
+        <!--&lt;!&ndash; Background for the search query section (e.g. EditText) &ndash;&gt;-->
+        <item name="queryBackground">@color/gray</item>
+        <!--&lt;!&ndash; Background for the actions section (e.g. voice, submit) &ndash;&gt;-->
+        <!--<item name="submitBackground">...</item>-->
+        <!--&lt;!&ndash; Close button icon &ndash;&gt;-->
+        <!--<item name="closeIcon">...</item>-->
+        <!--&lt;!&ndash; Search button icon &ndash;&gt;-->
+        <item name="searchIcon">@drawable/search_non_click_icon</item>
+        <!--&lt;!&ndash; Go/commit button icon &ndash;&gt;-->
+        <!--<item name="goIcon">...</item>-->
+        <!--&lt;!&ndash; Voice search button icon &ndash;&gt;-->
+        <!--<item name="voiceIcon">...</item>-->
+        <!--&lt;!&ndash; Commit icon shown in the query suggestion row &ndash;&gt;-->
+        <item name="commitIcon">@drawable/search_panel</item>
+        <!--&lt;!&ndash; Layout for query suggestion rows &ndash;&gt;-->
+        <!--<item name="suggestionRowLayout"></item>-->
+
+
+    </style>
 
 
 </resources>

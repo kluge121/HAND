@@ -1,33 +1,77 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.globe.hand.Main.Tab3Friend.fragment.FriendList">
 
-
-    <android.support.v7.widget.SearchView
-        android:id="@+id/friend_search_view"
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/friend_fragment_layout"
         android:layout_width="match_parent"
-        android:layout_height="70dp">
+        android:layout_height="wrap_content">
 
-    </android.support.v7.widget.SearchView>
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/my_user_profile"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/dangdange"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.085"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
+
+        <TextView
+            android:id="@+id/my_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="댕댕이"
+            android:textSize="12sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.063"
+            app:layout_constraintStart_toEndOf="@+id/my_user_profile"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.23" />
+
+        <TextView
+            android:id="@+id/my_user_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="alstn224@naver.com"
+            android:textSize="11sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.085"
+            app:layout_constraintStart_toEndOf="@+id/my_user_profile"
+            app:layout_constraintTop_toBottomOf="@+id/my_user_name"
+            app:layout_constraintVertical_bias="0.0" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:id="@+id/friend_list_fragment_line1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/friend_fragment_layout"
+        android:src="@drawable/gray_line" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/friend_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/friend_search_view">
+        android:layout_below="@+id/friend_list_fragment_line1"
+        android:layout_marginTop="20dp">
 
     </android.support.v7.widget.RecyclerView>
 
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/friend_fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginEnd="10dp" />
+
 
 
 </RelativeLayout>

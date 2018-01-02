@@ -1,7 +1,5 @@
 package com.globe.hand.Main.Tab3Friend.fragment;
 
-import android.content.Context;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -54,14 +52,14 @@ public class RequestList extends Fragment {
         db = FirebaseFirestore.getInstance();
         loginUser = FirebaseAuth.getInstance().getCurrentUser();
 
-        new AyncGetResponseList().execute();
+        new AsyncGetResponseList().execute();
 
 
 
         return v;
     }
 
-    private class AyncGetResponseList extends AsyncTask<String, Void, Void> {
+    private class AsyncGetResponseList extends AsyncTask<String, Void, Void> {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();

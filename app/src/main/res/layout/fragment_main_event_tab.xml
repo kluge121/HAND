@@ -1,13 +1,48 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:orientation="vertical"
     tools:context="com.globe.hand.Main.Tab2Event.MainEventTabFragment">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/event_tab_recyclerview"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
-    </android.support.v7.widget.RecyclerView>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1">
 
-</RelativeLayout>
+        <ImageButton
+            android:id="@+id/evnet_fragment_eventing_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:background="@color/trans"
+            android:src="@drawable/event_btn"
+            android:text="진행중인 이벤트" />
+
+        <ImageButton
+            android:id="@+id/evnet_fragment_my_event_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_centerVertical="true"
+            android:layout_marginEnd="10dp"
+            android:background="@color/trans"
+            android:src="@drawable/my_event_btn"
+            android:text="내 이벤트 함" />
+
+
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/evnet_fragment_container"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5">
+
+    </RelativeLayout>
+
+
+</LinearLayout>

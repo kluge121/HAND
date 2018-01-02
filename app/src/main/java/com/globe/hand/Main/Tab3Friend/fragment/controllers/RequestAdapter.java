@@ -16,7 +16,7 @@ import java.util.ArrayList;
  * Created by baeminsu on 2017. 12. 26..
  */
 
-public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
+public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder>{
 
     private Context context;
     private ArrayList<User> arrayList = new ArrayList<>();
@@ -48,6 +48,12 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
         arrayList.remove(position);
         notifyDataSetChanged();
     }
+
+    public void addItem(User addUser){
+        arrayList.add(addUser);
+        notifyDataSetChanged();
+    }
+
 
 
 }

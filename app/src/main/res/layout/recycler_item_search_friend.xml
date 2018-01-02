@@ -7,7 +7,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/tab3_item_profile"
+        android:id="@+id/search_friend_item_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
         android:src="@drawable/dangdange"
@@ -19,7 +19,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <TextView
-        android:id="@+id/tab3_item_name"
+        android:id="@+id/search_friend_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="댕댕이"
@@ -28,12 +28,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.063"
-        app:layout_constraintStart_toEndOf="@+id/tab3_item_profile"
+        app:layout_constraintStart_toEndOf="@+id/search_friend_item_profile"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.23" />
 
     <TextView
-        android:id="@+id/tab3_item_email"
+        android:id="@+id/search_friend_item_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="alstn224@naver.com"
@@ -41,17 +41,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
-        app:layout_constraintStart_toEndOf="@+id/tab3_item_profile"
-        app:layout_constraintTop_toBottomOf="@+id/tab3_item_name"
+        app:layout_constraintStart_toEndOf="@+id/search_friend_item_profile"
+        app:layout_constraintTop_toBottomOf="@+id/search_friend_item_name"
         app:layout_constraintVertical_bias="0.0" />
 
     <ImageButton
-        android:id="@+id/tab3_item_button"
+        android:id="@+id/search_friend_item_button"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:background="@color/trans"
         android:scaleType="fitXY"
-        android:src="@drawable/friend_x"
+        android:src="@drawable/plus_image"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.959"

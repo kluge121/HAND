@@ -19,7 +19,7 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
 
     private final ArrayList<Fragment> mainListFragments = new ArrayList<Fragment>();
 
-    private String tabTitle[] = new String[]{"지도", "이벤트", "친구", "알람"};
+    private String tabTitle[] = new String[]{"지도", "친구", "이벤트", "알람"};
 
     public MainTabPagerAdapter(FragmentManager fm) {
         super(fm);
