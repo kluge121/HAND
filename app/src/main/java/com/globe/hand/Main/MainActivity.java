@@ -61,8 +61,8 @@ public class MainActivity extends BaseActivity {
         tabLayout = findViewById(R.id.main_tab);
         tabLayout.setupWithViewPager(viewPager);
         tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
-        tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_event);
-        tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_friend);
+        tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
+        tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
         tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -102,8 +102,8 @@ public class MainActivity extends BaseActivity {
                 new MainTabPagerAdapter(getSupportFragmentManager());
 
         mainTabPagerAdapter.addFragment(MainMapRoomFragment.newInstance());
-        mainTabPagerAdapter.addFragment(MainEventTabFragment.newInstance());
         mainTabPagerAdapter.addFragment(MainFriendTabFragment.newInstance());
+        mainTabPagerAdapter.addFragment(MainEventTabFragment.newInstance());
         mainTabPagerAdapter.addFragment(MainAlarmTabFragment.newInstance());
         viewPager.setAdapter(mainTabPagerAdapter);
     }

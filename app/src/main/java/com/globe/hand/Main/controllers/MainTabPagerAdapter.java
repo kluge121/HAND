@@ -45,11 +45,11 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
         mainListFragments.add(fragment1);
     }
 
-    public void addFragment(MainEventTabFragment fragment2) {
+    public void addFragment(MainFriendTabFragment fragment2) {
         mainListFragments.add(fragment2);
     }
 
-    public void addFragment(MainFriendTabFragment fragment3) {
+    public void addFragment(MainEventTabFragment fragment3) {
         mainListFragments.add(fragment3);
     }
 
