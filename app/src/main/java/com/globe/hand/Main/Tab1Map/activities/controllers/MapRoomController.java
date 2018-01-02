@@ -1,5 +1,6 @@
 package com.globe.hand.Main.Tab1Map.activities.controllers;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.support.v4.app.Fragment;
 
@@ -24,7 +25,7 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         GoogleMap.OnInfoWindowClickListener,
         GoogleMap.OnMarkerClickListener {
 
-    private Fragment fragment;
+    private Activity activity;
     private GoogleMap map;
     private HandInfoWindowAdapter handInfoWindowAdapter;
 
@@ -33,8 +34,8 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
 
     private String mapRoomUid;
 
-    public MapRoomController(Fragment fragment, GoogleMap map) {
-        this.fragment = fragment;
+    public MapRoomController(Activity activity, GoogleMap map) {
+        this.activity = activity;
         this.map = map;
     }
 
@@ -48,16 +49,13 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
 
     @Override
     public void onMapClick(LatLng latLng) {
-        markerFactory = MapRoomMarkerFactory.newInstance(latLng);
-
-        changeCurrentMarker();
+        changeCurrentMarker(latLng);
     }
 
     @Override
     public boolean onMarkerClick(Marker marker) {
-        if(currentMarker != null) {
-            currentMarker.remove();
-        }
+        removeCurrentMarker();
+
         marker.showInfoWindow();
         map.animateCamera(CameraUpdateFactory.newLatLng(marker.getPosition()));
         return true;
@@ -67,27 +65,24 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         this.mapRoomUid = mapRoomUid;
 
         handInfoWindowAdapter = new HandInfoWindowAdapter(
-                fragment.getContext(), mapRoomUid);
+                activity, mapRoomUid);
         map.setInfoWindowAdapter(handInfoWindowAdapter);
     }
 
-    public void addMapPostMarker(LatLng latLng) {
-//        newMapPostMarker(latLng);
+    public void addAnySelectMapPostMarker(LatLng latLng) {
+        changeCurrentMarker(latLng);
     }
 
-    public void newMapPostMarker(MapPost post) {
-        LatLng latLng = new LatLng(post.getGeoPoint().getLatitude(),
-                post.getGeoPoint().getLongitude());
+    public Marker newMapPostMarker(LatLng latLng, String title, String content) {
         MapRoomMarkerFactory mapPostMarkerFactory =
                 MapRoomMarkerFactory.newInstance(latLng);
-        map.addMarker(mapPostMarkerFactory.newMapPostMarkerOptions(
-                post.getTitle(), post.getContent()));
+        return map.addMarker(mapPostMarkerFactory.newMapPostMarkerOptions(title, content));
     }
 
-    private void changeCurrentMarker() {
-        if(currentMarker != null) {
-            currentMarker.remove();
-        }
+    private void changeCurrentMarker(LatLng latLng) {
+        removeCurrentMarker();
+
+        markerFactory = MapRoomMarkerFactory.newInstance(latLng);
         currentMarker = map.addMarker(markerFactory.newAnySelectMarkerOptions());
         currentMarker.showInfoWindow();
         map.animateCamera(CameraUpdateFactory.newLatLng(currentMarker.getPosition()));
@@ -96,24 +91,34 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
     @Override
     public void onInfoWindowClick(Marker marker) {
         if(marker.getTitle().equals("여기에 글쓰기")) {
-            Intent mapPostIntent = new Intent(fragment.getContext(), MapPostActivity.class);
+//            removeCurrentMarker();
+            Intent mapPostIntent = new Intent(activity, MapPostActivity.class);
             mapPostIntent.putExtra("map_room_latLng", marker.getPosition());
             mapPostIntent.putExtra("map_room_uid", mapRoomUid);
-            fragment.startActivityForResult(mapPostIntent,
-                    fragment.getResources().getInteger(R.integer.map_post_request_code));
+            activity.startActivityForResult(mapPostIntent,
+                    activity.getResources().getInteger(R.integer.map_post_request_code));
         } else {
             //TODO: 글쓴거 보여주기
-            Intent mapPostIntent = new Intent(fragment.getContext(), ShowMapPostActivity.class);
+            Intent mapPostIntent = new Intent(activity, ShowMapPostActivity.class);
             mapPostIntent.putExtra("map_room_latLng", marker.getPosition());
             mapPostIntent.putExtra("map_room_uid", mapRoomUid);
-            fragment.startActivityForResult(mapPostIntent,
-                    fragment.getResources().getInteger(R.integer.map_show_request_code));
+            activity.startActivityForResult(mapPostIntent,
+                    activity.getResources().getInteger(R.integer.map_show_request_code));
         }
     }
 
     public void initMapPostMarkers(List<MapPost> postList) {
         for(MapPost post: postList) {
-            newMapPostMarker(post);
+            LatLng latLng = new LatLng(post.getGeoPoint().getLatitude(),
+                    post.getGeoPoint().getLongitude());
+            newMapPostMarker(latLng, post.getTitle(), post.getContent());
         }
+    }
+
+    public void removeCurrentMarker() {
+        if(currentMarker != null) {
+            currentMarker.remove();
+        }
+
     }
 }

@@ -1,6 +1,6 @@
 package com.globe.hand.models;
 
-import java.util.List;
+import java.util.Date;
 
 /**
  * Created by ssangwoo on 2017-12-20.
@@ -8,9 +8,10 @@ import java.util.List;
 
 public class MapRoom {
     private String uid;
-    private String PicturePath;
+    private String picturePath;
     private String title;
     private String desc;
+    private Date joinDate = new Date();
 
     public MapRoom() {}
 
@@ -28,7 +29,7 @@ public class MapRoom {
     public MapRoom(String uid, String picturePath,
                    String title, String desc) {
         this.uid = uid;
-        this.PicturePath = picturePath;
+        this.picturePath = picturePath;
         this.title = title;
         this.desc = desc;
     }
@@ -42,11 +43,11 @@ public class MapRoom {
     }
 
     public String getPicturePath() {
-        return PicturePath;
+        return picturePath;
     }
 
     public void setPicturePath(String picturePath) {
-        PicturePath = picturePath;
+        this.picturePath = picturePath;
     }
 
     public String getTitle() {
@@ -63,5 +64,13 @@ public class MapRoom {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+
+    public Date getJoinDate() {
+        return joinDate;
+    }
+
+    public void setJoinDate(Date joinDate) {
+        this.joinDate = joinDate;
     }
 }

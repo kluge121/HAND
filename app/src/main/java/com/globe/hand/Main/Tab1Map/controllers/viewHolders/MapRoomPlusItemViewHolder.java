@@ -18,6 +18,7 @@ import com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.R;
 import com.globe.hand.enums.MapRoomPermission;
+import com.globe.hand.models.JoinedMapRooms;
 import com.globe.hand.models.MapRoom;
 import com.globe.hand.models.MapRoomMember;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -103,7 +104,7 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
                                                                 // 자신의 맵룸 리스트에 추가
                                                                 db.collection("map_room").document(firebaseUser.getUid())
                                                                         .collection("joined_map_rooms").document(newMapRoomUid)
-                                                                        .set(Collections.singletonMap("mapRoomReference", newMapRoomRef));
+                                                                        .set(new JoinedMapRooms(newMapRoomRef));
                                                             }
                                                         }
                                                     });

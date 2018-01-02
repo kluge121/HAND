@@ -8,6 +8,7 @@ import android.preference.PreferenceFragment;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import com.globe.hand.Main.fragments.FirebaseUserProfileFragment;
 import com.globe.hand.common.BaseActivity;
@@ -113,35 +114,38 @@ public class SettingActivity extends BaseActivity {
                                                                 .delete();
                                                         db.collection("user").document(user.getUid())
                                                                 .delete();
-                                                        if (task.isSuccessful()) {
-                                                            if (Session.getCurrentSession().checkAndImplicitOpen()) {
-                                                                UserManagement.requestUnlink(new UnLinkResponseCallback() {
-                                                                    @Override
-                                                                    public void onFailure(ErrorResult errorResult) {
-                                                                        Logger.e(errorResult.toString());
-                                                                    }
+                                                        if (Session.getCurrentSession().checkAndImplicitOpen()) {
+                                                            UserManagement.requestUnlink(new UnLinkResponseCallback() {
+                                                                @Override
+                                                                public void onFailure(ErrorResult errorResult) {
+                                                                    Logger.e(errorResult.toString());
+                                                                }
 
-                                                                    @Override
-                                                                    public void onSessionClosed(ErrorResult errorResult) {
-                                                                        ((SettingActivity) getActivity())
-                                                                                .redirectLoginActivity(getActivity(),
-                                                                                        errorResult.toString());
-                                                                    }
+                                                                @Override
+                                                                public void onSessionClosed(ErrorResult errorResult) {
+                                                                    ((SettingActivity) getActivity())
+                                                                            .redirectLoginActivity(getActivity(),
+                                                                                    errorResult.toString());
+                                                                }
 
-                                                                    @Override
-                                                                    public void onNotSignedUp() {
-                                                                        // ((SettingActivity) getActivity()).redirectMainActivity();
-                                                                    }
+                                                                @Override
+                                                                public void onNotSignedUp() {
+                                                                    // ((SettingActivity) getActivity()).redirectMainActivity();
+                                                                }
 
-                                                                    @Override
-                                                                    public void onSuccess(Long userId) {
-                                                                        ((SettingActivity) getActivity()).redirectLoginActivity();
-                                                                    }
-                                                                });
-                                                            } else {
-                                                                ((SettingActivity) getActivity()).redirectLoginActivity();
-                                                            }
+                                                                @Override
+                                                                public void onSuccess(Long userId) {
+                                                                    ((SettingActivity) getActivity()).redirectLoginActivity();
+                                                                }
+                                                            });
+                                                        } else {
+                                                            ((SettingActivity) getActivity()).redirectLoginActivity();
                                                         }
+//                                                        if (task.isSuccessful()) {
+//
+//                                                        } else {
+//                                                            Log.e("kakao_sign_out", "exception:", task.getException());
+//                                                        }
                                                     }
                                                 });
                                             }

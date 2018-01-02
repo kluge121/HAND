@@ -50,6 +50,7 @@
     <string name="action_search">찾기</string>
     <string name="action_close">닫기</string>
     <string name="map_post_here">여기에 글쓰기</string>
+    <string name="dialog_delete">삭제하기</string>
 
 
 </resources>

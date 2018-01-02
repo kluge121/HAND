@@ -58,12 +58,13 @@ public class MapPostActivity extends BaseActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_post_done) {
+            String title = editTitle.getText().toString();
+            String content = editContent.getText().toString();
             FirebaseFirestore.getInstance()
                     .collection("map_room").document(mapRoomUid)
                     .collection("map_post").add(new MapPost(
                         new GeoPoint(mapLatLng.latitude, mapLatLng.longitude),
-                        editTitle.getText().toString(),
-                        editContent.getText().toString()))
+                        title, content))
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -72,11 +73,12 @@ public class MapPostActivity extends BaseActivity {
                             }
                         }
                     });
-            setResult(RESULT_OK);
-            Intent inMapRoomIntent = new Intent(this, InMapRoomActivity.class);
-            inMapRoomIntent.putExtra("map_room_uid", mapRoomUid);
+            Intent inMapRoomIntent = new Intent();
+            inMapRoomIntent.putExtra("title", title);
+            inMapRoomIntent.putExtra("content", content);
             inMapRoomIntent.putExtra("latlng", mapLatLng);
-            startActivity(inMapRoomIntent);
+            setResult(RESULT_OK, inMapRoomIntent);
+            finish();
         }
         return super.onOptionsItemSelected(item);
     }

@@ -16,6 +16,7 @@ import com.globe.hand.R;
 import com.globe.hand.common.RetrofitHelper;
 import com.globe.hand.enums.MapRoomPermission;
 import com.globe.hand.models.FirebaseAuthToken;
+import com.globe.hand.models.JoinedMapRooms;
 import com.globe.hand.models.MapRoom;
 import com.globe.hand.models.MapRoomMember;
 import com.google.android.gms.tasks.Continuation;
@@ -281,7 +282,7 @@ public class LoginActivity extends BaseActivity
                             // 참여한 맵룸 목록 추가
                             db.collection("map_room").document(firebaseUser.getUid())
                                     .collection("joined_map_rooms").document(firebaseUser.getUid())
-                                    .set(Collections.singletonMap("mapRoomReference", myMapRoomRef));
+                                    .set(new JoinedMapRooms(myMapRoomRef));
                         }
                     }
                 });

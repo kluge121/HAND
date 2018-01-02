@@ -20,7 +20,6 @@
         android:layout_height="match_parent" />
 
     <TextView
-        android:text="타이틀"
         android:textColor="@android:color/white"
         android:textSize="40sp"
         android:textAlignment="textStart"
@@ -35,7 +34,6 @@
     <TextView
         android:id="@+id/text_map_room_desc"
         android:gravity="center"
-        android:text="설명12345"
         android:textAlignment="textStart"
         android:textColor="@color/little_gray"
         android:textSize="20sp"

@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.DrawerLayout;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -27,19 +26,22 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
+import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
 public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallback {
 
-    MapRoomController mapRoomController;
+    private MapRoomController mapRoomController;
+    private ListenerRegistration registration;
 
-    DrawerLayout drawerLayout;
-    ActionBarDrawerToggle toggle;
-    SupportMapFragment mapFragment;
+    private DrawerLayout drawerLayout;
+    private ActionBarDrawerToggle toggle;
+    private SupportMapFragment mapFragment;
 
-    MapRoom mapRoom;
+    private MapRoom mapRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,7 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapRoomController = new MapRoomController(mapFragment, googleMap);
+        mapRoomController = new MapRoomController(InMapRoomActivity.this, googleMap);
 
         // 마커 불러오는 부분
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -77,21 +79,22 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         currentMapRoom.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     mapRoom = task.getResult().toObject(MapRoom.class);
                     mapRoomController.setMapRoom(mapRoom.getUid());
 
                     setToolbarTitle(mapRoom.getTitle());
 
-                    //TODO: 10개까지 받아오기
-                    db.collection("map_room").document(mapRoom.getUid())
-                            .collection("map_post").addSnapshotListener(new EventListener<QuerySnapshot>() {
-                        @Override
-                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                            List<MapPost> postList = documentSnapshots.toObjects(MapPost.class);
-                            mapRoomController.initMapPostMarkers(postList);
-                        }
-                    });
+                    //TODO: 바운드에 맞게 마커 로딩하기
+                    registration = db.collection("map_room").document(mapRoom.getUid())
+                            .collection("map_post").addSnapshotListener(
+                                    new EventListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                                            List<MapPost> postList = documentSnapshots.toObjects(MapPost.class);
+                                            mapRoomController.initMapPostMarkers(postList);
+                                        }
+                                    });
                 }
             }
         });
@@ -101,13 +104,14 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         mapRoomController.initialize(new LatLng(36.35049163104827, 127.38484181463717));
     }
 
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if(requestCode == getResources().getInteger(R.integer.map_post_request_code)) {
-            if(resultCode == RESULT_OK) {
-//                LatLng latLng = getIntent().getParcelableExtra("latlng");
-//                mapRoomController.addMapPostMarker(latLng);
+        if (requestCode == getResources().getInteger(R.integer.map_post_request_code)) {
+            if (resultCode == RESULT_OK) {
+                String title = data.getStringExtra("title");
+                String content = data.getStringExtra("content");
+                LatLng latLng = data.getParcelableExtra("latlng");
+                mapRoomController.newMapPostMarker(latLng, title, content).showInfoWindow();
             }
         }
         super.onActivityResult(requestCode, resultCode, data);
@@ -140,6 +144,14 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
             return true;
         } else {
             return super.onOptionsItemSelected(item);
+        }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(registration != null) {
+            registration.remove();
         }
     }
 }
