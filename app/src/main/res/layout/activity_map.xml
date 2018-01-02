@@ -5,7 +5,6 @@
     android:id="@+id/map_drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context="com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity">
 
     <LinearLayout
@@ -25,6 +24,5 @@
 
     <include
         android:id="@+id/map_drawer_content"
-        android:fitsSystemWindows="true"
         layout="@layout/layout_friend_drawer" />
 </android.support.v4.widget.DrawerLayout>

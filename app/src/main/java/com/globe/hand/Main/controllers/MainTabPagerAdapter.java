@@ -27,9 +27,9 @@ public class MainTabPagerAdapter extends FragmentStatePagerAdapter {
 
     @Override
     public CharSequence getPageTitle(int position) {
-        return tabTitle[position];
+        return null;
+//        return tabTitle[position];
     }
-
 
     @Override
     public Fragment getItem(int position) {

@@ -11,6 +11,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.globe.hand.Main.Tab1Map.activities.controllers.MapRoomController;
+import com.globe.hand.Main.Tab1Map.activities.fragments.ShowMapPostViewPagerFragment;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.R;
 import com.globe.hand.models.MapPost;
@@ -19,6 +20,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
@@ -30,6 +32,7 @@ import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallback {
@@ -82,6 +85,17 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                 if (task.isSuccessful()) {
                     mapRoom = task.getResult().toObject(MapRoom.class);
                     mapRoomController.setMapRoom(mapRoom.getUid());
+                    mapRoomController.setOnMapPostMarkerClickListener(new MapRoomController.
+                            OnMapPostMarkerClickListener() {
+                        @Override
+                        public void onMapPostMarkerClick() {
+                            getSupportFragmentManager().beginTransaction()
+                                    .replace(R.id.map_container,
+                                            ShowMapPostViewPagerFragment.newInstance(mapRoom.getUid()))
+                                    .addToBackStack(null)
+                                    .commit();
+                        }
+                    });
 
                     setToolbarTitle(mapRoom.getTitle());
 

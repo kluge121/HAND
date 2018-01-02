@@ -70,7 +70,6 @@
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />
         <activity android:name=".FriendSearch.FriendSearchActivity" />
-        <activity android:name=".Main.Tab1Map.activities.ShowMapPostActivity"></activity>
     </application>
 
 </manifest>

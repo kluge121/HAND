@@ -328,6 +328,8 @@ public class LoginActivity extends BaseActivity
                                 Toast.makeText(getApplicationContext(),
                                         "파이어 베이스 문제 : 로그인 실패", Toast.LENGTH_SHORT)
                                         .show();
+                                Log.e("카톡로그인실패", task.getException().getMessage(),
+                                        task.getException());
                                 replaceFragment(HandLoginFragment.newInstance());
                             }
                         }

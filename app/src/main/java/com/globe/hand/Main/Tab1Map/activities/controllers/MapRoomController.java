@@ -2,14 +2,11 @@ package com.globe.hand.Main.Tab1Map.activities.controllers;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.support.v4.app.Fragment;
 
 import com.globe.hand.Main.Tab1Map.activities.MapPostActivity;
-import com.globe.hand.Main.Tab1Map.activities.ShowMapPostActivity;
 import com.globe.hand.Main.Tab1Map.activities.controllers.adapters.HandInfoWindowAdapter;
 import com.globe.hand.R;
 import com.globe.hand.models.MapPost;
-import com.globe.hand.models.MapRoom;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
@@ -31,6 +28,7 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
 
     private Marker currentMarker;
     private MapRoomMarkerFactory markerFactory;
+    private OnMapPostMarkerClickListener listener;
 
     private String mapRoomUid;
 
@@ -99,11 +97,9 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
                     activity.getResources().getInteger(R.integer.map_post_request_code));
         } else {
             //TODO: 글쓴거 보여주기
-            Intent mapPostIntent = new Intent(activity, ShowMapPostActivity.class);
-            mapPostIntent.putExtra("map_room_latLng", marker.getPosition());
-            mapPostIntent.putExtra("map_room_uid", mapRoomUid);
-            activity.startActivityForResult(mapPostIntent,
-                    activity.getResources().getInteger(R.integer.map_show_request_code));
+            if(listener != null) {
+                listener.onMapPostMarkerClick();
+            }
         }
     }
 
@@ -119,6 +115,14 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         if(currentMarker != null) {
             currentMarker.remove();
         }
+    }
 
+
+    public void setOnMapPostMarkerClickListener(OnMapPostMarkerClickListener listener) {
+        this.listener = listener;
+    }
+
+    public interface OnMapPostMarkerClickListener {
+        void onMapPostMarkerClick();
     }
 }

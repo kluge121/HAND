@@ -29,12 +29,6 @@
     <string name="dialog_back">돌아가기</string>
     <string name="dialog_cancel">취소</string>
 
-    <string-array name="gender_array">
-        <item>성별</item>
-        <item>남자</item>
-        <item>여자</item>
-    </string-array>
-
     <string name="friend_add">친구요청</string>
     <string name="friend_cancel">요청취소</string>
     <string name="follow">팔로우</string>
@@ -51,6 +45,9 @@
     <string name="action_close">닫기</string>
     <string name="map_post_here">여기에 글쓰기</string>
     <string name="dialog_delete">삭제하기</string>
+    <string name="gender">성별</string>
+    <string name="gender_man">남자</string>
+    <string name="gender_woman">여자</string>
 
 
 </resources>

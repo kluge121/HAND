@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseActivity;
@@ -58,7 +59,7 @@ public class HandJoinFragment extends Fragment
     private EditText editEmail;
     private EditText editPass;
     private EditText editNickname;
-    private Spinner spinnerGender;
+    private ToggleButton toggleGender;
 
     private String userEmail;
     private String userNickname;
@@ -88,19 +89,16 @@ public class HandJoinFragment extends Fragment
         editEmail = view.findViewById(R.id.join_edit_email);
         editPass = view.findViewById(R.id.join_edit_pass);
         editNickname = view.findViewById(R.id.join_edit_nickname);
-        spinnerGender = view.findViewById(R.id.join_spinner_gender);
+        toggleGender = view.findViewById(R.id.join_toggle_gender);
+
+        ivProfile.setOnClickListener(this);
 
         editEmail.setText(userEmail);
         editNickname.setText(userNickname);
 
-        ArrayAdapter<CharSequence> genderAdapter = ArrayAdapter.createFromResource(
-                getContext(), R.array.gender_array, android.R.layout.simple_spinner_dropdown_item);
-        spinnerGender.setAdapter(genderAdapter);
-
         Button btnJoin = view.findViewById(R.id.join_btn_join);
         Button btnCancel = view.findViewById(R.id.join_btn_cancel);
 
-        ivProfile.setOnClickListener(this);
         btnJoin.setOnClickListener(this);
         btnCancel.setOnClickListener(this);
 
@@ -126,13 +124,15 @@ public class HandJoinFragment extends Fragment
                 doTakeAlbumAction();
                 break;
 
-
             case R.id.join_btn_join:
                 if(isVailedForm()) {
+                    String selectedGender = toggleGender.isSelected() ?
+                            toggleGender.getTextOn().toString():
+                            toggleGender.getTextOff().toString();
                     listener.processJoin(
                             editEmail.getText().toString(), editPass.getText().toString(),
                             editNickname.getText().toString(),
-                            spinnerGender.getSelectedItem().toString(),imgUpLoadPath);
+                            selectedGender, imgUpLoadPath);
                 }
                 break;
             case R.id.join_btn_cancel:
@@ -159,7 +159,6 @@ public class HandJoinFragment extends Fragment
         // 임시
         String email = editEmail.getText().toString();
         String pass = editPass.getText().toString();
-        String gender = spinnerGender.getSelectedItem().toString();
 
         if(email.trim().isEmpty()) {
             Toast.makeText(getContext(), "이메일을 적어주세요", Toast.LENGTH_SHORT).show();
@@ -171,10 +170,10 @@ public class HandJoinFragment extends Fragment
             return false;
         }
 
-        if(gender.isEmpty() || gender.equals("선택")) {
-            Toast.makeText(getContext(), "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
-            return false;
-        }
+//        if(gender.isEmpty() || gender.equals("선택")) {
+//            Toast.makeText(getContext(), "성별을 선택해주세요", Toast.LENGTH_SHORT).show();
+//            return false;
+//        }
 
         return true;
     }
@@ -183,6 +182,7 @@ public class HandJoinFragment extends Fragment
         void processJoin(String userEmail, String userPassword, String userNickname, String gender, String profile_path);
         void backToLogin();
     }
+
     private void doTakeAlbumAction() {
         Intent intent = new Intent(Intent.ACTION_PICK);
         intent.setType(MediaStore.Images.Media.CONTENT_TYPE);
