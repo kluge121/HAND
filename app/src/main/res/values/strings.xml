@@ -48,6 +48,17 @@
     <string name="gender">성별</string>
     <string name="gender_man">남자</string>
     <string name="gender_woman">여자</string>
+    <string name="map_room_drawer_tab_add">탭하여 추가하기</string>
+    <string name="map_room_drawer_friend_history">친구들의 Hand 기록 보기</string>
+    <string name="map_room_drawer_name_format">%s님의 Hand 기록입니다.</string>
+    <string name="map_room_drawer_post_format">%d건</string>
+    <string name="map_room_drawer_post_rest">의 기록</string>
+    <string name="dialog_add">추가하기</string>
+    <string name="dialog_kick">추방하기</string>
+    <string name="invite_friend">친구초대</string>
 
+    <string-array name="category_array">
+        <item>선택</item>
+    </string-array>
 
 </resources>

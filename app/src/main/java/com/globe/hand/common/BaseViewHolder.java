@@ -15,8 +15,6 @@ public abstract class BaseViewHolder<T> extends RecyclerView.ViewHolder {
     public BaseViewHolder(ViewGroup parent, int layoutId) {
         super(LayoutInflater.from(parent.getContext())
                 .inflate(layoutId, parent, false));
-
-
     }
 
     public abstract void bindView(final Context context, T model, int position);

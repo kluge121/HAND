@@ -41,7 +41,6 @@
                 android:layout_height="48dp"
                 android:maxLines="1"
                 android:background="@color/little_transparent_gray"
-                android:text="adfasasdff"
                 android:textColor="@android:color/white"
                 android:textSize="24sp" />
 

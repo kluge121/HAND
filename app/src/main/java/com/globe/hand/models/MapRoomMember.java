@@ -13,6 +13,8 @@ public class MapRoomMember {
     String permission;
     Date joinDate;
 
+    public MapRoomMember() {}
+
     public MapRoomMember(DocumentReference userReference, String permission, Date joinDate) {
         this.userReference = userReference;
         this.permission = permission;

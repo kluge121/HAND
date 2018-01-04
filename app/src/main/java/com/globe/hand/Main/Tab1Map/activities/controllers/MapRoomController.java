@@ -2,6 +2,7 @@ package com.globe.hand.Main.Tab1Map.activities.controllers;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.util.Log;
 
 import com.globe.hand.Main.Tab1Map.activities.MapPostActivity;
 import com.globe.hand.Main.Tab1Map.activities.controllers.adapters.HandInfoWindowAdapter;
@@ -67,16 +68,6 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         map.setInfoWindowAdapter(handInfoWindowAdapter);
     }
 
-    public void addAnySelectMapPostMarker(LatLng latLng) {
-        changeCurrentMarker(latLng);
-    }
-
-    public Marker newMapPostMarker(LatLng latLng, String title, String content) {
-        MapRoomMarkerFactory mapPostMarkerFactory =
-                MapRoomMarkerFactory.newInstance(latLng);
-        return map.addMarker(mapPostMarkerFactory.newMapPostMarkerOptions(title, content));
-    }
-
     private void changeCurrentMarker(LatLng latLng) {
         removeCurrentMarker();
 
@@ -98,16 +89,25 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         } else {
             //TODO: 글쓴거 보여주기
             if(listener != null) {
-                listener.onMapPostMarkerClick();
+                listener.onMapPostMarkerClick(marker);
             }
         }
     }
 
+    public void initMapPostMarker(MapPost mapPost) {
+        LatLng latLng = new LatLng(mapPost.getGeoPoint().getLatitude(),
+                mapPost.getGeoPoint().getLongitude());
+
+        MapRoomMarkerFactory mapPostMarkerFactory =
+                MapRoomMarkerFactory.newInstance(latLng);
+        Marker marker = map.addMarker(mapPostMarkerFactory
+                .newMapPostMarkerOptions(mapPost.getTitle(), mapPost.getContent()));
+        marker.setTag(mapPost.getUid());
+    }
+
     public void initMapPostMarkers(List<MapPost> postList) {
         for(MapPost post: postList) {
-            LatLng latLng = new LatLng(post.getGeoPoint().getLatitude(),
-                    post.getGeoPoint().getLongitude());
-            newMapPostMarker(latLng, post.getTitle(), post.getContent());
+            initMapPostMarker(post);
         }
     }
 
@@ -123,6 +123,6 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
     }
 
     public interface OnMapPostMarkerClickListener {
-        void onMapPostMarkerClick();
+        void onMapPostMarkerClick(Marker marker);
     }
 }

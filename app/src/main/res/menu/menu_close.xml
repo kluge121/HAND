@@ -4,6 +4,6 @@
     <item
         android:id="@+id/action_close"
         android:title="@string/action_close"
-        android:icon="@drawable/com_facebook_close"
+        android:icon="@drawable/ic_map_room_x"
         app:showAsAction="always" />
 </menu>

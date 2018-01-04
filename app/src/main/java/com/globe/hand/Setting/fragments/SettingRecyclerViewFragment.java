@@ -65,7 +65,7 @@ public class SettingRecyclerViewFragment extends Fragment {
                                     new SettingRecyclerViewAdapter(listener,
                                             getContext(), noticeArrayList));
                         } else {
-                            Log.e("asdf", "e-rror", task.getException());
+                            Log.e("notice_recycler", "e-rror", task.getException());
                         }
                     }
                 });

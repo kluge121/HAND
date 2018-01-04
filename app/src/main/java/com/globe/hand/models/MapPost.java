@@ -10,6 +10,7 @@ import java.util.Date;
 
 public class MapPost {
     private String uid;
+    private String authorUid;
     private GeoPoint geoPoint;
     private String title;
     private String content;
@@ -18,7 +19,8 @@ public class MapPost {
 
     public MapPost() {}
 
-    public MapPost(GeoPoint geoPoint, String title, String content) {
+    public MapPost(String authorUid, GeoPoint geoPoint, String title, String content) {
+        this.authorUid = authorUid;
         this.geoPoint = geoPoint;
         this.title = title;
         this.content = content;
@@ -30,6 +32,14 @@ public class MapPost {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public String getAuthorUid() {
+        return authorUid;
+    }
+
+    public void setAuthorUid(String authorUid) {
+        this.authorUid = authorUid;
     }
 
     public GeoPoint getGeoPoint() {

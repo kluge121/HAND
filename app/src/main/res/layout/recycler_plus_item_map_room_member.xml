@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginStart="8dp"
+    android:layout_marginEnd="8dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    tools:background="@color/map_room_drawer_background_color">
+
+<de.hdodenhof.circleimageview.CircleImageView
+    android:id="@+id/image_map_room_member_photo"
+    android:src="@drawable/friend_plus"
+    android:layout_marginStart="16dp"
+    android:layout_centerVertical="true"
+    android:layout_width="48dp"
+    android:layout_height="48dp"/>
+
+<TextView
+    android:id="@+id/text_map_room_member_name"
+    android:text="@string/invite_friend"
+    android:textSize="16sp"
+    android:textColor="@color/gray"
+    android:textAlignment="center"
+    android:maxLines="1"
+    android:layout_toEndOf="@id/image_map_room_member_photo"
+    android:layout_centerVertical="true"
+    android:layout_marginStart="16dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content" />
+
+</RelativeLayout>

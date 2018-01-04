@@ -7,23 +7,35 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseActivity;
+import com.globe.hand.models.Category;
 import com.globe.hand.models.MapPost;
+import com.globe.hand.models.MapPostReference;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class MapPostActivity extends BaseActivity {
 
     private TextView textPlace;
     private EditText editTitle;
+    private Spinner spinnerCategory;
     private EditText editContent;
 
     private String mapRoomUid;
@@ -42,11 +54,34 @@ public class MapPostActivity extends BaseActivity {
         textPlace = findViewById(R.id.text_map_post_place);
 
         editTitle = findViewById(R.id.edit_map_post_title);
+        spinnerCategory = findViewById(R.id.spinner_map_post_category);
         editContent = findViewById(R.id.edit_map_post_content);
 
         if (getIntent().hasExtra("place_name")) {
             textPlace.setText(getIntent().getStringExtra("place_name"));
         }
+
+//        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
+//                MapPostActivity.this, R.array.category_array,
+//                android.R.layout.simple_spinner_dropdown_item);
+//        spinnerCategory.setAdapter(categoryAdapter);
+
+        FirebaseFirestore.getInstance()
+                .collection("map_room").document(mapRoomUid)
+                .collection("category").get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if(task.isSuccessful()) {
+                            List<Category> categoryList = task.getResult().toObjects(Category.class);
+                            // TODO: "선택"을 넣어야할까?
+//                            categoryList.add(0, new Category("선택", 0));
+                            spinnerCategory.setAdapter(new ArrayAdapter<>(MapPostActivity.this,
+                                    android.R.layout.simple_spinner_dropdown_item,
+                                    categoryList));
+                        }
+                    }
+                });
     }
 
     @Override
@@ -60,16 +95,29 @@ public class MapPostActivity extends BaseActivity {
         if (item.getItemId() == R.id.action_post_done) {
             String title = editTitle.getText().toString();
             String content = editContent.getText().toString();
-            FirebaseFirestore.getInstance()
-                    .collection("map_room").document(mapRoomUid)
-                    .collection("map_post").add(new MapPost(
-                        new GeoPoint(mapLatLng.latitude, mapLatLng.longitude),
-                        title, content))
+            final String category = ((Category)spinnerCategory.getSelectedItem()).getName();
+            final String categoryUid = ((Category)spinnerCategory.getSelectedItem()).getUid();
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+            final DocumentReference mapRoomReference = db.collection("map_room").document(mapRoomUid);
+            CollectionReference mapPostReference = mapRoomReference
+                    .collection("category").document(categoryUid).collection("map_post");
+
+            mapPostReference.add(new MapPost(
+                    FirebaseAuth.getInstance().getCurrentUser().getUid(),
+                    new GeoPoint(mapLatLng.latitude, mapLatLng.longitude), title, content))
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
-                            if(task.isSuccessful()) {
+                            if (task.isSuccessful()) {
+                                // uid 업데이트
                                 task.getResult().update("uid", task.getResult().getId());
+
+                                // map_room_ref 추가
+                                mapRoomReference.collection("map_post_ref")
+                                        .document(task.getResult().getId())
+                                        .set(new MapPostReference(task.getResult(), category,
+                                                FirebaseAuth.getInstance().getCurrentUser().getUid()));
                             }
                         }
                     });
