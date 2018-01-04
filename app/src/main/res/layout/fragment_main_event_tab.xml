@@ -18,8 +18,7 @@
             android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="@color/trans"
-            android:src="@drawable/event_btn"
-            android:text="진행중인 이벤트" />
+            android:src="@drawable/event_btn" />
 
         <ImageButton
             android:id="@+id/evnet_fragment_my_event_btn"
@@ -29,8 +28,7 @@
             android:layout_centerVertical="true"
             android:layout_marginEnd="10dp"
             android:background="@color/trans"
-            android:src="@drawable/my_event_btn"
-            android:text="내 이벤트 함" />
+            android:src="@drawable/my_event_btn" />
 
 
     </RelativeLayout>
@@ -40,6 +38,7 @@
         android:id="@+id/evnet_fragment_container"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_gravity="center"
         android:layout_weight="7.5">
 
     </RelativeLayout>

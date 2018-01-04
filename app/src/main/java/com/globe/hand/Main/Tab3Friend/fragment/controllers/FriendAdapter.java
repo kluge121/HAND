@@ -9,34 +9,27 @@ import android.view.ViewGroup;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.models.User;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by baeminsu on 2017. 12. 21..
  */
 
-public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
+public class FriendAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     private Context context;
-    private ArrayList<User> arrayList = new ArrayList<>();
-    OnAddFriendListCallback onAddFriendListCallback;
+    private List<DocumentSnapshot> friendList;
 
 
-    public ArrayList<User> getArrayList() {
-        return arrayList;
-    }
 
-    public FriendAdapter(OnAddFriendListCallback onAddFriendListCallback) {
-        this.onAddFriendListCallback = onAddFriendListCallback;
-    }
 
-    public void setArrayList(ArrayList<User> arrayList) {
-        this.arrayList = arrayList;
-    }
 
-    public FriendAdapter(Context context) {
+    public FriendAdapter(Context context, List<DocumentSnapshot> documentSnapshots) {
         this.context = context;
+        friendList = documentSnapshots;
     }
 
     public Context getContext() {
@@ -51,24 +44,18 @@ public class FriendAdapter extends RecyclerView.Adapter<FriendViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(FriendViewHolder holder, int position) {
-        holder.bindView(context, arrayList.get(position), position);
-
+    public void onBindViewHolder(BaseViewHolder holder, int position) {
+        holder.bindView(context, friendList.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-//        return 10;
-        return arrayList.size();
+        return friendList.size();
     }
 
     public void remove(int position) {
-        arrayList.remove(position);
+        friendList.remove(position);
         notifyDataSetChanged();
-    }
-
-    public interface OnAddFriendListCallback {
-        void addFriend(User model);
     }
 
 

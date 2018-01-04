@@ -9,23 +9,23 @@ import com.globe.hand.Main.Tab3Friend.model.RequestEntity;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.models.User;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by baeminsu on 2017. 12. 26..
  */
 
-public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder>{
+public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder> {
 
     private Context context;
-    private ArrayList<User> arrayList = new ArrayList<>();
+    private List<DocumentSnapshot> friendRequsetmSnapshotList;
 
-    public void setArrayList(ArrayList<User> arrayList) {
-        this.arrayList = arrayList;
-    }
 
-    public RequestAdapter(Context context) {
+    public RequestAdapter(Context context, List<DocumentSnapshot> friendRequsetmSnapshotList) {
+        this.friendRequsetmSnapshotList = friendRequsetmSnapshotList;
         this.context = context;
     }
 
@@ -36,21 +36,16 @@ public class RequestAdapter extends RecyclerView.Adapter<RequestViewHolder>{
 
     @Override
     public void onBindViewHolder(RequestViewHolder holder, int position) {
-        holder.bindView(context, arrayList.get(position), position);
+        holder.bindView(context, friendRequsetmSnapshotList.get(position), position);
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return friendRequsetmSnapshotList.size();
     }
 
     public void removeItem(int position) {
-        arrayList.remove(position);
-        notifyDataSetChanged();
-    }
-
-    public void addItem(User addUser){
-        arrayList.add(addUser);
+        friendRequsetmSnapshotList.remove(position);
         notifyDataSetChanged();
     }
 

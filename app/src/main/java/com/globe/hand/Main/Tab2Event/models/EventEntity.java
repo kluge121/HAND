@@ -5,23 +5,18 @@ package com.globe.hand.Main.Tab2Event.models;
  */
 
 public class EventEntity {
+    private String uid;
     private String category;
     private String eventName;
-    private String needCount; // 3명
-    private String count;  // (27/30)
+    private int currentCount;
+    private int count;
     private String point;
     private String price;
     private String content;
     private String imageUrl;
-    private boolean participation; // 이벤트참여여부
 
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
-    }
-
-    public String getImageUrl() {
-
-        return imageUrl;
+    public void setUid(String uid) {
+        this.uid = uid;
     }
 
     public void setCategory(String category) {
@@ -32,11 +27,11 @@ public class EventEntity {
         this.eventName = eventName;
     }
 
-    public void setNeedCount(String needCount) {
-        this.needCount = needCount;
+    public void setCurrentCount(int currentCount) {
+        this.currentCount = currentCount;
     }
 
-    public void setCount(String count) {
+    public void setCount(int count) {
         this.count = count;
     }
 
@@ -52,12 +47,16 @@ public class EventEntity {
         this.content = content;
     }
 
-    public void setParticipation(boolean participation) {
-        this.participation = participation;
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    public String getUid() {
+
+        return uid;
     }
 
     public String getCategory() {
-
         return category;
     }
 
@@ -65,11 +64,11 @@ public class EventEntity {
         return eventName;
     }
 
-    public String getNeedCount() {
-        return needCount;
+    public int getCurrentCount() {
+        return currentCount;
     }
 
-    public String getCount() {
+    public int getCount() {
         return count;
     }
 
@@ -85,7 +84,10 @@ public class EventEntity {
         return content;
     }
 
-    public boolean isParticipation() {
-        return participation;
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public EventEntity() {
     }
 }

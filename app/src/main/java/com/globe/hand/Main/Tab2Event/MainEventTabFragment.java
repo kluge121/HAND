@@ -31,8 +31,6 @@ public class MainEventTabFragment extends Fragment {
         return new MainEventTabFragment();
     }
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {

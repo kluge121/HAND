@@ -22,6 +22,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
 
@@ -32,13 +33,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
  * Created by baeminsu on 2017. 12. 21..
  */
 
-public class FriendViewHolder extends BaseViewHolder<User> {
+public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
     private CircleImageView profile;
     private TextView name;
     private TextView email;
     private ImageButton btn;
     private FriendAdapter adapter;
+    private User friendUser;
 
     FriendViewHolder(ViewGroup parent, int layoutId, FriendAdapter adapter) {
         super(parent, layoutId);
@@ -50,35 +52,48 @@ public class FriendViewHolder extends BaseViewHolder<User> {
     }
 
     @Override
-    public void bindView(Context context, final User model, final int position) {
+    public void bindView(final Context context, final DocumentSnapshot documentSnapshot, final int position) {
 
-        name.setText(model.getName());
-        if (model.getProfile_url() != null) {
-            Glide.with(context).load(model.getProfile_url()).into(profile);
-        }
-        email.setText(model.getEmail());
+        final DocumentReference friendUserRef =
+                (DocumentReference) documentSnapshot.get("userRef");
 
-        btn.setOnClickListener(new View.OnClickListener() {
+
+        friendUserRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                friendUser = task.getResult().toObject(User.class);
+
+                if (task.isSuccessful()) {
+                    name.setText(friendUser.getName());
+                    if (friendUser.getProfile_url() != null) {
+                        Glide.with(context).load(friendUser.getProfile_url()).into(profile);
+                    }
+                    email.setText(friendUser.getEmail());
 
 
-                new AlertDialog.Builder(adapter.getContext())
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                removeFriend(GetLoginUserEntity.makeLoginUserInstance(), model, position);
 
-                            }
-                        })
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .setMessage(model.getName() + "님을 정말 삭제하시겠습니까")
-                        .create().show();
+                    btn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            new AlertDialog.Builder(adapter.getContext())
+                                    .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            removeFriend(GetLoginUserEntity.makeLoginUserInstance(), friendUser, position);
+
+                                        }
+                                    })
+                                    .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialog, int which) {
+                                            dialog.dismiss();
+                                        }
+                                    })
+                                    .setMessage(friendUser.getName() + "님을 정말 삭제하시겠습니까")
+                                    .create().show();
+                        }
+                    });
+                }
 
             }
         });
@@ -112,9 +127,6 @@ public class FriendViewHolder extends BaseViewHolder<User> {
                 }
             }
         });
-
-
     }
-
 
 }

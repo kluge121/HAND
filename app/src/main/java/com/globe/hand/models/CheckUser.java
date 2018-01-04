@@ -1,5 +1,15 @@
 package com.globe.hand.models;
 
+import android.support.annotation.NonNull;
+
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
 /**
  * Created by baeminsu on 2017. 12. 31..
  */
@@ -20,7 +30,8 @@ public class CheckUser extends User {
         this.state = state;
     }
 
-    public static CheckUser transUserToCheckUser(User user, int state) {
+    public static CheckUser transUserToCheckUser(User user, final int state) {
+
         CheckUser checkUser = new CheckUser();
 
         checkUser.setUid(user.getUid());
@@ -30,7 +41,10 @@ public class CheckUser extends User {
         checkUser.setName(user.getName());
         checkUser.setState(state);
 
-        return checkUser;
 
+        return checkUser;
+    }
+
+    public CheckUser() {
     }
 }

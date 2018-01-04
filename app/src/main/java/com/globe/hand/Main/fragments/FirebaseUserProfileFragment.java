@@ -26,6 +26,8 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class FirebaseUserProfileFragment extends Fragment {
 
     public FirebaseUserProfileFragment() {
@@ -37,11 +39,13 @@ public class FirebaseUserProfileFragment extends Fragment {
     }
 
     private TextView userInfoText;
-    private ImageView userImage;
+    private CircleImageView userImage;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+
         View view = inflater.inflate(
                 R.layout.fragment_user_profile, container, false);
 

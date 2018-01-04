@@ -4,6 +4,7 @@ import android.content.Context;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import com.bumptech.glide.Glide;
 import com.globe.hand.Main.Tab3Friend.fragment.FriendList;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
+import com.globe.hand.models.UploadUser;
 import com.globe.hand.models.User;
 import com.globe.hand.temp.AdapterTempStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -22,15 +24,18 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
  * Created by baeminsu on 2017. 12. 26..
  */
 
-public class RequestViewHolder extends BaseViewHolder<User> {
+public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
 
     private RequestAdapter adapter;
@@ -39,10 +44,10 @@ public class RequestViewHolder extends BaseViewHolder<User> {
     private FirebaseUser loginUser;
     private FirebaseFirestore db;
 
-    private ImageView profile;
+    private CircleImageView profile;
     private TextView name;
-    public Button btnAccept;
-    public Button btnReject;
+    private Button btnAccept;
+    private Button btnReject;
 
     private DocumentReference requestRef;
     private DocumentReference responseRef;
@@ -71,34 +76,44 @@ public class RequestViewHolder extends BaseViewHolder<User> {
 
 
     @Override
-    public void bindView(final Context context, User model, final int position) {
+    public void bindView(final Context context, final DocumentSnapshot documentSnapshot, final int position) {
 
 
-        friendRefSetting(model);
-        requestUser = model;
+        final DocumentReference requestUserRef =
+                (DocumentReference) documentSnapshot.get("userRef");
 
-
-        btnAccept.setOnClickListener(new View.OnClickListener() {
+        requestUserRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                requestUser = task.getResult().toObject(User.class);
+                friendRefSetting(requestUser);
 
-                new Thread(new AcceptRunnable()).start();
+
+                btnAccept.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        new Thread(new AcceptRunnable(position)).start();
+                    }
+                });
+
+
+                btnReject.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        new Thread(new RejectRunnable(position)).start();
+                    }
+                });
+
+
+                if (requestUser.getProfile_url() != null) {
+                    Glide.with(context).load(requestUser.getProfile_url()).into(profile);
+                }
+                name.setText(requestUser.getName());
+
             }
         });
 
-
-        btnReject.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new Thread(new RejectRunnable()).start();
-            }
-        });
-
-
-        if (model.getProfile_url() != null) {
-            Glide.with(context).load(model.getProfile_url()).into(profile);
-        }
-        name.setText(model.getName());
 
     }
 
@@ -128,7 +143,7 @@ public class RequestViewHolder extends BaseViewHolder<User> {
     }
 
 
-    private void rejectRequest() {
+    private void rejectRequest(final int position) {
 
         WriteBatch batch = db.batch();
         batch.delete(requestRef);
@@ -136,19 +151,18 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                handler.post(new ListUpdateAction());
+                handler.post(new ListUpdateAction(position));
             }
         });
 
 
     }
 
-    private void acceptRequest() {
+    private void acceptRequest(final int position) {
         WriteBatch batch = db.batch();
 
-
-        batch.set(addFriendRes, makeLoginUserInstance());
-        batch.set(addFriendReq, requestUser);
+        batch.set(addFriendRes, new UploadUser(makeLoginUserInstance()));
+        batch.set(addFriendReq, new UploadUser(requestUser));
 
         batch.delete(requestRef);
         batch.delete(responseRef);
@@ -156,8 +170,8 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                handler.post(new ListUpdateAction());
-                addFriend(AdapterTempStorage.getAdapter(), requestUser);
+                handler.post(new ListUpdateAction(position));
+//                addFriend(AdapterTempStorage.getAdapter(), requestUser);
 
             }
         });
@@ -165,7 +179,7 @@ public class RequestViewHolder extends BaseViewHolder<User> {
     }
 
 
-    User makeLoginUserInstance() {
+    private User makeLoginUserInstance() {
         User meUser = new User();
         meUser.setUid(loginUser.getUid());
         meUser.setEmail(loginUser.getEmail());
@@ -177,30 +191,48 @@ public class RequestViewHolder extends BaseViewHolder<User> {
         return meUser;
     }
 
-    public void addFriend(FriendAdapter adapter, User model) {
-        adapter.getArrayList().add(model);
-        adapter.notifyDataSetChanged();
-
-    }
+//    private void addFriend(FriendAdapter adapter, User model) {
+//        adapter.getArrayList().add(model);
+//        adapter.notifyDataSetChanged();
+//
+//    }
 
     class AcceptRunnable implements Runnable {
+        int position;
+
+        AcceptRunnable(int position) {
+            this.position = position;
+        }
+
         @Override
         public void run() {
-            acceptRequest();
+            acceptRequest(position);
         }
     }
 
     class RejectRunnable implements Runnable {
+        int position;
+
+        RejectRunnable(int position) {
+            this.position = position;
+        }
+
         @Override
         public void run() {
-            rejectRequest();
+            rejectRequest(position);
         }
     }
 
     class ListUpdateAction implements Runnable {
+        int position;
+
+        ListUpdateAction(int position) {
+            this.position = position;
+        }
+
         @Override
         public void run() {
-            adapter.removeItem(getAdapterPosition());
+            adapter.removeItem(position);
         }
     }
 

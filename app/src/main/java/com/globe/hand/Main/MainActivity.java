@@ -38,10 +38,8 @@ public class MainActivity extends BaseActivity {
 
         searchView = findViewById(R.id.main_searchview);
 
-        SearchViewStyle.on(searchView)
-                .setCursorColor(Color.BLACK)
-                .setSearchButtonImageResource(R.drawable.search_non_click_icon)
-                .setTextColor(Color.BLACK);
+        SearchViewStyle.on(searchView);
+
 
 
         settingBtn = findViewById(R.id.main_setting_btn);
@@ -54,16 +52,19 @@ public class MainActivity extends BaseActivity {
         });
 
 
-
         ViewPager viewPager = findViewById(R.id.main_tab_container);
         setTabViewPager(viewPager);
 
         tabLayout = findViewById(R.id.main_tab);
         tabLayout.setupWithViewPager(viewPager);
-        tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
+
+
+        tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_click_map_room);
         tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
         tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
         tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+
+
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -71,6 +72,21 @@ public class MainActivity extends BaseActivity {
                     fab.setVisibility(View.INVISIBLE);
                 else
                     fab.setVisibility(View.VISIBLE);
+
+                switch (tab.getPosition()) {
+                    case 0:
+                        tabIconChagne(0);
+                        break;
+                    case 1:
+                        tabIconChagne(1);
+                        break;
+                    case 2:
+                        tabIconChagne(2);
+                        break;
+                    case 3:
+                        tabIconChagne(3);
+                        break;
+                }
             }
 
             @Override
@@ -108,6 +124,39 @@ public class MainActivity extends BaseActivity {
         viewPager.setAdapter(mainTabPagerAdapter);
     }
 
+
+    void tabIconChagne(int position) {
+
+        switch (position) {
+
+            case 0:
+                tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_click_map_room);
+                tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
+                tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
+                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+                break;
+            case 1:
+                tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
+                tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_click_friend);
+                tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
+                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+                break;
+            case 2:
+                tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
+                tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
+                tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_click_event);
+                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+                break;
+            case 3:
+                tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
+                tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
+                tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
+                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+                break;
+
+
+        }
+    }
 
 
 }

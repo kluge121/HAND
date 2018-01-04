@@ -2,8 +2,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="100dp"
-    android:orientation="horizontal"
-    android:background="@drawable/rounded">
+    android:background="@drawable/rounded"
+    android:orientation="horizontal">
 
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -21,7 +21,6 @@
         android:layout_below="@+id/alarm_item_profile"
         android:layout_centerVertical="true"
         android:layout_marginStart="25dp"
-        android:text="댕댕이"
         android:textSize="20sp" />
 
     <TextView
@@ -31,8 +30,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="10dp"
         android:layout_toRightOf="@+id/alarm_item_profile"
-        android:gravity="center"
-        android:text="알람내용이 띠용하고 와버리는 곳" />
+        android:gravity="center" />
 
 
 </RelativeLayout>

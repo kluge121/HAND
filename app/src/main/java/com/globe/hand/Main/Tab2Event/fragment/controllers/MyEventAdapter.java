@@ -7,48 +7,52 @@ import android.view.ViewGroup;
 import com.globe.hand.Main.Tab2Event.models.EventEntity;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by baeminsu on 2017. 12. 28..
  */
 
-public class EventAdapter extends RecyclerView.Adapter<BaseViewHolder> {
+public class MyEventAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    public void setArrayList(ArrayList<EventEntity> arrayList) {
-        this.arrayList = arrayList;
-    }
+    final int MY_EVENT = 111;
 
-    private ArrayList<EventEntity> arrayList = new ArrayList<EventEntity>();
+
+    private List<DocumentSnapshot> myEventSnapshotList;
+
     private Context mContext;
 
-    public EventAdapter(Context mContext) {
-        arrayList = new ArrayList<>();
-        arrayList.add(new EventEntity());
+    public MyEventAdapter(List<DocumentSnapshot> myEventSnapshotList, Context mContext) {
+        this.myEventSnapshotList = myEventSnapshotList;
         this.mContext = mContext;
     }
 
     @Override
     public BaseViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new EventViewHolder(parent, R.layout.recycler_item_middle_event, this);
+
+        return new MyEventViewHolder(parent, R.layout.recycler_item_middle_event, this);
     }
 
     @Override
     public void onBindViewHolder(BaseViewHolder holder, int position) {
-        holder.bindView(mContext, arrayList.get(position), position);
+
+        holder.bindView(mContext, myEventSnapshotList.get(position), position);
 
     }
 
     @Override
     public int getItemCount() {
-        return arrayList.size();
+        return myEventSnapshotList.size();
+//        return arrayList.size();
     }
 
     public void removeItem(int position) {
 
-        arrayList.remove(position);
+        myEventSnapshotList.remove(position);
         notifyDataSetChanged();
     }
 }

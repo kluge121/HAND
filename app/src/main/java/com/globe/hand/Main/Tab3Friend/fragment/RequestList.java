@@ -20,7 +20,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -28,6 +31,7 @@ import java.util.ArrayList;
 
 public class RequestList extends Fragment {
 
+    private ListenerRegistration registration;
     RecyclerView recyclerView;
     RequestAdapter adapter;
 
@@ -44,16 +48,17 @@ public class RequestList extends Fragment {
 
 
         View v = inflater.inflate(R.layout.fragment_request_list, container, false);
-        adapter = new RequestAdapter(getContext());
+
         recyclerView = v.findViewById(R.id.firend_request_recyclerview);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
+//
+//        adapter = new RequestAdapter(getContext());
+//        recyclerView.setAdapter(adapter);
 
         db = FirebaseFirestore.getInstance();
         loginUser = FirebaseAuth.getInstance().getCurrentUser();
 
         new AsyncGetResponseList().execute();
-
 
 
         return v;
@@ -70,29 +75,33 @@ public class RequestList extends Fragment {
             Log.e("요청리스트", "진입");
 
 
-            CollectionReference friendRef =
+            registration =
                     db.collection("user").document(loginUser.getUid()).
-                            collection("responseFriend");
+                            collection("responseFriend").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.e("request_list_snap_shot", e.getMessage());
+                                return;
+                            }
+                            recyclerView.setAdapter(new RequestAdapter(getContext(), documentSnapshots.getDocuments()));
 
-            Log.e("요청리스트 진입" , loginUser.getUid());
+                        }
+                    });
 
-            friendRef.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                    if (task.isSuccessful()) {
-                        ArrayList<User> arrayList;
-                        arrayList = (ArrayList<User>) task.getResult().toObjects(User.class);
-                        adapter.setArrayList(arrayList);
-                        adapter.notifyDataSetChanged();
-                        Log.e("요청리스트", "성공");
-                    } else {
-                        Log.e("요청리스트", "실패");
-                    }
+            Log.e("요청리스트 진입", loginUser.getUid());
 
-                }
-            });
 
             return null;
+        }
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (registration != null) {
+            registration.remove();
         }
     }
 }

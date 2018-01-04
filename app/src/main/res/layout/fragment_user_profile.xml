@@ -1,5 +1,4 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/user_info_container"
     android:layout_width="match_parent"
     android:layout_height="96dp"
@@ -8,45 +7,28 @@
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_centerVertical="true">
+        android:layout_centerInParent="true"
+        android:layout_centerVertical="true"
+        android:layout_marginStart="16dp">
 
-        <ImageView
-            android:src="@drawable/com_facebook_profile_picture_blank_portrait"
+        <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/image_user_profile"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_centerVertical="true"
-            android:scaleType="centerInside" />
+            android:src="@drawable/dangdange" />
 
         <TextView
             android:id="@+id/text_user_name"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:gravity="center_vertical"
             android:layout_marginStart="16dp"
             android:layout_toEndOf="@id/image_user_profile"
+            android:gravity="center_vertical"
             android:singleLine="true"
             android:text="환영합니다!"
             android:textColor="@android:color/black"
             android:textSize="24sp" />
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/image_setting"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/account" />
-
-    <ImageView
-        android:id="@+id/image_my_event"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_toStartOf="@id/image_setting"
-        android:layout_centerVertical="true"
-        android:layout_marginEnd="16dp"
-        android:src="@drawable/talk" />
 </RelativeLayout>

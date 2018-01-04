@@ -17,30 +17,17 @@ import java.util.ArrayList;
 
 public class FriendSearchAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
-    Context mContext;
-    ArrayList<CheckUser> arrayList = new ArrayList();
+    private Context mContext;
+    private ArrayList<CheckUser> arrayList = new ArrayList();
 
 
     public FriendSearchAdapter(Context mContext) {
         this.mContext = mContext;
     }
 
-    public void setmContext(Context mContext) {
-        this.mContext = mContext;
-    }
 
     public void setArrayList(ArrayList<CheckUser> arrayList) {
         this.arrayList = arrayList;
-    }
-
-    public ArrayList<CheckUser> getArrayList() {
-
-        return arrayList;
-    }
-
-    public Context getmContext() {
-
-        return mContext;
     }
 
 
@@ -60,6 +47,7 @@ public class FriendSearchAdapter extends RecyclerView.Adapter<BaseViewHolder> {
     @Override
     public int getItemCount() {
         return arrayList.size();
+
     }
 
     void listUpdate(int position) {

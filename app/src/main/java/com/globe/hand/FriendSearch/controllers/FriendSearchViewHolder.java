@@ -16,6 +16,7 @@ import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.common.GetLoginUserEntity;
 import com.globe.hand.models.CheckUser;
+import com.globe.hand.models.UploadUser;
 import com.globe.hand.models.User;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -103,8 +104,8 @@ public class FriendSearchViewHolder extends BaseViewHolder<CheckUser> {
 
         WriteBatch batch = db.batch();
 
-        batch.set(requestRef, searchUser);
-        batch.set(responseRef, loginUser);
+        batch.set(requestRef, new UploadUser(searchUser));
+        batch.set(responseRef, new UploadUser(loginUser));
 
         batch.commit().addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

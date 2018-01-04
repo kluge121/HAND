@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.globe.hand.Main.Tab1Map.controllers.adapters.MapRoomFirebaseRecyclerViewAdapter;
 import com.globe.hand.Main.Tab3Friend.fragment.controllers.FriendAdapter;
 import com.globe.hand.Main.Tab3Friend.fragment.controllers.RequestViewHolder;
 import com.globe.hand.R;
@@ -25,7 +26,11 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+import com.google.firebase.firestore.ListenerRegistration;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
@@ -45,11 +50,11 @@ public class FriendList extends Fragment {
     private CircleImageView myUserProfileImage;
     private TextView myUserName;
     private TextView myUserEmail;
-
+    private final String TAG = "FriendListActivity";
     private FriendAdapter adapter;
-
     private FirebaseFirestore db;
     private FirebaseUser loginUser;
+    private ListenerRegistration registration;
 
 
     @Override
@@ -60,11 +65,9 @@ public class FriendList extends Fragment {
         recyclerView = v.findViewById(R.id.friend_recyclerview);
 
 
-        adapter = new FriendAdapter(getContext());
         AdapterTempStorage.setAdapter(adapter);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        recyclerView.setAdapter(adapter);
         recyclerView.addItemDecoration(new RecyclerViewDecoration(0, 30));
         recyclerView.setNestedScrollingEnabled(false);
 
@@ -97,27 +100,34 @@ public class FriendList extends Fragment {
         @Override
         protected Void doInBackground(String... strings) {
 
-            CollectionReference friendRef =
+            registration =
                     db.collection("user").document(loginUser.getUid()).
-                            collection("friend");
+                            collection("friend").addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.e("map_room_snapshot", e.getMessage());
+                                return;
+                            }
+                            recyclerView.setAdapter(new FriendAdapter(
+                                    getContext(), documentSnapshots.getDocuments()));
 
-            friendRef.get().addOnCompleteListener( new OnCompleteListener<QuerySnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        }
+                    });
 
-                    if (task.isSuccessful()) {
-                        ArrayList<User> arrayList;
-                        arrayList = (ArrayList<User>) task.getResult().toObjects(User.class);
-                        adapter.setArrayList(arrayList);
-                        adapter.notifyDataSetChanged();
-                        Log.e("친구리스트", "성공");
-                    } else {
-                        Log.e("친구리스트", "실패");
-                    }
-                }
-            });
+
 
             return null;
+        }
+
+
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (registration != null) {
+            registration.remove();
         }
     }
 }

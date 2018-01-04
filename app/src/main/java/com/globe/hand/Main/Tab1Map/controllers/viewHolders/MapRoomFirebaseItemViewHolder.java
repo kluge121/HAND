@@ -48,8 +48,12 @@ public class MapRoomFirebaseItemViewHolder extends BaseViewHolder<DocumentSnapsh
     @Override
     public void bindView(final Context context,
                          final DocumentSnapshot documentSnapshot, final int position) {
+
         final DocumentReference mapRoomReference =
                 (DocumentReference) documentSnapshot.get("mapRoomReference");
+
+
+
         mapRoomReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
