@@ -6,8 +6,11 @@ import android.view.ViewGroup;
 
 import com.globe.hand.Main.Tab4Alarm.models.AlarmEntity;
 import com.globe.hand.R;
+import com.globe.hand.models.Notification;
+import com.google.firebase.firestore.DocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by baeminsu on 2017. 12. 26..
@@ -16,31 +19,36 @@ import java.util.ArrayList;
 public class AlarmAdapter extends RecyclerView.Adapter<AlarmViewHolder> {
 
     private Context mContext;
-    private ArrayList<AlarmEntity> arrayList = new ArrayList<>();
+    private List<DocumentSnapshot> notiSnapshotList;
 
 
-    public AlarmAdapter(Context mContext) {
+    public AlarmAdapter(Context mContext, List<DocumentSnapshot> notiSnapshotList) {
+
         this.mContext = mContext;
-    }
+        this.notiSnapshotList = notiSnapshotList;
 
-    public void setArrayList(ArrayList<AlarmEntity> arrayList) {
-        this.arrayList = arrayList;
     }
 
     @Override
     public AlarmViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
-        return new AlarmViewHolder(parent, R.layout.recycler_item_alarm);
+        return new AlarmViewHolder(parent, R.layout.recycler_item_alarm, this);
     }
 
     @Override
     public void onBindViewHolder(AlarmViewHolder holder, int position) {
-//        holder.bindView(mContext,arrayList.get(position),position);
+
+        holder.bindView(mContext, notiSnapshotList.get(position), position);
 
     }
 
     @Override
     public int getItemCount() {
-        return 5;
+        return notiSnapshotList.size();
+    }
+
+    public void removeItem(int position) {
+        notiSnapshotList.remove(position);
+        notifyDataSetChanged();
     }
 }

@@ -27,7 +27,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginStart="10dp"
                 android:background="@color/trans"
-                android:src="@drawable/friend_list_btn" />
+                android:src="@drawable/friend_list_btn_click" />
 
             <ImageButton
                 android:id="@+id/friend_fragment_request_btn"
@@ -37,7 +37,7 @@
                 android:layout_centerVertical="true"
                 android:layout_marginEnd="10dp"
                 android:background="@color/trans"
-                android:src="@drawable/friend_request_list" />
+                android:src="@drawable/request_list_btn_non_click" />
 
 
         </RelativeLayout>

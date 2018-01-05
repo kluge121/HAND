@@ -43,7 +43,6 @@ public class MainFriendTabFragment extends Fragment {
         btnRequestList = v.findViewById(R.id.friend_fragment_request_btn);
 
 
-
         btnFriendList.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -77,7 +76,11 @@ public class MainFriendTabFragment extends Fragment {
         if (fragmentFlage != REQUEST_FRAGMENT) {
             fragmentFlage = REQUEST_FRAGMENT;
             replaceFragment(RequestList.newInstance());
+            btnFriendList.setImageResource(R.drawable.friend_list_btn_non_click);
+            btnRequestList.setImageResource(R.drawable.requset_list_btn_click);
+
         }
+
     }
 
 
@@ -85,6 +88,8 @@ public class MainFriendTabFragment extends Fragment {
         if (fragmentFlage != FRIEND_FRAGMENT) {
             fragmentFlage = FRIEND_FRAGMENT;
             replaceFragment(FriendList.newInstance());
+            btnFriendList.setImageResource(R.drawable.friend_list_btn_click);
+            btnRequestList.setImageResource(R.drawable.request_list_btn_non_click);
         }
     }
 

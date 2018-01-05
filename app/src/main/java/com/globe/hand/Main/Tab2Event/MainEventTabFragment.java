@@ -47,6 +47,10 @@ public class MainEventTabFragment extends Fragment {
                     fragmentFlage = EVENT_FRAGMENT;
                 }
 
+                btnEventList.setImageResource(R.drawable.event_click_btn);
+                btnMyEventList.setImageResource(R.drawable.my_event_non_click_btn);
+
+
             }
         });
 
@@ -58,6 +62,9 @@ public class MainEventTabFragment extends Fragment {
                     replaceFragment(MyEventList.newInstance());
                     fragmentFlage = MY_EVENT_FRAGMENT;
                 }
+
+                btnEventList.setImageResource(R.drawable.event_non_click_btn);
+                btnMyEventList.setImageResource(R.drawable.my_event_click_btn);
 
             }
         });

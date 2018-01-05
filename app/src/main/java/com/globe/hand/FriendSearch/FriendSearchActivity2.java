@@ -56,8 +56,6 @@ public class FriendSearchActivity2 extends BaseActivity {
     FriendSearchAdapter adapter;
 
     AsyncGetFriendList asyncGetFriendList;
-//    AsyncGetSearchRequestList asyncGetList;
-//    AsyncSearchListCheck asyncCheck;
 
 
     boolean friendListNullChecker = false;
