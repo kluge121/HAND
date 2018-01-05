@@ -193,14 +193,18 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
 
         // 멤버 부분
         db.collection("map_room").document(mapRoom.getUid())
-                .collection("members").get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .collection("members")
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if (task.isSuccessful()) {
-                            List<MapRoomMember> memberList = task.getResult().toObjects(MapRoomMember.class);
-                            if (!memberList.isEmpty()) {
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        if (e != null) {
+                            Log.e("member", e.getMessage());
+                            return;
+                        }
 
+                        if (documentSnapshots != null) {
+                            List<MapRoomMember> memberList = documentSnapshots.toObjects(MapRoomMember.class);
+                            if (!memberList.isEmpty()) {
                                 LinearLayout memberContainer = navigation.findViewById(R.id.map_room_drawer_member_container);
                                 memberContainer.setVisibility(View.VISIBLE);
                                 final RecyclerView memberRecycler = navigation.findViewById(R.id.map_room_drawer_member_recycler_view);
@@ -208,10 +212,8 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                                 // 멤버 리사이클러
                                 memberRecycler.setLayoutManager(new LinearLayoutManager(InMapRoomActivity.this));
 
-                                if (task.isSuccessful()) {
-                                    memberRecycler.setAdapter(new MapRoomMemberFirebaseRecyclerViewAdapter(
-                                            InMapRoomActivity.this, memberList));
-                                }
+                                memberRecycler.setAdapter(new MapRoomMemberFirebaseRecyclerViewAdapter(
+                                        InMapRoomActivity.this, memberList));
                             }
                         }
                     }

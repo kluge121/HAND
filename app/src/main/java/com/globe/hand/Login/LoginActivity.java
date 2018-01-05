@@ -34,6 +34,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -277,17 +278,24 @@ public class LoginActivity extends BaseActivity
                     public void onComplete(@NonNull Task<Void> task) {
                         if (task.isSuccessful()) {
                             // 자신의 맵룸 추가
-                            MapRoom mapRoom = new MapRoom("My hand", "나의 글",
-                                    firebaseUser.getUid());
-                            DocumentReference myMapRoomRef =
-                                    db.collection("map_room").document(firebaseUser.getUid());
+                            db.collection("map_room")
+                                    .whereEqualTo("uid", firebaseUser.getUid()).get()
+                                    .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                            if(task.getResult().isEmpty()) {
+                                                DocumentReference myMapRoomRef =
+                                                        db.collection("map_room").document(firebaseUser.getUid());
+                                                myMapRoomRef.set(new MapRoom("My hand", "나의 글",
+                                                        firebaseUser.getUid()));
 
-                            myMapRoomRef.set(mapRoom);
-
-                            // 참여한 맵룸 목록 추가
-                            db.collection("map_room").document(firebaseUser.getUid())
-                                    .collection("joined_map_rooms").document(firebaseUser.getUid())
-                                    .set(new JoinedMapRooms(myMapRoomRef));
+                                                // 참여한 맵룸 목록 추가
+                                                db.collection("map_room").document(firebaseUser.getUid())
+                                                        .collection("joined_map_rooms").document(firebaseUser.getUid())
+                                                        .set(new JoinedMapRooms(myMapRoomRef));
+                                            }
+                                        }
+                                    });
                         }
                     }
                 });

@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Created by ssangwoo on 2017-12-20.
@@ -64,7 +65,23 @@ public class MapRoomMemberFirebaseItemViewHolder extends BaseViewHolder<MapRoomM
                                                 new DialogInterface.OnClickListener() {
                                                     @Override
                                                     public void onClick(DialogInterface dialogInterface, int i) {
-                                                        // TODO : 친구 발로 차버리기
+                                                        FirebaseFirestore.getInstance()
+                                                                .collection("map_room")
+                                                                .document(member.getMapRoomUid())
+                                                                .collection("members")
+                                                                .document(member.getUserReference().getId())
+                                                                .delete()
+                                                                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                    @Override
+                                                                    public void onComplete(@NonNull Task<Void> task) {
+                                                                        if(task.isSuccessful()) {
+                                                                            member.getUserReference()
+                                                                                    .collection("joined_map_rooms")
+                                                                                    .document(member.getMapRoomUid())
+                                                                                    .delete();
+                                                                        }
+                                                                    }
+                                                                });
                                                         dialogInterface.dismiss();
                                                     }
                                                 })
