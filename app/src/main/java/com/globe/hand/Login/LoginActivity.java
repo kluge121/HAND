@@ -113,6 +113,7 @@ public class LoginActivity extends BaseActivity
 
     @Override
     public void moveToJoinWithEditInfo(final String userEmail) {
+        setToolbar(R.id.login_toolbar, true);
         setToolbarTitle("Sign in");
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.login_container,
@@ -145,6 +146,7 @@ public class LoginActivity extends BaseActivity
                     }
                 });
     }
+
 
 
     @Override
@@ -247,9 +249,12 @@ public class LoginActivity extends BaseActivity
     }
 
     @Override
-    public void backToLogin() {
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(getSupportActionBar() != null) {
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
         setToolbarTitle("login");
-        onBackPressed();
     }
 
     private void createUserAndMyMapRoom(String gender, String profile_url) {

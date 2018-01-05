@@ -6,7 +6,6 @@ package com.globe.hand.Main.Tab3Friend.model;
 
 public class FriendEntity {
 
-
     private String imagePath;
     private String email;
     private String name;

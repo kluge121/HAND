@@ -1,5 +1,7 @@
 package com.globe.hand.Main.Tab1Map.activities.controllers;
 
+import com.globe.hand.R;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -24,13 +26,14 @@ public class MapRoomMarkerFactory {
     }
 
     public MarkerOptions newMapPostMarkerOptions(String title, String content) {
+        MarkerOptions markerOptions = new MarkerOptions().position(latLng)
+                .title(title);
+
         if(content != null) {
             int contentEndIndex = content.length() <= 15 ? content.length() : 15;
-            return new MarkerOptions().position(latLng)
-                    .title(title).snippet(content.substring(0, contentEndIndex) + "...");
-        } else {
-            return new MarkerOptions().position(latLng)
-                    .title(title);
+            markerOptions.snippet(content.substring(0, contentEndIndex) + "...");
         }
+
+        return markerOptions;
     }
 }

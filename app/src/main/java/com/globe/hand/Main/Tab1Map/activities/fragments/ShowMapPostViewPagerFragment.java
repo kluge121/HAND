@@ -72,13 +72,12 @@ public class ShowMapPostViewPagerFragment extends Fragment {
                             viewPager.setAdapter(new MapPostFirebaseViewPagerAdapter(
                                     getActivity(), mapPostReferenceList));
 
-                            DocumentReference currentReference
+                            DocumentReference currentMapPostReference
                                     = db.collection("map_room").document(mapRoomUid)
                                     .collection("map_post_ref").document(currentMapPostUid);
-
                             int currentIndex = 0;
                             for (MapPostReference mapPostReference : mapPostReferenceList) {
-                                if (mapPostReference.getMapPostReference().equals(currentReference)) {
+                                if (mapPostReference.getMapPostReference().equals(currentMapPostReference)) {
                                     currentIndex = mapPostReferenceList.indexOf(mapPostReference);
                                     break;
                                 }

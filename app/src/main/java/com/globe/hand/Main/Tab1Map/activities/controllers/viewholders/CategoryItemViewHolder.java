@@ -1,16 +1,15 @@
 package com.globe.hand.Main.Tab1Map.activities.controllers.viewholders;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.models.Category;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QuerySnapshot;
 
 /**
@@ -32,12 +31,12 @@ public class CategoryItemViewHolder extends BaseViewHolder<Category> {
         textCategoryTitle.setText(model.getName());
         FirebaseFirestore.getInstance().collection("map_room")
                 .document(model.getMapRoomUid()).collection("map_post_ref")
-                .whereEqualTo("category", model.getName()).get()
-                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .whereEqualTo("category", model.getName())
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        if(task.isSuccessful()) {
-                            textCategoryCount.setText(String.valueOf(task.getResult().size()));
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        if(documentSnapshots != null) {
+                            textCategoryCount.setText(String.valueOf(documentSnapshots.size()));
                         }
                     }
                 });

@@ -9,16 +9,17 @@ import java.util.Date;
  */
 
 public class MapRoomMember {
-    DocumentReference userReference;
-    String permission;
-    Date joinDate;
+    private DocumentReference userReference;
+    private String permission;
+    private String mapRoomUid;
+    private Date joinDate = new Date();
 
     public MapRoomMember() {}
 
-    public MapRoomMember(DocumentReference userReference, String permission, Date joinDate) {
+    public MapRoomMember(DocumentReference userReference, String permission, String mapRoomUid) {
         this.userReference = userReference;
         this.permission = permission;
-        this.joinDate = joinDate;
+        this.mapRoomUid = mapRoomUid;
     }
 
     public DocumentReference getUserReference() {
@@ -37,11 +38,11 @@ public class MapRoomMember {
         this.permission = permission;
     }
 
-    public Date getJoinDate() {
-        return joinDate;
+    public String getMapRoomUid() {
+        return mapRoomUid;
     }
 
-    public void setJoinDate(Date joinDate) {
-        this.joinDate = joinDate;
+    public void setMapRoomUid(String mapRoomUid) {
+        this.mapRoomUid = mapRoomUid;
     }
 }

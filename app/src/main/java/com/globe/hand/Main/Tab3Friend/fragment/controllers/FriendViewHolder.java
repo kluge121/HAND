@@ -53,7 +53,9 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
     @Override
     public void bindView(final Context context, final DocumentSnapshot documentSnapshot, final int position) {
-
+        if(!documentSnapshot.exists()) {
+            return;
+        }
         final DocumentReference friendUserRef =
                 (DocumentReference) documentSnapshot.get("userRef");
 

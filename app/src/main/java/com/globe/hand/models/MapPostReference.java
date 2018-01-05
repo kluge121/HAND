@@ -2,6 +2,8 @@ package com.globe.hand.models;
 
 import com.google.firebase.firestore.DocumentReference;
 
+import java.util.Date;
+
 /**
  * Created by ssangwoo on 2018-01-04.
  */
@@ -10,6 +12,7 @@ public class MapPostReference {
     private DocumentReference mapPostReference;
     private String category;
     private String authorUid;
+    private Date createTime = new Date();
 
     public MapPostReference() {}
 

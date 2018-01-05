@@ -70,10 +70,9 @@
         <activity android:name=".Setting.SettingActivity" />
         <activity android:name=".Setting.ListForSettingActivity" />
         <activity android:name=".FriendSearch.FriendSearchActivity" />
-        <activity android:name=".FriendSearch.FriendSearchActivity2"/>
-
-
-        <activity android:name=".Main.Tab1Map.activities.ShowMapPostActivity"></activity>
+        <activity android:name=".FriendSearch.FriendSearchActivity2" />
+        <activity android:name=".Main.Tab1Map.activities.ShowMapPostActivity" />
+        <activity android:name=".Main.Tab1Map.activities.InviteMemberActivity"></activity>
     </application>
 
 </manifest>

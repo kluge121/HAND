@@ -120,11 +120,13 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         textName.setText(String.format(getString(R.string.map_room_drawer_name_format),
                 user.getDisplayName()));
         mapRoomReference.collection("map_post_ref").whereEqualTo("authorUid", user.getUid())
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
-                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                        textPostCount.setText(String.format(getString(R.string.map_room_drawer_post_format),
-                                task.getResult().size()));
+                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                        if (documentSnapshots != null) {
+                            textPostCount.setText(String.format(getString(R.string.map_room_drawer_post_format),
+                                    documentSnapshots.size()));
+                        }
                     }
                 });
 
@@ -170,7 +172,7 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                                                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                                         @Override
                                                         public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                            if(task.isSuccessful()) {
+                                                            if (task.isSuccessful()) {
                                                                 task.getResult().update("uid", task.getResult().getId());
                                                             }
                                                         }
@@ -224,8 +226,7 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
         String mapRoomUid = getIntent().getStringExtra("map_room_uid");
 
-        DocumentReference currentMapRoom =
-                db.collection("map_room").document(mapRoomUid);
+        DocumentReference currentMapRoom = db.collection("map_room").document(mapRoomUid);
         currentMapRoom.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -239,7 +240,7 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                             getSupportFragmentManager().beginTransaction()
                                     .replace(R.id.map_room_container,
                                             ShowMapPostViewPagerFragment.newInstance(
-                                                    mapRoom.getUid(), (String)marker.getTag()))
+                                                    mapRoom.getUid(), (String) marker.getTag()))
                                     .addToBackStack(null)
                                     .commit();
                         }
@@ -260,20 +261,24 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                                                 Log.e("marker_snapshot", e.getMessage());
                                                 return;
                                             }
-                                            List<MapPostReference> referenceList =
-                                                    documentSnapshots.toObjects(MapPostReference.class);
-                                            for(MapPostReference reference: referenceList) {
-                                                DocumentReference documentReference = reference.getMapPostReference();
-                                                documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                    @Override
-                                                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                        mapRoomController.initMapPostMarker(task.getResult()
-                                                                .toObject(MapPost.class));
-                                                    }
-                                                });
+                                            if (documentSnapshots.size() > 0) {
+                                                List<MapPostReference> referenceList =
+                                                        documentSnapshots.toObjects(MapPostReference.class);
+                                                for (MapPostReference reference : referenceList) {
+                                                    DocumentReference documentReference = reference.getMapPostReference();
+                                                    documentReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                                        @Override
+                                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                                            if (task.isSuccessful()) {
+                                                                if (task.getResult().exists()) {
+                                                                    mapRoomController.initMapPostMarker(task.getResult()
+                                                                            .toObject(MapPost.class));
+                                                                }
+                                                            }
+                                                        }
+                                                    });
+                                                }
                                             }
-//                                            List<MapPost> postList = documentSnapshots.toObjects(MapPost.class);
-//                                            mapRoomController.initMapPostMarkers(postList);
                                         }
                                     });
                 }

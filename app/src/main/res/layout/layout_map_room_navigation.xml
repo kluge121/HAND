@@ -65,7 +65,7 @@
                     android:layout_height="32dp"
                     android:layout_gravity="right"
                     android:scaleType="centerInside"
-                    android:src="@drawable/hand_show_marker" />
+                    android:src="@drawable/dangdange" />
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/map_room_drawer_category_recycler_view"

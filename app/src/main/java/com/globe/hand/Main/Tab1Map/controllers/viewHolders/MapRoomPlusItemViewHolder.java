@@ -67,7 +67,7 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
                                             final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
                                             // 맵룸 생성
-                                            MapRoom mapRoom = new MapRoom(
+                                            final MapRoom mapRoom = new MapRoom(
                                                     editMapRoomTitle.getText().toString(),
                                                     editMapRoomDesc.getText().toString());
                                             db.collection("map_room").add(mapRoom)
@@ -99,7 +99,7 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
                                                                 // 맴룹 멤버를 내 정보를 담아서 추가(어드민으로다가)
                                                                 mapRoomMembersRef.set(new MapRoomMember(myUserRef,
                                                                         MapRoomPermission.ADMIN.name(),
-                                                                        new Date()));
+                                                                        mapRoom.getUid()));
 
                                                                 // 자신의 맵룸 리스트에 추가
                                                                 db.collection("map_room").document(firebaseUser.getUid())

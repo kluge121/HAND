@@ -53,7 +53,7 @@ public class MapRoomMemberFirebaseRecyclerViewAdapter extends RecyclerView.Adapt
                     mapRoomMemberList.get(position), position);
         } else {
             ((MapRoomMemberPlusItemViewHolder)holder).bindView(context,
-                    null, position);
+                    mapRoomMemberList.get(0).getMapRoomUid(), position);
         }
 
     }

@@ -3,6 +3,7 @@ package com.globe.hand.Main.Tab1Map.activities.controllers.adapters;
 import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.v4.view.PagerAdapter;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +37,7 @@ public class MapPostFirebaseViewPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         final View view = LayoutInflater.from(activity)
-                .inflate(R.layout.layout_show_map_post, container, false);
+                .inflate(R.layout.layout_show_map_post, null);
 
         mapPostReferenceList.get(position).getMapPostReference()
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -62,7 +63,7 @@ public class MapPostFirebaseViewPagerAdapter extends PagerAdapter {
                 }
             }
         });
-
+        container.addView(view);
         return view;
     }
 
@@ -70,6 +71,11 @@ public class MapPostFirebaseViewPagerAdapter extends PagerAdapter {
     public int getCount() {
         return mapPostReferenceList.size();
     }
+
+//    @Override
+//    public void destroyItem(ViewGroup container, int position, Object object) {
+//        container.removeView((View)object);
+//    }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {

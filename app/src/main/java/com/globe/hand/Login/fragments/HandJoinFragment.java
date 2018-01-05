@@ -22,6 +22,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -59,7 +60,10 @@ public class HandJoinFragment extends Fragment
     private EditText editEmail;
     private EditText editPass;
     private EditText editNickname;
-    private ToggleButton toggleGender;
+
+    private ImageView imageGenderWoman;
+    private ImageView imageGenderMan;
+    private String userGender;
 
     private String userEmail;
     private String userNickname;
@@ -89,7 +93,13 @@ public class HandJoinFragment extends Fragment
         editEmail = view.findViewById(R.id.join_edit_email);
         editPass = view.findViewById(R.id.join_edit_pass);
         editNickname = view.findViewById(R.id.join_edit_nickname);
-        toggleGender = view.findViewById(R.id.join_toggle_gender);
+
+        imageGenderMan = view.findViewById(R.id.image_switch_gender_man);
+        imageGenderWoman = view.findViewById(R.id.image_switch_gender_woman);
+
+        userGender = getString(R.string.gender);
+        imageGenderMan.setOnClickListener(this);
+        imageGenderWoman.setOnClickListener(this);
 
         ivProfile.setOnClickListener(this);
 
@@ -97,10 +107,7 @@ public class HandJoinFragment extends Fragment
         editNickname.setText(userNickname);
 
         Button btnJoin = view.findViewById(R.id.join_btn_join);
-        Button btnCancel = view.findViewById(R.id.join_btn_cancel);
-
         btnJoin.setOnClickListener(this);
-        btnCancel.setOnClickListener(this);
 
         return view;
     }
@@ -118,25 +125,29 @@ public class HandJoinFragment extends Fragment
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-
             case R.id.join_profile_image:
                 //TODO : 이미지가져와서 뿌려줘버리기
                 doTakeAlbumAction();
                 break;
 
+            case R.id.image_switch_gender_man:
+                imageGenderMan.setImageResource(R.drawable.switch_select_gender_man);
+                imageGenderWoman.setImageBitmap(null);
+                userGender = getString(R.string.gender_man);
+                break;
+            case R.id.image_switch_gender_woman:
+                imageGenderMan.setImageBitmap(null);
+                imageGenderWoman.setImageResource(R.drawable.switch_select_gender_woman);
+                userGender = getString(R.string.gender_woman);
+                break;
+
             case R.id.join_btn_join:
                 if(isVailedForm()) {
-                    String selectedGender = toggleGender.isSelected() ?
-                            toggleGender.getTextOn().toString():
-                            toggleGender.getTextOff().toString();
                     listener.processJoin(
                             editEmail.getText().toString(), editPass.getText().toString(),
                             editNickname.getText().toString(),
-                            selectedGender, imgUpLoadPath);
+                            userGender, imgUpLoadPath);
                 }
-                break;
-            case R.id.join_btn_cancel:
-                listener.backToLogin();
                 break;
         }
     }
@@ -180,7 +191,6 @@ public class HandJoinFragment extends Fragment
 
     public interface OnCallbackJoinListener {
         void processJoin(String userEmail, String userPassword, String userNickname, String gender, String profile_path);
-        void backToLogin();
     }
 
     private void doTakeAlbumAction() {

@@ -56,6 +56,9 @@
     <string name="dialog_add">추가하기</string>
     <string name="dialog_kick">추방하기</string>
     <string name="invite_friend">친구초대</string>
+    <string name="dialog_close">닫기</string>
+    <string name="empty_friend_list">친구 목록이 비어있습니다!</string>
+    <string name="action_plus_friend">추가하기</string>
 
     <string-array name="category_array">
         <item>선택</item>
