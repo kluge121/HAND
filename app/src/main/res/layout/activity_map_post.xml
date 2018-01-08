@@ -67,25 +67,8 @@
         android:textColor="@android:color/black"
         android:textSize="20sp" />
 
-    <LinearLayout
+    <FrameLayout
         android:id="@+id/map_post_picture_container"
         android:layout_width="match_parent"
-        android:layout_height="196dp"
-        android:background="@color/little_gray"
-        android:gravity="center"
-        android:orientation="vertical">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:scaleType="centerInside"
-            android:src="@drawable/plus_image" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="@string/map_post_picture" />
-    </LinearLayout>
-
+        android:layout_height="match_parent" />
 </LinearLayout>

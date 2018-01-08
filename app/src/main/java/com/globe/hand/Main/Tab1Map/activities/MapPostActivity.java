@@ -12,6 +12,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.globe.hand.Main.Tab1Map.activities.fragments.MapPostAddPictureFragment;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseActivity;
 import com.globe.hand.models.Category;
@@ -21,18 +22,16 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.List;
 
-public class MapPostActivity extends BaseActivity {
-
+public class MapPostActivity extends BaseActivity
+        implements MapPostAddPictureFragment.OnUploadMapPostPictureListener {
     private TextView textPlace;
     private EditText editTitle;
     private Spinner spinnerCategory;
@@ -40,6 +39,7 @@ public class MapPostActivity extends BaseActivity {
 
     private String mapRoomUid;
     private LatLng mapLatLng;
+    private String imageUrl;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,11 +61,6 @@ public class MapPostActivity extends BaseActivity {
             textPlace.setText(getIntent().getStringExtra("place_name"));
         }
 
-//        ArrayAdapter<CharSequence> categoryAdapter = ArrayAdapter.createFromResource(
-//                MapPostActivity.this, R.array.category_array,
-//                android.R.layout.simple_spinner_dropdown_item);
-//        spinnerCategory.setAdapter(categoryAdapter);
-
         FirebaseFirestore.getInstance()
                 .collection("map_room").document(mapRoomUid)
                 .collection("category").get()
@@ -74,14 +69,22 @@ public class MapPostActivity extends BaseActivity {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if(task.isSuccessful()) {
                             List<Category> categoryList = task.getResult().toObjects(Category.class);
-                            // TODO: "선택"을 넣어야할까?
-//                            categoryList.add(0, new Category("선택", 0));
                             spinnerCategory.setAdapter(new ArrayAdapter<>(MapPostActivity.this,
                                     android.R.layout.simple_spinner_dropdown_item,
                                     categoryList));
                         }
                     }
                 });
+
+        getSupportFragmentManager().beginTransaction()
+                .add(R.id.map_post_picture_container,
+                        MapPostAddPictureFragment.newInstance())
+                .commit();
+    }
+
+    @Override
+    public void onUploadMapPostPicture(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     @Override
@@ -105,7 +108,7 @@ public class MapPostActivity extends BaseActivity {
 
             mapPostReference.add(new MapPost(
                     FirebaseAuth.getInstance().getCurrentUser().getUid(),
-                    new GeoPoint(mapLatLng.latitude, mapLatLng.longitude), title, content))
+                    new GeoPoint(mapLatLng.latitude, mapLatLng.longitude), title, content, imageUrl))
                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                         @Override
                         public void onComplete(@NonNull Task<DocumentReference> task) {
@@ -125,6 +128,7 @@ public class MapPostActivity extends BaseActivity {
             inMapRoomIntent.putExtra("title", title);
             inMapRoomIntent.putExtra("content", content);
             inMapRoomIntent.putExtra("latlng", mapLatLng);
+            inMapRoomIntent.putExtra("image_url", imageUrl);
             setResult(RESULT_OK, inMapRoomIntent);
             finish();
         }

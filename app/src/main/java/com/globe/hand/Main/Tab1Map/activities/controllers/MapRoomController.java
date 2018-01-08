@@ -144,7 +144,7 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
         }
     }
 
-    private void removeCurrentSelectedMarker() {
+    public void removeCurrentSelectedMarker() {
         if(selectedMarker != null) {
             if(selectedMarker.equals(currentAnySelectMarker)) {
                 selectedMarker = null;

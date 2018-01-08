@@ -14,16 +14,18 @@ public class MapPost {
     private GeoPoint geoPoint;
     private String title;
     private String content;
+    private String imageUrl;
     private Date createTime = new Date();
     private Date modifiedTime = new Date();
 
     public MapPost() {}
 
-    public MapPost(String authorUid, GeoPoint geoPoint, String title, String content) {
+    public MapPost(String authorUid, GeoPoint geoPoint, String title, String content, String imageUrl) {
         this.authorUid = authorUid;
         this.geoPoint = geoPoint;
         this.title = title;
         this.content = content;
+        this.imageUrl = imageUrl;
     }
 
     public String getUid() {
@@ -64,6 +66,14 @@ public class MapPost {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 
     public Date getCreateTime() {

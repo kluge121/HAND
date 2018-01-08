@@ -37,7 +37,7 @@ public class ProfilePhotoPreView extends BaseActivity {
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_photo_preview);
 
-        PhotoView photoView = (PhotoView) findViewById(R.id.photoview);
+        PhotoView photoView = findViewById(R.id.photoview);
 
         setToolbar(R.id.photo_actvitiy_toolbar, true);
 

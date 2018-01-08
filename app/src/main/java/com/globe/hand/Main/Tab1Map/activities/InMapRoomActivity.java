@@ -293,6 +293,16 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == getResources().getInteger(R.integer.map_post_request_code)) {
+            if(resultCode == RESULT_OK) {
+                mapRoomController.removeCurrentSelectedMarker();
+            }
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_close, menu);
         return super.onCreateOptionsMenu(menu);

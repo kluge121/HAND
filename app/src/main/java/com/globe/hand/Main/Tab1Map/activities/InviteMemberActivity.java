@@ -1,5 +1,6 @@
 package com.globe.hand.Main.Tab1Map.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
@@ -99,20 +100,14 @@ public class InviteMemberActivity extends BaseActivity
                 currentMapRomReference.collection("members")
                         .document(user.getUid())
                         .set(new MapRoomMember(user.getUserRef(),
-                                MapRoomPermission.MEMBER.name(), mapRoomUid))
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    db.collection("map_room")
-                                            .document(user.getUid())
-                                            .collection("joined_map_rooms")
-                                            .add(new JoinedMapRooms(currentMapRomReference));
-                                    setResult(RESULT_OK);
-                                    finish();
-                                }
-                            }
-                        });
+                                MapRoomPermission.MEMBER.name(), mapRoomUid));
+
+                db.collection("map_room")
+                        .document(user.getUid())
+                        .collection("joined_map_rooms")
+                        .add(new JoinedMapRooms(currentMapRomReference));
+                setResult(RESULT_OK);
+                finish();
             }
         }
         return super.onOptionsItemSelected(item);

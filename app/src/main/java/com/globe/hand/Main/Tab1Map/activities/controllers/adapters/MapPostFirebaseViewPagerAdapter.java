@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
 import com.globe.hand.R;
 import com.globe.hand.models.MapPost;
 import com.globe.hand.models.MapPostReference;
@@ -43,13 +44,18 @@ public class MapPostFirebaseViewPagerAdapter extends PagerAdapter {
                 .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isSuccessful()) {
+                if (task.isSuccessful()) {
                     MapPost mapPost = task.getResult().toObject(MapPost.class);
 
-//                ImageView imageMapPost = view.findViewById(R.id.show_map_post_image);
+                    ImageView imageMapPost = view.findViewById(R.id.show_map_post_image);
                     TextView textTitle = view.findViewById(R.id.show_map_post_title);
                     TextView textContent = view.findViewById(R.id.show_map_post_content);
 
+                    if(mapPost.getImageUrl() != null) {
+                        Glide.with(activity)
+                                .load(mapPost.getImageUrl())
+                                .into(imageMapPost);
+                    }
                     textTitle.setText(mapPost.getTitle());
                     textContent.setText(mapPost.getContent());
 
@@ -72,10 +78,10 @@ public class MapPostFirebaseViewPagerAdapter extends PagerAdapter {
         return mapPostReferenceList.size();
     }
 
-//    @Override
-//    public void destroyItem(ViewGroup container, int position, Object object) {
-//        container.removeView((View)object);
-//    }
+    @Override
+    public void destroyItem(ViewGroup container, int position, Object object) {
+        container.removeView((View)object);
+    }
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
