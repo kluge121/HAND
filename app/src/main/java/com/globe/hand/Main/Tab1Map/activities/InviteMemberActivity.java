@@ -3,6 +3,7 @@ package com.globe.hand.Main.Tab1Map.activities;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.LinearLayoutManager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 
@@ -63,7 +64,7 @@ public class InviteMemberActivity extends BaseActivity
 
     @Override
     public void onFriendCheck(UploadUser user, boolean isSelectedFriend) {
-        if(isSelectedFriend) {
+        if (isSelectedFriend) {
             uploadUserArrayList.add(user);
         } else {
             uploadUserArrayList.remove(user);
@@ -89,10 +90,12 @@ public class InviteMemberActivity extends BaseActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         if (item.getItemId() == R.id.action_plus_friend) {
-            for(final UploadUser user: uploadUserArrayList) {
+            for (final UploadUser user : uploadUserArrayList) {
+                Log.d("체크", "onOptionsItemSelected: " + mapRoomUid);
                 final FirebaseFirestore db = FirebaseFirestore.getInstance();
                 final DocumentReference currentMapRomReference
                         = db.collection("map_room").document(mapRoomUid);
+
                 currentMapRomReference.collection("members")
                         .document(user.getUid())
                         .set(new MapRoomMember(user.getUserRef(),

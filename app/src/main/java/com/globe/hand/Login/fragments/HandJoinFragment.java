@@ -29,6 +29,8 @@ import android.widget.ToggleButton;
 
 import com.globe.hand.R;
 import com.globe.hand.common.BaseActivity;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,7 +44,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
  */
 
 public class HandJoinFragment extends Fragment
-            implements View.OnClickListener {
+        implements View.OnClickListener {
 
     private final int PERMISSION_REQUEST_CODE = 100;
     private final int PICK_FROM_ALBUM = 90;
@@ -53,7 +55,7 @@ public class HandJoinFragment extends Fragment
     String imgPath;
     String absolutePath;
 
-    static String  imgUpLoadPath = "";
+    static String imgUpLoadPath = "";
 
     private OnCallbackJoinListener listener;
 
@@ -70,7 +72,8 @@ public class HandJoinFragment extends Fragment
 
     private CircleImageView ivProfile;
 
-    public HandJoinFragment() { }
+    public HandJoinFragment() {
+    }
 
     public static HandJoinFragment newInstance(String userEmail, String userNickname) {
         HandJoinFragment fragment = new HandJoinFragment();
@@ -115,7 +118,7 @@ public class HandJoinFragment extends Fragment
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if(getArguments() != null) {
+        if (getArguments() != null) {
             userEmail = getArguments().getString(USER_EMAIL);
             userNickname = getArguments().getString(USER_NICKNAME);
             checkPermission();
@@ -142,7 +145,7 @@ public class HandJoinFragment extends Fragment
                 break;
 
             case R.id.join_btn_join:
-                if(isVailedForm()) {
+                if (isVailedForm()) {
                     listener.processJoin(
                             editEmail.getText().toString(), editPass.getText().toString(),
                             editNickname.getText().toString(),
@@ -155,7 +158,7 @@ public class HandJoinFragment extends Fragment
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if(context instanceof OnCallbackJoinListener) {
+        if (context instanceof OnCallbackJoinListener) {
             listener = (OnCallbackJoinListener) context;
         }
     }
@@ -171,12 +174,12 @@ public class HandJoinFragment extends Fragment
         String email = editEmail.getText().toString();
         String pass = editPass.getText().toString();
 
-        if(email.trim().isEmpty()) {
+        if (email.trim().isEmpty()) {
             Toast.makeText(getContext(), "이메일을 적어주세요", Toast.LENGTH_SHORT).show();
             return false;
         }
 
-        if(pass.trim().isEmpty()) {
+        if (pass.trim().isEmpty()) {
             Toast.makeText(getContext(), "비밀번호를 적어주세요", Toast.LENGTH_SHORT).show();
             return false;
         }

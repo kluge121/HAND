@@ -72,7 +72,6 @@ public class RequestList extends Fragment {
 
         @Override
         protected Void doInBackground(String... strings) {
-            Log.e("요청리스트", "진입");
 
 
             registration =
@@ -89,7 +88,6 @@ public class RequestList extends Fragment {
                         }
                     });
 
-            Log.e("요청리스트 진입", loginUser.getUid());
 
 
             return null;

@@ -112,6 +112,8 @@ public class FriendSearchActivity2 extends BaseActivity {
     @Override
     protected void onStop() {
         super.onStop();
+        if (asyncGetFriendList != null)
+            asyncGetFriendList.cancel(true);
 
     }
 
@@ -171,7 +173,6 @@ public class FriendSearchActivity2 extends BaseActivity {
             });
             int count = 0;
             while ((!requestWait && !friendWait) || count < 20000) {
-                Log.e("체크", count + "번");
                 count++;
             }
 
@@ -225,6 +226,7 @@ public class FriendSearchActivity2 extends BaseActivity {
 
 
     }
+
 
 }
 

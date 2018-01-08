@@ -10,7 +10,7 @@
         android:id="@+id/tab3_item_profile"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:src="@drawable/dangdange"
+        android:src="@drawable/com_facebook_profile_picture_blank_portrait"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.085"
@@ -22,6 +22,7 @@
         android:id="@+id/tab3_item_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+
         android:textSize="12sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -29,7 +30,7 @@
         app:layout_constraintHorizontal_bias="0.063"
         app:layout_constraintStart_toEndOf="@+id/tab3_item_profile"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.23" />
+        app:layout_constraintVertical_bias="0.5" />
 
     <TextView
         android:id="@+id/tab3_item_email"

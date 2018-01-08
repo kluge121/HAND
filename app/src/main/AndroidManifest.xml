@@ -73,6 +73,7 @@
         <activity android:name=".FriendSearch.FriendSearchActivity2" />
         <activity android:name=".Main.Tab1Map.activities.ShowMapPostActivity" />
         <activity android:name=".Main.Tab1Map.activities.InviteMemberActivity"></activity>
+        <activity android:name=".PhotoPreview.ProfilePhotoPreView"/>
     </application>
 
 </manifest>

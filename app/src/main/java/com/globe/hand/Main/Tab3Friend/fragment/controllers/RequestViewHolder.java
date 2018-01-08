@@ -1,6 +1,7 @@
 package com.globe.hand.Main.Tab3Friend.fragment.controllers;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
@@ -13,8 +14,11 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.globe.hand.Main.Tab3Friend.fragment.FriendList;
+import com.globe.hand.PhotoPreview.ProfilePhotoPreView;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
+import com.globe.hand.enums.NotificationType;
+import com.globe.hand.models.Notification;
 import com.globe.hand.models.UploadUser;
 import com.globe.hand.models.User;
 import com.globe.hand.temp.AdapterTempStorage;
@@ -27,6 +31,8 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.WriteBatch;
+
+import java.util.Date;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -54,6 +60,8 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
     private DocumentReference addFriendRes;
     private DocumentReference addFriendReq;
+
+    private DocumentReference responseNotiRef;
 
 
     Handler handler;
@@ -114,6 +122,30 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
             }
         });
 
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("user").document(requestUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            User tmp = task.getResult().toObject(User.class);
+
+                            if (tmp.getProfile_url() != null) {
+                                Intent intent = new Intent(context, ProfilePhotoPreView.class);
+                                intent.putExtra("url", tmp.getProfile_url());
+                                context.startActivity(intent);
+                            }
+
+
+                        }
+
+                    }
+                });
+            }
+        });
+
 
     }
 
@@ -140,6 +172,9 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
         addFriendReq = db.collection("user").document(loginUser.getUid()).
                 collection("friend").document(model.getUid());
 
+        responseNotiRef = db.collection("user").document(requestUser.getUid())
+                .collection("notification").document();
+
     }
 
 
@@ -159,13 +194,27 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
     }
 
     private void acceptRequest(final int position) {
-        WriteBatch batch = db.batch();
 
-        batch.set(addFriendRes, new UploadUser(makeLoginUserInstance()));
+        WriteBatch batch = db.batch();
+        User responseUser = makeLoginUserInstance();
+
+
+        Notification notification = new Notification();
+
+        notification.setProfile_url(responseUser.getProfile_url());
+        notification.setContent(responseUser.getName() + "님과 친구가 되었습니다.");
+        notification.setNotiType(NotificationType.FRIEND_RESPONSE.name());
+        notification.setDate(new Date());
+        notification.setCheckNoti(false);
+
+
+        batch.set(addFriendRes, new UploadUser(responseUser));
         batch.set(addFriendReq, new UploadUser(requestUser));
+        batch.set(responseNotiRef, notification);
 
         batch.delete(requestRef);
         batch.delete(responseRef);
+
 
         batch.commit().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
@@ -180,6 +229,7 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
 
     private User makeLoginUserInstance() {
+
         User meUser = new User();
         meUser.setUid(loginUser.getUid());
         meUser.setEmail(loginUser.getEmail());

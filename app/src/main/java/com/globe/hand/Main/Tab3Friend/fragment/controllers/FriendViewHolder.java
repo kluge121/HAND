@@ -3,6 +3,7 @@ package com.globe.hand.Main.Tab3Friend.fragment.controllers;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -14,6 +15,7 @@ import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.globe.hand.Main.Tab3Friend.model.FriendEntity;
+import com.globe.hand.PhotoPreview.ProfilePhotoPreView;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.common.GetLoginUserEntity;
@@ -53,7 +55,7 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
 
     @Override
     public void bindView(final Context context, final DocumentSnapshot documentSnapshot, final int position) {
-        if(!documentSnapshot.exists()) {
+        if (!documentSnapshot.exists()) {
             return;
         }
         final DocumentReference friendUserRef =
@@ -71,7 +73,6 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
                         Glide.with(context).load(friendUser.getProfile_url()).into(profile);
                     }
                     email.setText(friendUser.getEmail());
-
 
 
                     btn.setOnClickListener(new View.OnClickListener() {
@@ -97,6 +98,30 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
                     });
                 }
 
+            }
+        });
+
+        profile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseFirestore db = FirebaseFirestore.getInstance();
+                db.collection("user").document(friendUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            User tmp = task.getResult().toObject(User.class);
+
+                            if(tmp.getProfile_url()!=null){
+                                Intent intent = new Intent(context, ProfilePhotoPreView.class);
+                                intent.putExtra("url", tmp.getProfile_url());
+                                context.startActivity(intent);
+                            }
+
+
+                        }
+
+                    }
+                });
             }
         });
 

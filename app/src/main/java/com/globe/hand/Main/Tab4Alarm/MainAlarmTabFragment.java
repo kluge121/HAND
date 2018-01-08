@@ -52,7 +52,6 @@ public class MainAlarmTabFragment extends Fragment {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
                         if (e != null) {
-                            Log.e("헤헤", e.getMessage());
                             return;
                         }
                         recyclerView.setAdapter(new AlarmAdapter(

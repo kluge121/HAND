@@ -106,13 +106,16 @@ public class FriendSearchViewHolder extends BaseViewHolder<CheckUser> {
         User searchUser = model; //이거는 내가 추가하고 싶은 사람
 
         friendRefSetting(loginUser, searchUser);
+
+
         Notification notification = new Notification();
 
         notification.setProfile_url(loginUser.getProfile_url());
-        notification.setContent(loginUser.getName() + " 양반이 댁한테 친구 신청을 하였소!! 껄껄껄");
+        notification.setContent(loginUser.getName() + "님이 친구신청을 하였습니다.");
         notification.setNotiType(NotificationType.FRIEND_REQUEST.name());
         notification.setDate(new Date());
         notification.setCheckNoti(false);
+
 
         responseNoRef = db.collection("user").document(searchUser.getUid())
                 .collection("notification").document();

@@ -16,7 +16,7 @@
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_centerVertical="true"
-            android:src="@drawable/dangdange" />
+            android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
 
         <TextView
             android:id="@+id/text_user_name"

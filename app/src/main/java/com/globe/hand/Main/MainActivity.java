@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity {
                 tabLayout.getTabAt(0).setIcon(R.drawable.tab_ic_map_room);
                 tabLayout.getTabAt(1).setIcon(R.drawable.tab_ic_friend);
                 tabLayout.getTabAt(2).setIcon(R.drawable.tab_ic_event);
-                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_notification);
+                tabLayout.getTabAt(3).setIcon(R.drawable.tab_ic_click_notification);
                 break;
 
 

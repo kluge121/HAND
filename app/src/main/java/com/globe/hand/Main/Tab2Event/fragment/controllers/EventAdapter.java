@@ -25,7 +25,6 @@ public class EventAdapter extends RecyclerView.Adapter<BaseViewHolder> {
 
     public EventAdapter(Context mContext) {
         arrayList = new ArrayList<>();
-        arrayList.add(new EventEntity());
         this.mContext = mContext;
     }
 

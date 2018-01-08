@@ -12,7 +12,7 @@
         android:layout_height="50dp"
         android:layout_centerVertical="true"
         android:layout_marginStart="30dp"
-        android:src="@drawable/dangdange" />
+        android:src="@drawable/com_facebook_profile_picture_blank_portrait" />
 
     <TextView
         android:id="@+id/friend_request_item_name"
@@ -29,8 +29,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="10dp"
+        android:layout_marginLeft="40dp"
         android:layout_toEndOf="@+id/friend_request_item_name"
+        android:background="@color/trans"
         android:text="수락" />
 
 
@@ -41,6 +42,7 @@
         android:layout_centerVertical="true"
         android:layout_marginLeft="20dp"
         android:layout_toEndOf="@+id/friend_request_item_accept_btn"
+        android:background="@color/trans"
         android:text="거절" />
 
 </RelativeLayout>
