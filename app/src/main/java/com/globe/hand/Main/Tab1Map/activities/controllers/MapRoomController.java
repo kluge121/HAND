@@ -39,10 +39,12 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
     private OnMapPostMarkerClickListener listener;
 
     private String mapRoomUid;
+    private boolean isFriendMapRoom;
 
-    public MapRoomController(Activity activity, GoogleMap map) {
+    public MapRoomController(Activity activity, GoogleMap map, boolean isFriendMapRoom) {
         this.activity = activity;
         this.map = map;
+        this.isFriendMapRoom = isFriendMapRoom;
     }
 
     public void initialize(LatLng latLng) {
@@ -55,7 +57,9 @@ public class MapRoomController implements GoogleMap.OnMapClickListener,
 
     @Override
     public void onMapClick(LatLng latLng) {
-        addAnySelectedMarker(latLng);
+        if(!isFriendMapRoom) {
+            addAnySelectedMarker(latLng);
+        }
     }
 
     @Override

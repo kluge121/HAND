@@ -11,9 +11,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity;
 import com.globe.hand.Main.Tab3Friend.model.FriendEntity;
 import com.globe.hand.PhotoPreview.ProfilePhotoPreView;
 import com.globe.hand.R;
@@ -43,6 +45,7 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
     private ImageButton btn;
     private FriendAdapter adapter;
     private User friendUser;
+    private RelativeLayout textContainer;
 
     FriendViewHolder(ViewGroup parent, int layoutId, FriendAdapter adapter) {
         super(parent, layoutId);
@@ -50,6 +53,7 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
         name = itemView.findViewById(R.id.tab3_item_name);
         email = itemView.findViewById(R.id.tab3_item_email);
         btn = itemView.findViewById(R.id.tab3_item_button);
+        textContainer = itemView.findViewById(R.id.tab3_item_text_container);
         this.adapter = adapter;
     }
 
@@ -98,33 +102,41 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
                     });
                 }
 
-            }
-        });
-
-        profile.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FirebaseFirestore db = FirebaseFirestore.getInstance();
-                db.collection("user").document(friendUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                profile.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if (task.isSuccessful()) {
-                            User tmp = task.getResult().toObject(User.class);
+                    public void onClick(View v) {
+                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                        db.collection("user").document(friendUser.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    User tmp = task.getResult().toObject(User.class);
 
-                            if(tmp.getProfile_url()!=null){
-                                Intent intent = new Intent(context, ProfilePhotoPreView.class);
-                                intent.putExtra("url", tmp.getProfile_url());
-                                context.startActivity(intent);
+                                    if(tmp.getProfile_url()!=null){
+                                        Intent intent = new Intent(context, ProfilePhotoPreView.class);
+                                        intent.putExtra("url", tmp.getProfile_url());
+                                        context.startActivity(intent);
+                                    }
+
+
+                                }
+
                             }
+                        });
+                    }
+                });
 
-
-                        }
-
+                textContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        Intent intent = new Intent(context, InMapRoomActivity.class);
+                        intent.putExtra("map_room_uid", friendUser.getUid());
+                        intent.putExtra("friend_name", friendUser.getName());
+                        context.startActivity(intent);
                     }
                 });
             }
         });
-
 
     }
 

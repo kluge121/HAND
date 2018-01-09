@@ -76,9 +76,11 @@
 
             <RelativeLayout
                 android:id="@+id/map_room_drawer_category_plus_container"
+                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="32dp"
-                android:layout_marginBottom="32dp">
+                android:layout_marginBottom="32dp"
+                tools:visibility="visible">
 
                 <ImageView
                     android:id="@+id/map_room_drawer_category_plus"

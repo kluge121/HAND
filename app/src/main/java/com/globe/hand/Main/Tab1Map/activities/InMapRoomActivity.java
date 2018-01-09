@@ -110,16 +110,24 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
         final RecyclerView categoryRecycler = navigation.findViewById(R.id.map_room_drawer_category_recycler_view);
         RelativeLayout categoryPlusContainer = navigation.findViewById(R.id.map_room_drawer_category_plus_container);
 
+        LinearLayout memberContainer = navigation.findViewById(R.id.map_room_drawer_member_container);
+
         final FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
         final DocumentReference mapRoomReference = db.collection("map_room")
                 .document(mapRoom.getUid());
 
+
         // 카테고리 윗부분
+        String displayName = user.getDisplayName();
+        if(getIntent().hasExtra("friend_name")) {// 친구꺼라면
+            displayName = getIntent().getStringExtra("friend_name");
+        }
         textName.setText(String.format(getString(R.string.map_room_drawer_name_format),
-                user.getDisplayName()));
-        mapRoomReference.collection("map_post_ref").whereEqualTo("authorUid", user.getUid())
+                displayName));
+
+        mapRoomReference.collection("map_post_ref").whereEqualTo("authorUid", mapRoom.getUid())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
@@ -153,76 +161,81 @@ public class InMapRoomActivity extends BaseActivity implements OnMapReadyCallbac
                     }
                 });
 
-        // 카테고리 추가
-        categoryPlusContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                final EditText editCategory = new EditText(InMapRoomActivity.this);
-                AlertDialog.Builder alertBuilder =
-                        new AlertDialog.Builder(InMapRoomActivity.this)
-                                .setTitle("카테고리 추가")
-                                .setMessage("추가할 카테고리의 이름을 입력해주세요.")
-                                .setPositiveButton(getString(R.string.dialog_add), new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                        final String category = editCategory.getText().toString();
-                                        if (!category.isEmpty()) {
-                                            mapRoomReference.collection("category").add(
-                                                    new Category(mapRoom.getUid(), category))
-                                                    .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
-                                                        @Override
-                                                        public void onComplete(@NonNull Task<DocumentReference> task) {
-                                                            if (task.isSuccessful()) {
-                                                                task.getResult().update("uid", task.getResult().getId());
+        // 친구 맵룸을 누른게 아니라면
+        if(!getIntent().hasExtra("friend_name")) {
+            // 카테고리 추가
+            categoryPlusContainer.setVisibility(View.VISIBLE);
+            categoryPlusContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    final EditText editCategory = new EditText(InMapRoomActivity.this);
+                    AlertDialog.Builder alertBuilder =
+                            new AlertDialog.Builder(InMapRoomActivity.this)
+                                    .setTitle("카테고리 추가")
+                                    .setMessage("추가할 카테고리의 이름을 입력해주세요.")
+                                    .setPositiveButton(getString(R.string.dialog_add), new DialogInterface.OnClickListener() {
+                                        @Override
+                                        public void onClick(DialogInterface dialogInterface, int i) {
+                                            final String category = editCategory.getText().toString();
+                                            if (!category.isEmpty()) {
+                                                mapRoomReference.collection("category").add(
+                                                        new Category(mapRoom.getUid(), category))
+                                                        .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                                                            @Override
+                                                            public void onComplete(@NonNull Task<DocumentReference> task) {
+                                                                if (task.isSuccessful()) {
+                                                                    task.getResult().update("uid", task.getResult().getId());
+                                                                }
                                                             }
-                                                        }
-                                                    });
+                                                        });
+                                            }
+                                            dialogInterface.dismiss();
                                         }
-                                        dialogInterface.dismiss();
-                                    }
-                                }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                dialogInterface.dismiss();
+                                    }).setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+                                    dialogInterface.dismiss();
+                                }
+                            });
+                    alertBuilder.setView(editCategory);
+                    alertBuilder.show();
+                }
+            });
+
+            // 멤버 부분
+            memberContainer.setVisibility(View.VISIBLE);
+            db.collection("map_room").document(mapRoom.getUid())
+                    .collection("members")
+                    .addSnapshotListener(new EventListener<QuerySnapshot>() {
+                        @Override
+                        public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
+                            if (e != null) {
+                                Log.e("member", e.getMessage());
+                                return;
                             }
-                        });
-                alertBuilder.setView(editCategory);
-                alertBuilder.show();
-            }
-        });
 
-        // 멤버 부분
-        db.collection("map_room").document(mapRoom.getUid())
-                .collection("members")
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
-                    @Override
-                    public void onEvent(QuerySnapshot documentSnapshots, FirebaseFirestoreException e) {
-                        if (e != null) {
-                            Log.e("member", e.getMessage());
-                            return;
-                        }
+                            if (documentSnapshots != null) {
+                                List<MapRoomMember> memberList = documentSnapshots.toObjects(MapRoomMember.class);
+                                if (!memberList.isEmpty()) {
+                                    final RecyclerView memberRecycler = navigation.findViewById(R.id.map_room_drawer_member_recycler_view);
 
-                        if (documentSnapshots != null) {
-                            List<MapRoomMember> memberList = documentSnapshots.toObjects(MapRoomMember.class);
-                            if (!memberList.isEmpty()) {
-                                LinearLayout memberContainer = navigation.findViewById(R.id.map_room_drawer_member_container);
-                                memberContainer.setVisibility(View.VISIBLE);
-                                final RecyclerView memberRecycler = navigation.findViewById(R.id.map_room_drawer_member_recycler_view);
+                                    // 멤버 리사이클러
+                                    memberRecycler.setLayoutManager(new LinearLayoutManager(InMapRoomActivity.this));
 
-                                // 멤버 리사이클러
-                                memberRecycler.setLayoutManager(new LinearLayoutManager(InMapRoomActivity.this));
-
-                                memberRecycler.setAdapter(new MapRoomMemberFirebaseRecyclerViewAdapter(
-                                        InMapRoomActivity.this, memberList));
+                                    memberRecycler.setAdapter(new MapRoomMemberFirebaseRecyclerViewAdapter(
+                                            InMapRoomActivity.this, memberList));
+                                }
                             }
                         }
-                    }
-                });
+                    });
+        }
     }
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        mapRoomController = new MapRoomController(InMapRoomActivity.this, googleMap);
+        mapRoomController = new MapRoomController(
+                InMapRoomActivity.this, googleMap,
+                getIntent().hasExtra("friend_name"));
 
         // 마커 불러오는 부분
         final FirebaseFirestore db = FirebaseFirestore.getInstance();
