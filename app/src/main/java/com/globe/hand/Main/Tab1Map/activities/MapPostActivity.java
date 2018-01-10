@@ -124,12 +124,12 @@ public class MapPostActivity extends BaseActivity
                             }
                         }
                     });
-            Intent inMapRoomIntent = new Intent();
-            inMapRoomIntent.putExtra("title", title);
-            inMapRoomIntent.putExtra("content", content);
-            inMapRoomIntent.putExtra("latlng", mapLatLng);
-            inMapRoomIntent.putExtra("image_url", imageUrl);
-            setResult(RESULT_OK, inMapRoomIntent);
+//            Intent inMapRoomIntent = new Intent();
+//            inMapRoomIntent.putExtra("title", title);
+//            inMapRoomIntent.putExtra("content", content);
+//            inMapRoomIntent.putExtra("latlng", mapLatLng);
+//            inMapRoomIntent.putExtra("image_url", imageUrl);
+            setResult(RESULT_OK); // , inMapRoomIntent);
             finish();
         }
         return super.onOptionsItemSelected(item);

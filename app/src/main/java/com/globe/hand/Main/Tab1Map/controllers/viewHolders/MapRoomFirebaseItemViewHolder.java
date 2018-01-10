@@ -52,8 +52,6 @@ public class MapRoomFirebaseItemViewHolder extends BaseViewHolder<DocumentSnapsh
         final DocumentReference mapRoomReference =
                 (DocumentReference) documentSnapshot.get("mapRoomReference");
 
-
-
         mapRoomReference.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
@@ -69,6 +67,39 @@ public class MapRoomFirebaseItemViewHolder extends BaseViewHolder<DocumentSnapsh
                         }
                     });
 
+                    if (!mapRoom.getUid().equals(
+                            FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                        mapRoomItemContainer.setOnLongClickListener(new View.OnLongClickListener() {
+                            @Override
+                            public boolean onLongClick(View view) {
+                                new AlertDialog.Builder(context)
+                                        .setTitle("경고")
+                                        .setMessage(mapRoom.getTitle() + " 지도방을 삭제하시겠습니까?")
+                                        .setPositiveButton(context.getString(R.string.dialog_delete),
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
+                                                        db.collection("map_room").document(mapRoom.getUid())
+                                                                .delete();
+                                                        db.collection("map_room").document(
+                                                                FirebaseAuth.getInstance().getCurrentUser().getUid())
+                                                                .collection("joined_map_rooms")
+                                                                .document(mapRoom.getUid()).delete();
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                })
+                                        .setNegativeButton(context.getString(R.string.dialog_cancel),
+                                                new DialogInterface.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(DialogInterface dialogInterface, int i) {
+                                                        dialogInterface.dismiss();
+                                                    }
+                                                }).show();
+                                return true;
+                            }
+                        });
+                    }
 
                     RequestOptions requestOptions
                             = new RequestOptions().transforms(new CenterCrop(),
