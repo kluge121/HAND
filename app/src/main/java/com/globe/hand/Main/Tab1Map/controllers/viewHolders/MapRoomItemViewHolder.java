@@ -1,7 +1,9 @@
 package com.globe.hand.Main.Tab1Map.controllers.viewHolders;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -17,6 +19,9 @@ import com.globe.hand.Main.Tab1Map.activities.InMapRoomActivity;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.R;
 import com.globe.hand.models.MapRoom;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 /**
  * Created by ssangwoo on 2017-12-20.
@@ -39,6 +44,8 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
 
     @Override
     public void bindView(final Context context, final MapRoom model, int position) {
+
+
         mapRoomItemContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -48,10 +55,13 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
             }
         });
 
+
+
+
         RequestOptions requestOptions
                 = new RequestOptions().transforms(new CenterCrop(), new RoundedCorners(25));
 
-        if(model.getPicturePath() != null) {
+        if (model.getPicturePath() != null) {
             Glide.with(context)
                     .load(model.getPicturePath())
                     .apply(requestOptions)
@@ -64,5 +74,7 @@ public class MapRoomItemViewHolder extends BaseViewHolder<MapRoom> {
         }
         textMapRoomTitle.setText(model.getTitle());
         textMapRoomDesc.setText(model.getDesc());
+
+
     }
 }

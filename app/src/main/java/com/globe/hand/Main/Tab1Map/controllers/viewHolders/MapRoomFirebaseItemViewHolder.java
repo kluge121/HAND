@@ -69,40 +69,6 @@ public class MapRoomFirebaseItemViewHolder extends BaseViewHolder<DocumentSnapsh
                         }
                     });
 
-                    mapRoomItemContainer.setOnLongClickListener(new View.OnLongClickListener() {
-                        @Override
-                        public boolean onLongClick(View view) {
-                            if(mapRoom.getUid().equals(
-                                    FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                                new AlertDialog.Builder(context)
-                                        .setTitle("경고")
-                                        .setMessage(mapRoom.getTitle() + " 지도방을 삭제하시겠습니까?")
-                                        .setPositiveButton(context.getString(R.string.dialog_delete),
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        FirebaseFirestore db = FirebaseFirestore.getInstance();
-                                                        db.collection("map_room").document(mapRoom.getUid())
-                                                                .delete();
-                                                        db.collection("map_room").document(
-                                                                FirebaseAuth.getInstance().getCurrentUser().getUid())
-                                                                .collection("joined_map_rooms")
-                                                                .document(mapRoom.getUid()).delete();
-                                                        dialogInterface.dismiss();
-                                                    }
-                                                })
-                                        .setNegativeButton(context.getString(R.string.dialog_cancel),
-                                                new DialogInterface.OnClickListener() {
-                                                    @Override
-                                                    public void onClick(DialogInterface dialogInterface, int i) {
-                                                        dialogInterface.dismiss();
-                                                    }
-                                                }).show();
-                                return true;
-                            }
-                            return false;
-                        }
-                    });
 
                     RequestOptions requestOptions
                             = new RequestOptions().transforms(new CenterCrop(),

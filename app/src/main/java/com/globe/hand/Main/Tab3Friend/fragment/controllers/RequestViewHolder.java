@@ -5,23 +5,19 @@ import android.content.Intent;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.annotation.NonNull;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.globe.hand.Main.Tab3Friend.fragment.FriendList;
 import com.globe.hand.PhotoPreview.ProfilePhotoPreView;
 import com.globe.hand.R;
 import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.enums.NotificationType;
-import com.globe.hand.models.Notification;
+import com.globe.hand.Main.Tab4Alarm.models.Notification;
 import com.globe.hand.models.UploadUser;
 import com.globe.hand.models.User;
-import com.globe.hand.temp.AdapterTempStorage;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -206,6 +202,8 @@ public class RequestViewHolder extends BaseViewHolder<DocumentSnapshot> {
         notification.setNotiType(NotificationType.FRIEND_RESPONSE.name());
         notification.setDate(new Date());
         notification.setCheckNoti(false);
+        notification.setSendUser(loginUser.getDisplayName());
+        notification.setAdditionalInformation(loginUser.getUid());
 
 
         batch.set(addFriendRes, new UploadUser(responseUser));

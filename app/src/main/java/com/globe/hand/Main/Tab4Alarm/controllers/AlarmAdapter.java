@@ -4,12 +4,9 @@ import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.ViewGroup;
 
-import com.globe.hand.Main.Tab4Alarm.models.AlarmEntity;
 import com.globe.hand.R;
-import com.globe.hand.models.Notification;
 import com.google.firebase.firestore.DocumentSnapshot;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

@@ -15,7 +15,7 @@ import com.globe.hand.common.BaseViewHolder;
 import com.globe.hand.common.GetLoginUserEntity;
 import com.globe.hand.enums.NotificationType;
 import com.globe.hand.models.CheckUser;
-import com.globe.hand.models.Notification;
+import com.globe.hand.Main.Tab4Alarm.models.Notification;
 import com.globe.hand.models.UploadUser;
 import com.globe.hand.models.User;
 
@@ -114,6 +114,10 @@ public class FriendSearchViewHolder extends BaseViewHolder<CheckUser> {
         notification.setContent(loginUser.getName() + "님이 친구신청을 하였습니다.");
         notification.setNotiType(NotificationType.FRIEND_REQUEST.name());
         notification.setDate(new Date());
+        notification.setSendUser(loginUser.getName());
+        notification.setAdditionalInformation(loginUser.getUid());
+
+
         notification.setCheckNoti(false);
 
 

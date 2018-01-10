@@ -5,5 +5,5 @@ package com.globe.hand.enums;
  */
 
 public enum NotificationType {
-    FRIEND_REQUEST, FRIEND_RESPONSE, MAPROOM_UPATE
+    FRIEND_REQUEST, FRIEND_RESPONSE, MAPROOM_INVITE
 }

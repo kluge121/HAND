@@ -1,4 +1,4 @@
-package com.globe.hand.models;
+package com.globe.hand.Main.Tab4Alarm.models;
 
 import java.util.Date;
 
@@ -11,8 +11,10 @@ public class Notification {
     private String profile_url;
     private String Content;
     private String notiType;
+    private String sendUser;
     private Date date;
     private boolean checkNoti;
+    private String additionalInformation;
 
     public String getNotiType() {
         return notiType;
@@ -59,5 +61,22 @@ public class Notification {
 
     public void setCheckNoti(boolean checkNoti) {
         this.checkNoti = checkNoti;
+    }
+
+    public void setAdditionalInformation(String additionalInformation) {
+        this.additionalInformation = additionalInformation;
+    }
+
+    public String getAdditionalInformation() {
+
+        return additionalInformation;
+    }
+
+    public void setSendUser(String sendUser) {
+        this.sendUser = sendUser;
+    }
+
+    public String getSendUser() {
+        return sendUser;
     }
 }
