@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,9 +47,12 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
     private FriendAdapter adapter;
     private User friendUser;
     private RelativeLayout textContainer;
+    private ConstraintLayout layout;
 
     FriendViewHolder(ViewGroup parent, int layoutId, FriendAdapter adapter) {
         super(parent, layoutId);
+        itemView.setBackgroundResource(R.drawable.friend_seletor);
+        layout = itemView.findViewById(R.id.tab3_item_layout);
         profile = itemView.findViewById(R.id.tab3_item_profile);
         name = itemView.findViewById(R.id.tab3_item_name);
         email = itemView.findViewById(R.id.tab3_item_email);
@@ -112,7 +116,7 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
                                 if (task.isSuccessful()) {
                                     User tmp = task.getResult().toObject(User.class);
 
-                                    if(tmp.getProfile_url()!=null){
+                                    if (tmp.getProfile_url() != null) {
                                         Intent intent = new Intent(context, ProfilePhotoPreView.class);
                                         intent.putExtra("url", tmp.getProfile_url());
                                         context.startActivity(intent);
@@ -126,17 +130,20 @@ public class FriendViewHolder extends BaseViewHolder<DocumentSnapshot> {
                     }
                 });
 
-                textContainer.setOnClickListener(new View.OnClickListener() {
+                itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view) {
+                    public void onClick(View v) {
                         Intent intent = new Intent(context, InMapRoomActivity.class);
                         intent.putExtra("map_room_uid", friendUser.getUid());
                         intent.putExtra("friend_name", friendUser.getName());
                         context.startActivity(intent);
+
                     }
                 });
+
             }
         });
+
 
     }
 

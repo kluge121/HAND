@@ -70,6 +70,7 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
                                             final MapRoom mapRoom = new MapRoom(
                                                     editMapRoomTitle.getText().toString(),
                                                     editMapRoomDesc.getText().toString());
+
                                             db.collection("map_room").add(mapRoom)
                                                     .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                                                         @Override
@@ -96,10 +97,12 @@ public class MapRoomPlusItemViewHolder extends BaseViewHolder {
                                                                                 .collection("members")
                                                                                 .document(firebaseUser.getUid());
 
+                                                                Log.e("체크", mapRoom.getUid() + "개");
+
                                                                 // 맴룹 멤버를 내 정보를 담아서 추가(어드민으로다가)
                                                                 mapRoomMembersRef.set(new MapRoomMember(myUserRef,
                                                                         MapRoomPermission.ADMIN.name(),
-                                                                        mapRoom.getUid()));
+                                                                        newMapRoomUid));
 
                                                                 // 자신의 맵룸 리스트에 추가
                                                                 db.collection("map_room").document(firebaseUser.getUid())

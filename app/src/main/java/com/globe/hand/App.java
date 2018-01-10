@@ -88,6 +88,7 @@ public class App extends Application {
 
     // 싱글턴
     private static volatile App instance = null;
+
     public static App getAppContext() {
         if(instance == null)
             throw new IllegalStateException("this application does not inherit com.globe.hand.App");
